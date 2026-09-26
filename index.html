@@ -646,13 +646,33 @@ function action(btn, a, key) {
     }
   }
   else if (a.toLowerCase().includes("calendar")) {
-    toast("Added deadline to calendar.");
+    toast("Đang mở Google Calendar...");
     btn.innerText = "✓ Added";
     btn.classList.remove("secondary");
     btn.classList.add("success");
+    
+    let eventTitle = encodeURIComponent("Nhắc nhở UEH: " + DATA[key].title);
+    let eventDesc = encodeURIComponent("Nhiệm vụ: " + DATA[key].desc + "\n\nNền tảng: " + DATA[key].platform);
+    let gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&details=${eventDesc}`;
+    setTimeout(() => window.open(gcalUrl, '_blank'), 600);
   }
   else {
-    toast("Simulated: Opening " + DATA[key].platform);
+    // TÍCH HỢP LINK THẬT CỦA UEH
+    let targetUrl = "https://ueh.edu.vn/"; // Mặc định
+    
+    // Phân loại đích đến dựa vào key
+    if (["classSchedule", "examSchedule", "personal", "green", "exam"].includes(key)) {
+      targetUrl = "https://student.ueh.edu.vn/";
+    } else if (["materials", "quiz", "turnitin"].includes(key)) {
+      targetUrl = "https://lms.ueh.edu.vn/";
+    } else if (["points", "activities", "review"].includes(key)) {
+      targetUrl = "https://drs.ueh.edu.vn/";
+    }
+    
+    toast("Đang chuyển hướng đến " + DATA[key].platform + "...");
+    
+    // Mở trang web trong tab mới sau 0.6 giây
+    setTimeout(() => window.open(targetUrl, '_blank'), 600);
   }
 }
 
