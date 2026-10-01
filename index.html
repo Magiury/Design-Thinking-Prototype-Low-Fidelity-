@@ -508,20 +508,19 @@ function sendChat() {
   inputEl.value = ""; history.scrollTop = history.scrollHeight;
 
   setTimeout(() => {
-    let reply = currentLang === 'eng' ? "I'm just a prototype. Tell me your issue!" : "Xin lỗi, mình là Prototype. Bạn hãy chia sẻ 'vấn đề' bạn gặp (vd: quên phòng thi) nhé!";
+    let reply = currentLang === 'eng' ? "I'm just a prototype. Tell me your issue!" : "Xin lỗi, mình là Prototype. Bạn hãy chia sẻ 'vấn đề' bạn gặp nhé!";
     let actionBtn = "";
     const lowerMsg = msg.toLowerCase();
-    
-    const intentLich = /không thấy|quên phòng|thi ở đâu|làm sao để xem lịch|thời khóa biểu|kiểm tra lịch|phòng mấy|schedule|exam/i;
-    const intentDiem = /chưa có điểm|mất điểm|bị thiếu điểm|không được cộng|rèn luyện|drs|cộng điểm|khiếu nại|point/i;
-    const intentTaiLieu = /tìm tài liệu|không tải được|tải ở đâu|nộp bài|bài giảng|slide|lms|đạo văn|material/i;
+    const intentLich = /phòng thi|lịch thi|lịch học|thời khóa biểu|quên phòng|thi ở đâu|xem lịch|phòng mấy|schedule|exam|class/i;
+    const intentDiem = /điểm|rèn luyện|drs|cộng điểm|thiếu điểm|chưa có điểm|khiếu nại|point/i;
+    const intentTaiLieu = /tài liệu|bài giảng|slide|lms|bài tập|đạo văn|turnitin|material/i;
 
     if (intentLich.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Looking for exam rooms or schedules? Check UEH Student:" : "Bạn muốn tra cứu lịch học hoặc thi cử? Thông tin này nằm trên UEH Student:";
+      reply = currentLang === 'eng' ? "Looking for exam rooms or schedules? Check UEH Student:" : "Bạn muốn tra cứu lịch học hoặc phòng thi? Thông tin này nằm trên UEH Student:";
       actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('exam');">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
     } 
     else if (intentDiem.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Missing training points? Handle it on UEH DRS:" : "Bạn đang quan tâm đến điểm rèn luyện? Vấn đề này thuộc về hệ thống UEH DRS:";
+      reply = currentLang === 'eng' ? "Missing training points? Handle it on UEH DRS:" : "Bạn đang quan tâm đến điểm rèn luyện hoặc khiếu nại? Vấn đề này thuộc về hệ thống UEH DRS:";
       actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('points');">${currentLang === 'eng' ? 'Open DRS' : 'Tra cứu điểm rèn luyện'}</button>`;
     }
     else if (intentTaiLieu.test(lowerMsg)) {
@@ -587,8 +586,9 @@ const TEXT_DICT = {
   "Trang chủ / Dịch vụ Sinh viên": "Home / Student Services",
   "Trang chủ / Lộ trình đã lưu": "Home / Saved Routes",
   "Tìm kiếm": "Search",
-  "Lịch thi": "Exam Schedule",
-  "Tài liệu học": "Course Materials"
+  "📅 Lịch thi": "📅 Exam Schedule",
+  "🏆 Điểm rèn luyện": "🏆 Training Points",
+  "📚 Tài liệu học": "📚 Course Materials"
 };
 const engToVi = {}; for (let k in TEXT_DICT) engToVi[TEXT_DICT[k]] = k;
 
