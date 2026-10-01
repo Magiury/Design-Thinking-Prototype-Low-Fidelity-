@@ -65,7 +65,6 @@ p{color:var(--muted);line-height:1.6}
 .full{width:100%}
 .support{position:fixed;bottom:24px;left:24px;border:0;border-radius:50%;width:54px;height:54px;background:var(--primary);color:#fff;font-size:20px;box-shadow:var(--shadow);z-index:30}
 
-/* Dữ liệu mẫu CSS */
 .mock-data {background:#f8f9fc; border:1px dashed #c1c9d6; border-radius:12px; padding:16px; margin:20px 0;}
 .mock-header {display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e3e7ef; padding-bottom:10px; margin-bottom:12px;}
 .mock-item {display:flex; gap:16px; padding:12px; background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04); margin-bottom:10px;}
@@ -75,7 +74,6 @@ p{color:var(--muted);line-height:1.6}
 .mock-file {display:flex; align-items:center; gap:12px; padding:12px; background:#fff; border-radius:8px; border:1px solid #e3e7ef; margin-bottom:8px; font-size:14px; cursor:pointer;}
 .mock-file:hover {border-color:var(--primary); color:var(--primary);}
 
-/* Hiệu ứng Spinner Loading */
 .spinner { width: 40px; height: 40px; border: 4px solid #e3e7ef; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -117,7 +115,6 @@ p{color:var(--muted);line-height:1.6}
 
   <div id="mainApp" style="display:none">
     <div class="shell">
-      <!-- SIDEBAR (CẬP NHẬT THEO CẤU TRÚC MỚI) -->
       <aside class="sidebar">
         <button class="navbtn active" data-nav="home" onclick="show('home',this)">⌂ Home</button>
         <button class="navbtn" data-nav="find" onclick="show('find',this)">⌕ Search</button>
@@ -142,7 +139,6 @@ p{color:var(--muted);line-height:1.6}
               <input id="homeSearch" placeholder="Try: exam schedule, LMS document, Điểm rèn luyện..." onkeydown="if(event.key==='Enter') search(this.value)">
               <button class="btn" onclick="search(document.getElementById('homeSearch').value)">Search</button>
             </div>
-            <!-- CẬP NHẬT CHIP MỚI -->
             <div class="chips" style="margin-top: 15px;">
               <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('exam schedule')">📅 Exam Schedule</button>
               <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('training points')">🏆 Training Points</button>
@@ -174,7 +170,6 @@ p{color:var(--muted);line-height:1.6}
           <div id="detailContent"></div>
         </section>
 
-        <!-- CÁC TRANG CATEGORY MỚI -->
         <section id="academic" class="screen">
           <div class="breadcrumb">Home / Academic & Schedule</div>
           <h1>Academic & Schedule</h1><p>Manage your classes, exams, and academic timeline.</p>
@@ -220,12 +215,10 @@ p{color:var(--muted);line-height:1.6}
     </div>
   </div>
 
-  <!-- Khối Nút Hỗ Trợ và Chat có khung gõ chữ (AI giả lập) ĐƯỢC BẢO TỒN NGUYÊN VẸN -->
   <button class="support" onclick="toggleChat()" title="Hỗ trợ trực tuyến" style="font-size: 24px; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,92,90,0.3);">💬</button>
 
   <div class="chat" id="chat" style="padding: 0; border-radius: 20px; width: 350px; height: 480px; position: fixed; bottom: 88px; left: 24px; background: #fff; box-shadow: 0 12px 40px rgba(0,0,0,0.12); border: 1px solid var(--border); display: none; z-index: 30; flex-direction: column; overflow: hidden;">
     
-    <!-- Header của khung Chat -->
     <div style="padding: 16px 20px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: space-between;">
       <div style="display: flex; align-items: center; gap: 10px;">
         <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 50%; display: grid; place-items: center; font-size: 16px;">🤖</div>
@@ -237,14 +230,12 @@ p{color:var(--muted);line-height:1.6}
       <button class="btn ghost" style="width: 28px; height: 28px; padding: 0; display: grid; place-items: center; border-radius: 8px; border: none; font-size: 20px; color: #fff; background: transparent; cursor: pointer;" onclick="toggleChat()">×</button>
     </div>
 
-    <!-- Khu vực hiển thị tin nhắn -->
     <div id="chatHistory" style="flex: 1; padding: 20px; overflow-y: auto; background: #f8f9fc; display: flex; flex-direction: column; gap: 12px;">
       <div style="align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
         Chào bạn! 👋 Mình là trợ lý ảo của Hub. Bạn có thể gõ câu hỏi vào bên dưới (ví dụ: "Xem lịch thi ở đâu?", "Làm sao tra điểm rèn luyện?")
       </div>
     </div>
 
-    <!-- Khu vực nhập tin nhắn -->
     <div style="padding: 14px; background: #fff; border-top: 1px solid var(--border); display: flex; gap: 8px;">
       <input id="chatInput" type="text" placeholder="Gõ câu hỏi của bạn..." onkeydown="if(event.key==='Enter') sendChat()" style="flex: 1; padding: 10px 14px; border-radius: 99px; border: 1px solid var(--border); outline: none; font-size: 13px; background: #f3f5f9;">
       <button onclick="sendChat()" style="width: 38px; height: 38px; border-radius: 50%; border: none; background: var(--primary); color: #fff; display: grid; place-items: center; cursor: pointer; flex-shrink: 0;">↑</button>
@@ -657,7 +648,6 @@ function action(btn, a, key) {
     setTimeout(() => window.open(gcalUrl, '_blank'), 600);
   }
   else {
-    // TÍCH HỢP LINK THẬT CỦA UEH
     let targetUrl = "https://ueh.edu.vn/"; // Mặc định
     
     // Phân loại đích đến dựa vào key
@@ -671,7 +661,6 @@ function action(btn, a, key) {
     
     toast("Đang chuyển hướng đến " + DATA[key].platform + "...");
     
-    // Mở trang web trong tab mới sau 0.6 giây
     setTimeout(() => window.open(targetUrl, '_blank'), 600);
   }
 }
@@ -729,7 +718,6 @@ function renderActions() {
   `;
 }
 
-// --- LOGIC AI GIẢ LẬP XỬ LÝ NGÔN NGỮ (TỪ FILE 1_5.HTML) ---
 function sendChat() {
   const inputEl = document.getElementById("chatInput");
   const msg = inputEl.value.trim();
