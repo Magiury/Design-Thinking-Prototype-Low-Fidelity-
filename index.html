@@ -90,9 +90,30 @@ p{color:var(--muted);line-height:1.6}
         Freshman Hub
       </div>
     </div>
-    <div class="user" id="userLabel">Not signed in</div>
+    
+    <div style="display: flex; align-items: center; gap: 16px; position: relative;">
+      <div class="user" id="userLabel">Not signed in</div>
+      
+      
+      <button onclick="toggleSettings()" style="background: transparent; border: none; color: #fff; font-size: 26px; cursor: pointer; padding: 0; line-height: 1;" title="Cài đặt">
+        ☰
+      </button>
+      
+      
+      <div id="settingsDropdown" style="display: none; position: absolute; top: 45px; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); width: 240px; z-index: 100; color: var(--text); text-align: left;">
+        <div style="padding: 14px 16px; border-bottom: 1px solid var(--border); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px;">
+          ⚙️ Cài đặt chung
+        </div>
+        <div style="padding: 16px;">
+          <div style="font-size: 13px; margin-bottom: 8px; font-weight: 600; color: var(--muted);">🌐 Ngôn ngữ (Language)</div>
+          <select onchange="changeAppLanguage(this.value); toggleSettings();" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; cursor: pointer; font-size: 14px;">
+            <option value="vi">Tiếng Việt (Mặc định)</option>
+            <option value="eng">English</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </header>
-
   <div id="loginScreen" class="login-wrap">
     <div class="login-card">
       <div align="center" style="margin-bottom: 20px;">
@@ -115,53 +136,53 @@ p{color:var(--muted);line-height:1.6}
 
   <div id="mainApp" style="display:none">
     <div class="shell">
-      <aside class="sidebar">
-        <button class="navbtn active" data-nav="home" onclick="show('home',this)">⌂ Home</button>
-        <button class="navbtn" data-nav="find" onclick="show('find',this)">⌕ Search</button>
+     <aside class="sidebar">
+        <button class="navbtn active" data-nav="home" onclick="show('home',this)">⌂ Trang chủ</button>
+        <button class="navbtn" data-nav="find" onclick="show('find',this)">⌕ Tìm kiếm</button>
         
-        <div style="font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin: 20px 0 8px 14px; letter-spacing: 0.5px;">Categories</div>
-        <button class="navbtn" data-nav="academic" onclick="show('academic',this)">📅 Academic & Schedule</button>
-        <button class="navbtn" data-nav="learning" onclick="show('learning',this)">📚 Learning & Materials</button>
-        <button class="navbtn" data-nav="drs" onclick="show('drs',this)">🏆 Activities & Points</button>
-        <button class="navbtn" data-nav="services" onclick="show('services',this)">🎓 Student Services</button>
+        <div style="font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin: 20px 0 8px 14px; letter-spacing: 0.5px;">Danh mục</div>
+        <button class="navbtn" data-nav="academic" onclick="show('academic',this)">📅 Học tập & Lịch trình</button>
+        <button class="navbtn" data-nav="learning" onclick="show('learning',this)">📚 Tài liệu & Bài tập</button>
+        <button class="navbtn" data-nav="drs" onclick="show('drs',this)">🏆 Điểm rèn luyện</button>
+        <button class="navbtn" data-nav="services" onclick="show('services',this)">🎓 Dịch vụ Sinh viên</button>
         
-        <div style="font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin: 20px 0 8px 14px; letter-spacing: 0.5px;">Personal</div>
-        <button class="navbtn" data-nav="saved" onclick="show('saved',this)">🔖 Saved routes</button>
+        <div style="font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin: 20px 0 8px 14px; letter-spacing: 0.5px;">Cá nhân</div>
+        <button class="navbtn" data-nav="saved" onclick="show('saved',this)">🔖 Lộ trình đã lưu</button>
       </aside>
 
       <main class="main">
         <section id="home" class="screen active">
           <div class="hero">
-            <div class="eyebrow" style="color:#ffd3ba">Welcome to UEH Freshman Hub</div>
-            <h1>What do you need to find?</h1>
-            <p>Search once. Get the right platform, document or link without guessing which UEH system to open.</p>
+            <div class="eyebrow" style="color:#ffd3ba">Chào mừng đến với Freshman Hub</div>
+            <h1>Bạn đang gặp khó khăn gì?</h1>
+            <p>Tìm kiếm một lần. Đến đúng hệ thống cần thiết của UEH mà không cần phải đoán mò hay nhớ tên trang web.</p>
             <div class="search">
-              <input id="homeSearch" placeholder="Try: exam schedule, LMS document, Điểm rèn luyện..." onkeydown="if(event.key==='Enter') search(this.value)">
-              <button class="btn" onclick="search(document.getElementById('homeSearch').value)">Search</button>
+              <input id="homeSearch" placeholder="VD: quên phòng thi, thiếu điểm rèn luyện, tìm bài giảng..." onkeydown="if(event.key==='Enter') search(this.value)">
+              <button class="btn" onclick="search(document.getElementById('homeSearch').value)">Tìm kiếm</button>
             </div>
             <div class="chips" style="margin-top: 15px;">
-              <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('exam schedule')">📅 Exam Schedule</button>
-              <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('training points')">🏆 Training Points</button>
-              <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('materials')">📚 Course Materials</button>
+              <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('lịch thi')">📅 Lịch thi</button>
+              <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('điểm rèn luyện')">🏆 Điểm rèn luyện</button>
+              <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('tài liệu')">📚 Tài liệu học</button>
             </div>
           </div>
-          <div class="row"><h2>Browse by Category</h2></div>
+          <div class="row"><h2>Khám phá theo danh mục</h2></div>
           <div class="grid" style="margin-top:14px">
-            <div class="card clickable" onclick="show('academic')"><div class="icon">📅</div><h3>Academic & Schedule</h3><p>Timetables, exam schedules, and academic calendars.</p></div>
-            <div class="card clickable" onclick="show('learning')"><div class="icon">📚</div><h3>Learning & Materials</h3><p>Course files, online quizzes, and Turnitin submission.</p></div>
-            <div class="card clickable" onclick="show('drs')"><div class="icon">🏆</div><h3>Activities & Points</h3><p>Training points (Điểm rèn luyện) and event registration.</p></div>
-            <div class="card clickable" onclick="show('services')"><div class="icon">🎓</div><h3>Student Services</h3><p>Personal profile, Green Campus, and administrative paperwork.</p></div>
+            <div class="card clickable" onclick="show('academic')"><div class="icon">📅</div><h3>Học tập & Lịch trình</h3><p>Thời khóa biểu, lịch thi và thông tin phòng học.</p></div>
+            <div class="card clickable" onclick="show('learning')"><div class="icon">📚</div><h3>Tài liệu & Bài tập</h3><p>Tài liệu môn học, bài kiểm tra và kiểm tra đạo văn.</p></div>
+            <div class="card clickable" onclick="show('drs')"><div class="icon">🏆</div><h3>Điểm rèn luyện</h3><p>Tra cứu điểm, hoạt động ngoại khóa và khiếu nại.</p></div>
+            <div class="card clickable" onclick="show('services')"><div class="icon">🎓</div><h3>Dịch vụ Sinh viên</h3><p>Hồ sơ cá nhân, ngôn ngữ và Green Campus.</p></div>
           </div>
-          <div style="margin-top:24px"><h2>Upcoming actions</h2><div id="actions"></div></div>
+          <div style="margin-top:24px"><h2>Gợi ý hành động</h2><div id="actions"></div></div>
         </section>
 
         <section id="find" class="screen">
-          <div class="breadcrumb">Home / Find information</div>
-          <h1>Find information</h1>
-          <p>Start with what you need, not with the name of the platform.</p>
+          <div class="breadcrumb">Trang chủ / Tìm kiếm</div>
+          <h1>Kết quả tìm kiếm</h1>
+          <p>Dựa trên vấn đề của bạn, đây là nền tảng phù hợp nhất để giải quyết.</p>
           <div class="search">
-            <input id="findSearch" placeholder="What are you trying to find?" oninput="search(this.value)">
-            <button class="btn" onclick="search(document.getElementById('findSearch').value)">Search</button>
+            <input id="findSearch" placeholder="Bạn cần tìm gì?" oninput="search(this.value)">
+            <button class="btn" onclick="search(document.getElementById('findSearch').value)">Tìm kiếm</button>
           </div>
           <div id="results" style="margin-top: 20px;"></div>
         </section>
@@ -171,44 +192,44 @@ p{color:var(--muted);line-height:1.6}
         </section>
 
         <section id="academic" class="screen">
-          <div class="breadcrumb">Home / Academic & Schedule</div>
-          <h1>Academic & Schedule</h1><p>Manage your classes, exams, and academic timeline.</p>
+          <div class="breadcrumb">Trang chủ / Học tập & Lịch trình</div>
+          <h1>Học tập & Lịch trình</h1><p>Quản lý thời khóa biểu và lịch thi.</p>
           <div class="grid">
-            <div class="card clickable" onclick="openDetail('exam', 'academic')"><div class="icon">🗓️</div><h3>Class & exam schedule</h3><p>Find your current schedule.</p></div>
+            <div class="card clickable" onclick="openDetail('exam', 'academic')"><div class="icon">🗓️</div><h3>Lịch học & Lịch thi</h3><p>Tra cứu phòng học, phòng thi chính thức.</p></div>
           </div>
         </section>
 
         <section id="learning" class="screen">
-          <div class="breadcrumb">Home / Learning & Materials</div>
-          <h1>Learning & Materials</h1><p>Access resources provided by your lecturers.</p>
+          <div class="breadcrumb">Trang chủ / Tài liệu & Bài tập</div>
+          <h1>Tài liệu & Bài tập</h1><p>Truy cập tài nguyên học tập từ giảng viên.</p>
           <div class="grid">
-            <div class="card clickable" onclick="openDetail('materials', 'learning')"><div class="icon">📄</div><h3>Course materials</h3><p>Go to the relevant LMS course and resource.</p></div>
-            <div class="card clickable" onclick="openDetail('quiz', 'learning')"><div class="icon">📝</div><h3>Online quiz / test</h3><p>Find online assessment resources.</p></div>
-            <div class="card clickable" onclick="openDetail('turnitin', 'learning')"><div class="icon">🔎</div><h3>Plagiarism check</h3><p>Information about Turnitin and submission flow.</p></div>
+            <div class="card clickable" onclick="openDetail('materials', 'learning')"><div class="icon">📄</div><h3>Tài liệu môn học</h3><p>Lấy file bài giảng, slide trên LMS.</p></div>
+            <div class="card clickable" onclick="openDetail('quiz', 'learning')"><div class="icon">📝</div><h3>Bài kiểm tra (Quiz)</h3><p>Vào làm bài trắc nghiệm hệ thống.</p></div>
+            <div class="card clickable" onclick="openDetail('turnitin', 'learning')"><div class="icon">🔎</div><h3>Kiểm tra đạo văn</h3><p>Nộp bài luận văn qua Turnitin.</p></div>
           </div>
         </section>
 
         <section id="drs" class="screen">
-          <div class="breadcrumb">Home / Activities & Points</div>
-          <h1>Activities & Points</h1><p>The central hub for tracking your extracurricular progress.</p>
+          <div class="breadcrumb">Trang chủ / Điểm rèn luyện</div>
+          <h1>Hoạt động & Điểm rèn luyện</h1><p>Theo dõi tiến trình ngoại khóa của bạn.</p>
           <div class="grid">
-            <div class="card clickable" onclick="openDetail('points', 'drs')"><div class="icon">🏆</div><h3>Check training points</h3><p>View your current result and criteria.</p></div>
-            <div class="card clickable" onclick="openDetail('activities', 'drs')"><div class="icon">🎫</div><h3>Find activities</h3><p>Browse activities that can be registered in DRS.</p></div>
-            <div class="card clickable" onclick="openDetail('review', 'drs')"><div class="icon">↩</div><h3>Review missing points</h3><p>Find the next action if an activity is missing.</p></div>
+            <div class="card clickable" onclick="openDetail('points', 'drs')"><div class="icon">🏆</div><h3>Tra cứu điểm</h3><p>Kiểm tra tổng điểm và chi tiết tiêu chí.</p></div>
+            <div class="card clickable" onclick="openDetail('activities', 'drs')"><div class="icon">🎫</div><h3>Tìm hoạt động</h3><p>Tham gia các hội thảo, cuộc thi.</p></div>
+            <div class="card clickable" onclick="openDetail('review', 'drs')"><div class="icon">↩</div><h3>Khắc phục điểm</h3><p>Nộp minh chứng nếu bị thiếu điểm.</p></div>
           </div>
         </section>
 
         <section id="services" class="screen">
-          <div class="breadcrumb">Home / Student Services</div>
-          <h1>Student Services</h1><p>Administrative profiles and university initiatives.</p>
+          <div class="breadcrumb">Trang chủ / Dịch vụ Sinh viên</div>
+          <h1>Dịch vụ Sinh viên</h1><p>Quản lý hồ sơ và các dịch vụ hành chính.</p>
           <div class="grid">
-            <div class="card clickable" onclick="openDetail('personal', 'services')"><div class="icon">👤</div><h3>Personal information</h3><p>Profile and student information.</p></div>
-            <div class="card clickable" onclick="openDetail('green', 'services')"><div class="icon">🌱</div><h3>Green Campus</h3><p>Green Campus-related information.</p></div>
+            <div class="card clickable" onclick="openDetail('personal', 'services')"><div class="icon">👤</div><h3>Hồ sơ & Cài đặt</h3><p>Cập nhật thông tin và chỉnh ngôn ngữ.</p></div>
+            <div class="card clickable" onclick="openDetail('green', 'services')"><div class="icon">🌱</div><h3>Green Campus</h3><p>Theo dõi hoạt động sống xanh.</p></div>
           </div>
         </section>
 
         <section id="saved" class="screen">
-          <div class="breadcrumb">Home / Saved routes</div><h1>Saved routes</h1><p>Your pinned destinations for one-click access.</p>
+          <div class="breadcrumb">Trang chủ / Lộ trình đã lưu</div><h1>Lộ trình đã lưu</h1><p>Các lối tắt bạn đã ghim để truy cập nhanh.</p>
           <div id="savedList"></div>
         </section>
       </main>
@@ -246,540 +267,361 @@ p{color:var(--muted);line-height:1.6}
 </div>
 
 <script>
-const DATA = {
-  exam: { 
-    title: "Class & exam schedule", platform: "UEH Student", icon: "🗓️", 
-    desc: "Find your current class and exam schedule.", 
-    reason: "UEH Student is the official academic portal where the university publishes your personalized timetable and exact exam rooms.",
-    steps: ["Open the UEH Student destination.", "Choose the schedule function.", "Select the relevant semester or period.", "View the schedule."], 
-    actions: ["Open destination", "Add to calendar"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>📅 Thời khóa biểu Tuần này</strong>
-          <span style="font-size:12px; color:var(--muted)">Sinh viên: Nguyễn Văn A (K52)</span>
-        </div>
-        <div class="mock-item">
-          <div class="mock-time">Thứ 3<br>29/09</div>
-          <div class="mock-info">
-            <strong>Kinh tế vi mô</strong>
-            <span>Ca 1 (07:30 - 09:45) | Phòng B1-204 (Cơ sở B)</span>
-          </div>
-        </div>
-        <div class="mock-item">
-          <div class="mock-time">Thứ 5<br>01/10</div>
-          <div class="mock-info">
-            <strong>Triết học Mác - Lênin</strong>
-            <span>Ca 3 (12:30 - 15:00) | Phòng N1-301 (Cơ sở Nam TP)</span>
-          </div>
-        </div>
-      </div>
-    `
-  },
-  materials: { 
-    title: "Course materials", platform: "UEH LMS", icon: "📄", 
-    desc: "Find lecture materials and resources for a course.", 
-    reason: "UEH LMS is the designated learning management system where lecturers upload specific slides, readings, and assignment briefs.",
-    steps: ["Open the LMS destination.", "Select the relevant course.", "Open the relevant topic/resource.", "Download or view the material."], 
-    actions: ["Open LMS destination", "Save destination"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>📚 Tài liệu học tập gần đây</strong>
-          <span style="font-size:12px; color:var(--muted)">Đã đồng bộ từ UEH LMS</span>
-        </div>
-        <div class="mock-file">📄 [KTVM] Chương 1: 10 Nguyên lý kinh tế học.pdf</div>
-        <div class="mock-file">📄 [Toán Cao Cấp] Bài tập đạo hàm & Tích phân.docx</div>
-        <div class="mock-file">🗂️ [Triết học] Slide bài giảng Tuần 1-4.zip</div>
-      </div>
-    `
-  },
-  points: { 
-    title: "Check training points", platform: "UEH DRS", icon: "🏆", 
-    desc: "Check your training-point result and relevant criteria.", 
-    reason: "UEH DRS is the only centralized system that tracks, evaluates, and officially records extracurricular scores for all students.",
-    steps: ["Open DRS.", "View the current semester result.", "Open the relevant criteria/activity details."], 
-    actions: ["Open DRS", "Save destination"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>📊 Báo cáo Điểm rèn luyện - HK1</strong>
-          <span style="font-size:12px; color:var(--primary); font-weight:bold;">Tổng: 85/100 (Tốt)</span>
-        </div>
-        <div style="margin-top:10px; font-size:13px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M1: Học tập, NCKH</span> <strong>20/20</strong></div>
-          <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--primary); width:100%; height:100%; border-radius:4px;"></div></div>
-          
-          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M2: Chấp hành nội quy</span> <strong>25/25</strong></div>
-          <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--success); width:100%; height:100%; border-radius:4px;"></div></div>
+let currentLang = 'vi';
+let currentDetailId = null;
+let currentDetailFrom = null;
 
-          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M3: Ý thức công dân</span> <strong>15/25</strong></div>
-          <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--accent); width:60%; height:100%; border-radius:4px;"></div></div>
-        </div>
-      </div>
-    `
+const DATA = {
+  vi: {
+    exam: { 
+      title: "Lịch học & Lịch thi", platform: "UEH Student", icon: "🗓️", 
+      desc: "Tra cứu thời khóa biểu và phòng thi hiện tại của bạn.", 
+      reason: "Cổng UEH Student là nơi duy nhất cập nhật chính xác phòng học và danh sách thi của cá nhân bạn.",
+      steps: ["Mở cổng UEH Student.", "Chọn chức năng Lịch trình/Lịch thi.", "Chọn học kỳ để kiểm tra."], 
+      actions: ["Mở hệ thống", "Thêm vào lịch"],
+      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📅 Thời khóa biểu Tuần này</strong><span style="font-size:12px; color:var(--muted)">Sinh viên: Unknown name</span></div><div class="mock-item"><div class="mock-time">Thứ 3<br>29/09</div><div class="mock-info"><strong>Kinh tế vi mô</strong><span>Ca 1 (07:30 - 09:45) | Phòng B1-204 (Cơ sở B)</span></div></div></div>`
+    },
+    materials: { 
+      title: "Tài liệu môn học", platform: "UEH LMS", icon: "📄", desc: "Lấy slide bài giảng và tài liệu ôn tập.", reason: "Giảng viên sử dụng LMS để đăng tải tài nguyên chính thức và thông báo môn học.", steps: ["Mở hệ thống LMS.", "Chọn môn học tương ứng.", "Tìm đến tuần học và tải file về."], actions: ["Mở hệ thống", "Lưu lộ trình"],
+      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📚 Tài liệu học tập gần đây</strong><span style="font-size:12px; color:var(--muted)">Đã đồng bộ từ UEH LMS</span></div><div class="mock-file">📄 [KTVM] Chương 1: 10 Nguyên lý kinh tế học.pdf</div><div class="mock-file">🗂️ [Triết học] Slide bài giảng Tuần 1-4.zip</div></div>`
+    },
+    points: { 
+      title: "Tra cứu điểm rèn luyện", platform: "UEH DRS", icon: "🏆", desc: "Kiểm tra tổng điểm rèn luyện và chi tiết từng cột tiêu chí.", reason: "UEH DRS là hệ thống tập trung duy nhất ghi nhận và đánh giá điểm ngoại khóa của sinh viên.", steps: ["Mở hệ thống DRS.", "Xem kết quả điểm của học kỳ hiện tại.", "Mở xem chi tiết các tiêu chí (M1, M2...)."], actions: ["Mở hệ thống", "Lưu lộ trình"],
+      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📊 Báo cáo Điểm rèn luyện - HK1</strong><span style="font-size:12px; color:var(--primary); font-weight:bold;">Tổng: 85/100 (Tốt)</span></div><div style="margin-top:10px; font-size:13px;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M1: Học tập, NCKH</span> <strong>20/20</strong></div><div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--primary); width:100%; height:100%; border-radius:4px;"></div></div></div></div>`
+    },
+    activities: { 
+      title: "Tìm hoạt động", platform: "UEH DRS", icon: "🎫", desc: "Xem các sự kiện, hội thảo đang mở đăng ký.", reason: "Đăng ký qua DRS giúp hệ thống tự động ghi nhận điểm rèn luyện hợp lệ cho bạn sau sự kiện.", steps: ["Mở hệ thống DRS.", "Lọc danh sách sự kiện đang mở.", "Kiểm tra thời gian và bấm đăng ký."], actions: ["Mở hệ thống", "Thêm vào lịch"],
+      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>🎫 Hoạt động đang mở đăng ký</strong></div><div class="mock-item" style="align-items:center;"><div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#fff3e0; color:var(--accent);">🏸</div><div class="mock-info" style="flex:1;"><strong>Giải Cầu Lông Tân sinh viên K52</strong><span>Hạn chót: 30/09 | Điểm rèn luyện: +5đ</span></div></div></div>`
+    },
+    personal: { 
+      title: "Hồ sơ cá nhân & Cài đặt", platform: "UEH Student", icon: "👤", desc: "Cập nhật thông tin sinh viên và Cài đặt hệ thống.", reason: "Cổng thông tin sinh viên là nơi lưu trữ hồ sơ gốc và cho phép điều chỉnh các cài đặt cá nhân.", steps: ["Mở cổng UEH Student.", "Vào mục Hồ sơ / Cài đặt.", "Thay đổi ngôn ngữ hiển thị."], actions: ["Mở hệ thống", "Lưu lộ trình"],
+      previewHtml: `
+        <div class="mock-data" style="background: transparent; border: none; padding: 0;">
+          <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">👤 Thông tin cá nhân (Personal Info) ▾</summary>
+            <div style="padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;"><div><strong>Họ và tên:</strong> Unknown name</div><div><strong>MSSV:</strong> Đang cập nhật</div><div><strong>Khóa:</strong> K52</div><div><strong>Lớp:</strong> DB001</div></div>
+          </details>
+          <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">⚙️ Cài đặt (Settings) ▾</summary>
+            <div style="padding: 15px; font-size: 14px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span>🌐 Ngôn ngữ (Language)</span>
+              <select onchange="changeAppLanguage(this.value)" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); outline: none; font-weight: 600; cursor: pointer;">
+                <option value="vi" ${currentLang === 'vi' ? 'selected' : ''}>Tiếng Việt</option>
+                <option value="eng" ${currentLang === 'eng' ? 'selected' : ''}>English</option>
+              </select>
+            </div></div>
+          </details>
+        </div>`
+    },
+    green: { title: "Sống xanh (Green Campus)", platform: "UEH Student", icon: "🌱", desc: "Tra cứu điểm sống xanh và lịch sử phân loại rác.", reason: "Các hoạt động Green Campus được liên kết trực tiếp với mã số sinh viên của bạn.", steps: ["Mở cổng UEH Student.", "Vào mục Green Campus.", "Kiểm tra điểm tích lũy tuần qua."], actions: ["Mở hệ thống", "Lưu lộ trình"], previewHtml: `<div class="mock-data"><div class="mock-header"><strong>🌱 Hoạt động Green Campus</strong><span style="font-size:12px; color:var(--success); font-weight:bold;">Cấp độ: Xanh Lá</span></div></div>` },
+    quiz: { title: "Bài kiểm tra (Quiz)", platform: "UEH LMS", icon: "📝", desc: "Vào phòng thi làm các bài kiểm tra trắc nghiệm trực tuyến.", reason: "LMS cung cấp môi trường làm bài kiểm tra bảo mật, có tính giờ.", steps: ["Mở môn học trên LMS.", "Tìm chuyên mục Bài kiểm tra.", "Đọc kỹ thời gian trước khi bắt đầu."], actions: ["Mở hệ thống", "Thêm vào lịch"], previewHtml: `` },
+    turnitin: { title: "Kiểm tra đạo văn", platform: "UEH LMS", icon: "🔎", desc: "Nộp bài luận và nhận báo cáo trùng lặp từ Turnitin.", reason: "UEH tích hợp sẵn Turnitin vào các thư mục nộp bài trên LMS.", steps: ["Mở khóa học trên LMS.", "Tìm thư mục Nộp tiểu luận.", "Tải file lên và chờ báo cáo."], actions: ["Mở hệ thống", "Lưu lộ trình"], previewHtml: `` },
+    review: { title: "Khắc phục/Khiếu nại điểm", platform: "UEH DRS", icon: "↩", desc: "Nộp minh chứng khi tham gia hoạt động mà chưa được cộng điểm.", reason: "Việc khiếu nại điểm phải nộp qua hệ thống DRS để Khoa đối soát.", steps: ["Mở hệ thống DRS.", "Vào mục 'Khắc phục điểm'.", "Tải ảnh minh chứng và bấm gửi."], actions: ["Mở hệ thống", "Lưu lộ trình"], previewHtml: `` }
   },
-  activities: { 
-    title: "Find activities", platform: "UEH DRS", icon: "🎫", 
-    desc: "Find activities that are open for registration and review their details.", 
-    reason: "Registering through DRS ensures that your participation will be officially recorded for training points.",
-    steps: ["Open DRS activities.", "Filter or browse open activities.", "Check date, place and evaluation criteria.", "Register for the activity if appropriate."], 
-    actions: ["Open DRS", "Add deadline to calendar"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>🎫 Hoạt động đang mở đăng ký</strong>
-          <span style="font-size:12px; color:var(--muted)">Cập nhật từ hệ thống</span>
-        </div>
-        <div class="mock-item" style="align-items:center;">
-          <div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#fff3e0; color:var(--accent);">🏸</div>
-          <div class="mock-info" style="flex:1;">
-            <strong>Giải Cầu Lông Tân sinh viên K52</strong>
-            <span>Hạn chót: 30/09 | Điểm rèn luyện: +5đ</span>
-          </div>
-          <button class="btn secondary" style="padding:8px 12px; font-size:12px;">Đăng ký</button>
-        </div>
-        <div class="mock-item" style="align-items:center;">
-          <div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#eaf7ef; color:var(--success);">💡</div>
-          <div class="mock-info" style="flex:1;">
-            <strong>Hội thảo Design Thinking 101</strong>
-            <span>Hạn chót: 02/10 | Điểm rèn luyện: +3đ</span>
-          </div>
-          <button class="btn secondary" style="padding:8px 12px; font-size:12px;">Đăng ký</button>
-        </div>
-      </div>
-    `
-  },
- personal: { 
-    title: "Personal information", platform: "UEH Student", icon: "👤", 
-    desc: "Access your student profile, major, class, and administrative information.", 
-    reason: "The Student Portal maintains your official legal, academic, and administrative records for the university database.",
-    steps: ["Open the UEH Student portal.", "Navigate to the 'Profile' section.", "Review your personal details and academic status."], 
-    actions: ["Open destination", "Save route"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>👤 Hồ sơ sinh viên UEH (Official Profile)</strong>
-          <span style="font-size:12px; color:var(--success); font-weight:bold;">● Đang hoạt động</span>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px; padding: 4px 0;">
-          <div><strong>Họ và tên:</strong> Nguyễn Văn a</div>
-          <div><strong>Mã số sinh viên (MSSV):</strong> 3124105xxxx</div>
-          <div><strong>Khóa / Khớp:</strong> K52 (2026 - 2030)</div>
-          <div><strong>Chuyên ngành:</strong> Quản trị Kinh doanh</div>
-          <div><strong>Lớp sinh hoạt:</strong> DB001</div>
-          <div><strong>Email trường:</strong> nguyenvana113@st.ueh.edu.vn</div>
-          <div style="grid-column: span 2;"><strong>Cố vấn học tập:</strong> ThS. Nguyễn Văn A</div>
-        </div>
-      </div>
-    `
-  },
-  green: { 
-    title: "Green Campus", platform: "UEH Student / DRS", icon: "🌱", 
-    desc: "Access Green Campus-related activities, recycling logs, and sustainability scores.", 
-    reason: "Green Campus logs and sustainability metrics are tied directly to your student ID within the main university portal.",
-    steps: ["Open the UEH Student/DRS portal.", "Navigate to the 'Green Campus' module.", "Check your green points and participation history."], 
-    actions: ["Open destination", "Save route"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>🌱 Hoạt động Green Campus & Điểm Xanh</strong>
-          <span style="font-size:12px; color:var(--success); font-weight:bold;">Đang tham gia (Cấp độ: Xanh Lá)</span>
-        </div>
-        <div style="margin-top: 10px; font-size: 14px;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-            <span><strong>Điểm Xanh tích lũy (Green Points):</strong></span>
-            <span style="color: var(--success); font-weight: bold;">45 điểm</span>
-          </div>
-          <div style="background: #e3e7ef; height: 8px; border-radius: 4px; margin-bottom: 14px;">
-            <div style="background: var(--success); width: 75%; height: 100%; border-radius: 4px;"></div>
-          </div>
-          <div style="font-size: 13px; color: var(--muted); margin-bottom: 8px;">📋 <strong>Hoạt động gần đây:</strong></div>
-          <div class="mock-file">♻️ Phân loại rác thải tại cơ sở B (Đã xác nhận: +15đ) - 12/09/2026</div>
-          <div class="mock-file">🌳 Chiến dịch "Go Green UEH" (Đã xác nhận: +30đ) - 05/09/2026</div>
-        </div>
-      </div>
-    `
-  },
-  quiz: { 
-    title: "Online quiz / test", platform: "UEH LMS", icon: "📝", 
-    desc: "Find and access online assessments, multiple-choice quizzes, and mid-term tests associated with your courses.", 
-    reason: "UEH LMS provides the secure, monitored testing environment required for official online course evaluations and quizzes.",
-    steps: ["Open the relevant course in UEH LMS.", "Locate the assessment/quiz section for the current week.", "Click on the quiz link and review the time limit before starting."], 
-    actions: ["Open LMS destination", "Add to calendar"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>📝 Danh sách Bài kiểm tra trực tuyến (LMS Quiz)</strong>
-          <span style="font-size:12px; color:var(--accent); font-weight:bold;">Sắp đến hạn</span>
-        </div>
-        <div style="margin-top: 10px; font-size: 14px;">
-          <div style="padding: 12px; background: #fff; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-            <div>
-              <strong>[KTVM] Trắc nghiệm ôn tập Chương 1 & 2</strong>
-              <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">⏳ Hạn chót: 23:59 - 30/09/2026 | Thời gian: 30 phút</div>
-            </div>
-            <button class="btn secondary" style="padding: 6px 12px; font-size: 12px;">Làm bài</button>
-          </div>
-          <div style="padding: 12px; background: #fff; border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
-            <div>
-              <strong>[Toán Cao Cấp] Kiểm tra trắc nghiệm hàng tuần</strong>
-              <div style="font-size: 12px; color: var(--success); margin-top: 4px;">✓ Đã hoàn thành | Điểm: 9.5/10</div>
-            </div>
-            <button class="btn ghost" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border);">Xem lại</button>
-          </div>
-        </div>
-      </div>
-    `
-  },
- turnitin: { 
-    title: "Plagiarism check", platform: "UEH LMS", icon: "🔎", 
-    desc: "Find the plagiarism-checking instructions, submission points, and similarity reports via integrated Turnitin.", 
-    reason: "UEH integrates Turnitin directly inside LMS assignment folders for seamless checking and automated similarity reports.",
-    steps: ["Open the relevant LMS course.", "Locate the assignment folder with Turnitin enabled.", "Upload your document and review the similarity score report."], 
-    actions: ["Open LMS destination", "Save route"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>🔎 Báo cáo Kiểm tra Đạo văn (Turnitin Report)</strong>
-          <span style="font-size:12px; color:var(--success); font-weight:bold;">Đã quét thành công</span>
-        </div>
-        <div style="margin-top: 10px; font-size: 14px;">
-          <div style="padding: 12px; background: #fff; border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
-            <div>
-              <strong>Tiểu luận Cuối kỳ: Kinh tế vi mô.docx</strong>
-              <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Nộp ngày: 20/09/2026 | Định dạng: DOCX</div>
-            </div>
-            <div style="text-align: right;">
-              <span style="background: #eaf7ef; color: var(--success); padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 13px;">8% (An toàn)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    `
-  },
-  review: { 
-    title: "Review missing points", platform: "UEH DRS", icon: "↩", 
-    desc: "Submit proof and track appeals when a completed activity has not been recorded as expected.", 
-    reason: "Appeals for training points must be formally submitted through the DRS system for faculty approval and verification.",
-    steps: ["Open the DRS system.", "Navigate to 'Minh chứng / Khắc phục điểm'.", "Upload proof (image/certificate) and submit your request."], 
-    actions: ["Open DRS", "Save route"],
-    previewHtml: `
-      <div class="mock-data">
-        <div class="mock-header">
-          <strong>📝 Trạng thái Yêu cầu Khắc phục điểm</strong>
-          <span style="font-size:12px; color:var(--warning); font-weight:bold;">● Đang chờ duyệt (Pending)</span>
-        </div>
-        <div style="margin-top: 10px; font-size: 14px;">
-          <div style="padding: 10px; background: #fff; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 8px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-              <strong>Hoạt động: Hội thảo Ý tưởng Khởi nghiệp</strong>
-              <span style="color: var(--accent); font-weight: 600;">+3 điểm</span>
-            </div>
-            <div style="font-size: 13px; color: var(--muted);">Minh chứng: <em>Chung_nhan_khoi_nghiep.png</em></div>
-            <div style="font-size: 12px; color: var(--warning); margin-top: 4px;">⏳ Khoa đang đối soát danh sách (Hạn xử lý: 3 ngày)</div>
-          </div>
-        </div>
-      </div>
-    `
-  },
-  default: { title: "Information result", platform: "UEH Information Hub", icon: "🔎", desc: "This result is a prototype example of how the hub would route a freshman to the correct destination.", reason: "This is the most relevant platform to complete this task.", steps: ["Review the suggested platform.", "Open the destination.", "Complete the task there."], actions: ["Open destination"] }
+  eng: {
+    exam: { 
+      title: "Class & Exam Schedule", platform: "UEH Student", icon: "🗓️", desc: "Check your current class timetable and exam rooms.", reason: "UEH Student is the official portal for personalized academic schedules.", steps: ["Open UEH Student.", "Navigate to Schedule/Exam.", "Select current semester."], actions: ["Open system", "Add to calendar"],
+      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📅 This Week's Schedule</strong><span style="font-size:12px; color:var(--muted)">Student: Unknown name</span></div><div class="mock-item"><div class="mock-time">Tue<br>29/09</div><div class="mock-info"><strong>Microeconomics</strong><span>Shift 1 (07:30) | Room B1-204</span></div></div></div>`
+    },
+    materials: { title: "Course Materials", platform: "UEH LMS", icon: "📄", desc: "Download lecture slides and study materials.", reason: "Lecturers use LMS to upload official resources.", steps: ["Open LMS system.", "Select course.", "Download files."], actions: ["Open system", "Save route"], previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📚 Recent Materials</strong></div><div class="mock-file">📄 [MicroEcon] Chapter 1.pdf</div></div>` },
+    points: { title: "Training Points", platform: "UEH DRS", icon: "🏆", desc: "Check your total points and criteria details.", reason: "UEH DRS is the centralized system for extracurricular scores.", steps: ["Open DRS system.", "View semester results.", "Check criteria details."], actions: ["Open system", "Save route"], previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📊 Points Report - Sem 1</strong><span style="font-size:12px; color:var(--primary); font-weight:bold;">Total: 85/100</span></div></div>` },
+    activities: { title: "Find Activities", platform: "UEH DRS", icon: "🎫", desc: "View events open for registration.", reason: "Registering via DRS automatically records your valid points.", steps: ["Open DRS system.", "Filter open events.", "Click register."], actions: ["Open system", "Add to calendar"], previewHtml: `<div class="mock-data"><div class="mock-header"><strong>🎫 Open Registrations</strong></div><div class="mock-item" style="align-items:center;"><div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#fff3e0; color:var(--accent);">🏸</div><div class="mock-info" style="flex:1;"><strong>Freshman Badminton Cup</strong><span>Deadline: 30/09 | Points: +5</span></div></div></div>` },
+    personal: { 
+      title: "Profile & Settings", platform: "UEH Student", icon: "👤", desc: "Update student info and system settings.", reason: "The Student Portal stores your official records and language settings.", steps: ["Open UEH Student.", "Go to Profile / Settings.", "Change language."], actions: ["Open system", "Save route"],
+      previewHtml: `
+        <div class="mock-data" style="background: transparent; border: none; padding: 0;">
+          <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">👤 Personal Info ▾</summary>
+            <div style="padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;"><div><strong>Name:</strong> Unknown name</div><div><strong>ID:</strong> Updating...</div><div><strong>Cohort:</strong> K52</div><div><strong>Class:</strong> DB001</div></div>
+          </details>
+          <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">⚙️ Settings ▾</summary>
+            <div style="padding: 15px; font-size: 14px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span>🌐 Language</span>
+              <select onchange="changeAppLanguage(this.value)" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); outline: none; font-weight: 600; cursor: pointer;">
+                <option value="vi" ${currentLang === 'vi' ? 'selected' : ''}>Tiếng Việt</option>
+                <option value="eng" ${currentLang === 'eng' ? 'selected' : ''}>English</option>
+              </select>
+            </div></div>
+          </details>
+        </div>`
+    },
+    green: { title: "Green Campus", platform: "UEH Student", icon: "🌱", desc: "Track green points and recycling history.", reason: "Activities are linked directly to your student ID.", steps: ["Open UEH Student.", "Go to Green Campus.", "Check weekly points."], actions: ["Open system", "Save route"], previewHtml: `` },
+    quiz: { title: "Online Quiz", platform: "UEH LMS", icon: "📝", desc: "Take online multiple-choice tests.", reason: "LMS provides a secure, timed environment for assessments.", steps: ["Open course on LMS.", "Find Quiz section.", "Start attempt."], actions: ["Open system", "Add to calendar"], previewHtml: `` },
+    turnitin: { title: "Plagiarism Check", platform: "UEH LMS", icon: "🔎", desc: "Submit essays and receive Turnitin similarity reports.", reason: "UEH integrates Turnitin directly into LMS submission folders.", steps: ["Open course on LMS.", "Find submission folder.", "Upload file."], actions: ["Open system", "Save route"], previewHtml: `` },
+    review: { title: "Review Points", platform: "UEH DRS", icon: "↩", desc: "Submit proof for unrecorded activities.", reason: "Appeals must be submitted via DRS for faculty approval.", steps: ["Open DRS system.", "Go to 'Appeals'.", "Upload proof and submit."], actions: ["Open system", "Save route"], previewHtml: `` }
+  }
 };
 
-const INDEX = [
-  ["exam", "exam schedule lịch thi lịch học", "Class & exam schedule", "UEH Student"],
-  ["materials", "course material tài liệu", "Course materials", "UEH LMS"],
-  ["points", "training points điểm rèn luyện", "Check training points", "UEH DRS"],
-  ["activities", "activities hoạt động", "Find activities", "UEH DRS"],
-  ["personal", "personal information", "Personal information", "UEH Student"],
-  ["green", "green campus", "Green Campus", "UEH Student"],
-  ["quiz", "quiz test online", "Online quiz / test", "UEH LMS / related course tool"],
-  ["turnitin", "plagiarism", "Plagiarism check", "UEH LMS / Turnitin"]
-];
+const INDEX = {
+  vi: [
+    ["exam", "exam schedule lịch thi lịch học quên phòng không thấy", "Lịch học & Lịch thi", "UEH Student"],
+    ["materials", "course material tài liệu bài giảng slide tải", "Tài liệu môn học", "UEH LMS"],
+    ["points", "training points điểm rèn luyện thiếu điểm chưa có khiếu nại", "Tra cứu điểm rèn luyện", "UEH DRS"],
+    ["activities", "activities hoạt động đăng ký hội thảo", "Tìm hoạt động", "UEH DRS"],
+    ["personal", "personal information hồ sơ cài đặt ngôn ngữ", "Hồ sơ cá nhân & Cài đặt", "UEH Student"],
+    ["green", "green campus rác", "Sống xanh (Green Campus)", "UEH Student"],
+    ["quiz", "quiz test online kiểm tra trắc nghiệm", "Bài kiểm tra (Quiz)", "UEH LMS"],
+    ["turnitin", "plagiarism đạo văn nộp bài", "Kiểm tra đạo văn", "UEH LMS"]
+  ],
+  eng: [
+    ["exam", "exam schedule lịch thi lịch học", "Class & Exam Schedule", "UEH Student"],
+    ["materials", "course material tài liệu bài giảng", "Course Materials", "UEH LMS"],
+    ["points", "training points điểm rèn luyện", "Training Points", "UEH DRS"],
+    ["activities", "activities hoạt động đăng ký", "Find Activities", "UEH DRS"],
+    ["personal", "personal information hồ sơ cài đặt", "Profile & Settings", "UEH Student"],
+    ["green", "green campus", "Green Campus", "UEH Student"],
+    ["quiz", "quiz test online", "Online Quiz", "UEH LMS"],
+    ["turnitin", "plagiarism đạo văn", "Plagiarism Check", "UEH LMS"]
+  ]
+};
 
 let saved = [];
-try {
-  let stored = localStorage.getItem("uehSaved");
-  if (stored) {
-    saved = JSON.parse(stored);
-  }
-} catch (e) {
-  console.warn("Trình duyệt chặn LocalStorage khi chạy file offline.");
-}
-
-function safeSaveToStorage() {
-  try {
-    localStorage.setItem("uehSaved", JSON.stringify(saved));
-  } catch (e) {
-    console.warn("Không thể lưu vào LocalStorage");
-  }
-}
+try { let stored = localStorage.getItem("uehSaved"); if (stored) saved = JSON.parse(stored); } catch (e) {}
+function safeSaveToStorage() { try { localStorage.setItem("uehSaved", JSON.stringify(saved)); } catch (e) {} }
 
 function login() {
   document.getElementById("loginBtn").style.display = "none";
   document.getElementById("loadingState").style.display = "block";
-  
   setTimeout(() => {
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("mainApp").style.display = "block";
-    document.getElementById("userLabel").textContent = "Nguyễn Văn A (K52)";
-    
-    renderActions();
-    renderSaved();
-    toast("Đã đồng bộ dữ liệu thành công!");
+    document.getElementById("userLabel").textContent = "Unknown name";
+    renderActions(); renderSaved();
+    toast(currentLang === 'eng' ? "Data synced successfully!" : "Đã đồng bộ dữ liệu thành công!");
   }, 2000);
 }
 
 function show(id, btn) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  const el = document.getElementById(id);
-  if (el) el.classList.add("active");
-
+  const el = document.getElementById(id); if (el) el.classList.add("active");
   document.querySelectorAll(".navbtn").forEach(b => b.classList.remove("active"));
-  if (btn) {
-    btn.classList.add("active");
-  } else {
-    const n = document.querySelector(`[data-nav="${id}"]`);
-    if (n) n.classList.add("active");
-  }
+  if (btn) btn.classList.add("active");
+  else { const n = document.querySelector(`[data-nav="${id}"]`); if (n) n.classList.add("active"); }
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function search(q) {
-  q = (q || "").toLowerCase().trim();
-  show("find");
-
+  q = (q || "").toLowerCase().trim(); show("find");
   const box = document.getElementById("results");
-  if (!q) {
-    box.innerHTML = '<p>Type a task to find the correct platform.</p>';
-    return;
-  }
-
-  const matches = INDEX.filter(x =>
-    (x[1] + " " + x[2] + " " + x[3]).toLowerCase().includes(q) ||
-    q.split(" ").some(t => (x[1] + " " + x[2] + " " + x[3]).toLowerCase().includes(t))
-  );
-
+  if (!q) { box.innerHTML = currentLang === 'eng' ? '<p>Please type a task above.</p>' : '<p>Hãy nhập tác vụ bạn muốn tìm vào ô trên.</p>'; return; }
+  
+  const matches = INDEX[currentLang].filter(x => (x[1] + " " + x[2] + " " + x[3]).toLowerCase().includes(q) || q.split(" ").some(t => (x[1] + " " + x[2] + " " + x[3]).toLowerCase().includes(t)));
   if (matches.length > 0) {
     box.innerHTML = matches.map(x => `
       <div class="result">
-        <div class="left">
-          <div class="icon">${DATA[x[0]].icon}</div>
-          <div>
-            <div class="platform">${x[3]}</div>
-            <h3>${x[2]}</h3>
-            <div class="meta">Route matched for your search</div>
-          </div>
-        </div>
-        <button class="btn secondary" onclick="openDetail('${x[0]}', 'find')">View route</button>
-      </div>
-    `).join("");
-  } else {
-    box.innerHTML = `<div class="notice">No exact match in this prototype. Try “exam schedule”, “course material”, “training points”, or “activities”.</div>`;
-  }
+        <div class="left"><div class="icon">${DATA[currentLang][x[0]].icon}</div><div><div class="platform">${x[3]}</div><h3>${x[2]}</h3><div class="meta">${currentLang === 'eng' ? 'Matched your search' : 'Khớp với tìm kiếm'}</div></div></div>
+        <button class="btn secondary" onclick="openDetail('${x[0]}', 'find')">${currentLang === 'eng' ? 'View Route' : 'Xem lộ trình'}</button>
+      </div>`).join("");
+  } else { box.innerHTML = `<div class="notice">${currentLang === 'eng' ? 'No exact match found.' : 'Không tìm thấy kết quả khớp.'}</div>`; }
 }
 
 function openDetail(key, fromScreen = 'find') {
-  const d = DATA[key] || DATA.default;
-  const screenNames = { 'home': 'Home', 'find': 'Search results', 'academic': 'Academic & Schedule', 'learning': 'Learning & Materials', 'drs': 'Activities & Points', 'services': 'Student Services', 'saved': 'Saved' };
-  const backName = screenNames[fromScreen] || 'Back';
+  currentDetailId = key; currentDetailFrom = fromScreen;
+  const d = DATA[currentLang][key];
+  
+  let backName = "Trở lại";
+  if(currentLang === 'eng') {
+     const engNames = { 'home': 'Home', 'find': 'Search', 'academic': 'Academic', 'learning': 'Learning', 'drs': 'Points', 'services': 'Services', 'saved': 'Saved' };
+     backName = engNames[fromScreen] || 'Back';
+  } else {
+     const viNames = { 'home': 'Trang chủ', 'find': 'Tìm kiếm', 'academic': 'Học tập', 'learning': 'Tài liệu', 'drs': 'Điểm rèn luyện', 'services': 'Dịch vụ', 'saved': 'Đã lưu' };
+     backName = viNames[fromScreen] || 'Trở lại';
+  }
 
   const stepsHtml = d.steps.map((s, i) => `<div class="step"><div class="num">${i + 1}</div><div>${s}</div></div>`).join("");
   const actionsHtml = d.actions.map(a => {
-    const isSpecialBtn = a.toLowerCase().includes("save") || a.toLowerCase().includes("calendar");
+    const isSpecialBtn = a.toLowerCase().includes("lưu") || a.toLowerCase().includes("lịch") || a.toLowerCase().includes("save") || a.toLowerCase().includes("calendar");
     return `<button class="btn ${isSpecialBtn ? "secondary" : ""}" onclick="action(this, '${a}', '${key}')">${a}</button>`;
   }).join("");
   
   const previewBox = d.previewHtml ? d.previewHtml : '';
-  const reasonBox = d.reason ? `<div class="notice"><b>Why this platform?</b><br>${d.reason}</div>` : '';
+  const reasonText = currentLang === 'eng' ? 'Why this platform?' : 'Tại sao dùng nền tảng này?';
+  const reasonBox = d.reason ? `<div class="notice"><b>${reasonText}</b><br>${d.reason}</div>` : '';
+  const routeText = currentLang === 'eng' ? 'Short Navigation Route' : 'Lộ trình Điều hướng Nhanh';
+  const detailText = currentLang === 'eng' ? 'Route Detail' : 'Chi tiết lộ trình';
 
   document.getElementById("detailContent").innerHTML = `
     <div class="detail">
-      <div class="breadcrumb">
-        <span onclick="show('${fromScreen}')" style="cursor:pointer; font-weight:700; color:var(--primary)">← Back to ${backName}</span> / Route Detail
-      </div>
+      <div class="breadcrumb"><span onclick="show('${fromScreen}')" style="cursor:pointer; font-weight:700; color:var(--primary)">← ${backName}</span> / ${detailText}</div>
       <div class="eyebrow">${d.platform}</div>
-      <div class="row">
-        <div>
-          <h1>${d.icon} ${d.title}</h1>
-          <p>${d.desc}</p>
-        </div>
-        <div><span class="chip">${d.platform}</span></div>
-      </div>
-      
-      ${reasonBox}
-      ${previewBox}
-      
-      <h2>Short Navigation Route</h2>
+      <div class="row"><div><h1>${d.icon} ${d.title}</h1><p>${d.desc}</p></div><div><span class="chip">${d.platform}</span></div></div>
+      ${reasonBox}${previewBox}
+      <h2>${routeText}</h2>
       <div class="steps">${stepsHtml}</div>
-      
-      <div class="row" style="justify-content:flex-start; flex-wrap:wrap">
-        ${actionsHtml}
-      </div>
-      <p class="meta" style="margin-top:18px">Prototype logic: Clicking action buttons simulates the final step of arriving at the destination.</p>
-    </div>
-  `;
+      <div class="row" style="justify-content:flex-start; flex-wrap:wrap">${actionsHtml}</div>
+    </div>`;
   show("detail");
 }
 
 function action(btn, a, key) {
-  if (a.toLowerCase().includes("save")) {
-    if (!saved.includes(key)) {
-      saved.push(key);
-      safeSaveToStorage();
-      renderSaved();
-      toast("Route saved for later.");
-      btn.innerText = "✓ Saved";
-      btn.classList.remove("secondary");
-      btn.classList.add("success");
-    } else {
-      toast("Route already saved.");
-    }
+  const al = a.toLowerCase();
+  if (al.includes("lưu") || al.includes("save")) {
+    if (!saved.includes(key)) { saved.push(key); safeSaveToStorage(); renderSaved(); toast(currentLang === 'eng' ? "Route saved." : "Đã ghim lộ trình."); btn.innerText = currentLang === 'eng' ? "✓ Saved" : "✓ Đã lưu"; btn.classList.remove("secondary"); btn.classList.add("success"); } else toast(currentLang === 'eng' ? "Already saved." : "Lộ trình này đã được lưu.");
   }
-  else if (a.toLowerCase().includes("calendar")) {
-    toast("Đang mở Google Calendar...");
-    btn.innerText = "✓ Added";
-    btn.classList.remove("secondary");
-    btn.classList.add("success");
-    
-    let eventTitle = encodeURIComponent("Nhắc nhở UEH: " + DATA[key].title);
-    let eventDesc = encodeURIComponent("Nhiệm vụ: " + DATA[key].desc + "\n\nNền tảng: " + DATA[key].platform);
+  else if (al.includes("lịch") || al.includes("calendar")) {
+    toast(currentLang === 'eng' ? "Opening Calendar..." : "Đang mở Google Calendar..."); btn.innerText = currentLang === 'eng' ? "✓ Added" : "✓ Đã thêm"; btn.classList.remove("secondary"); btn.classList.add("success");
+    let eventTitle = encodeURIComponent(DATA[currentLang][key].title);
+    let eventDesc = encodeURIComponent((currentLang === 'eng' ? "Details: " : "Chi tiết: ") + DATA[currentLang][key].desc + "\nPlatform: " + DATA[currentLang][key].platform);
     let gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&details=${eventDesc}`;
     setTimeout(() => window.open(gcalUrl, '_blank'), 600);
   }
   else {
-    let targetUrl = "https://ueh.edu.vn/"; // Mặc định
-    
-    // Phân loại đích đến dựa vào key
-    if (["classSchedule", "examSchedule", "personal", "green", "exam"].includes(key)) {
-      targetUrl = "https://student.ueh.edu.vn/";
-    } else if (["materials", "quiz", "turnitin"].includes(key)) {
-      targetUrl = "https://lms.ueh.edu.vn/";
-    } else if (["points", "activities", "review"].includes(key)) {
-      targetUrl = "https://drs.ueh.edu.vn/";
-    }
-    
-    toast("Đang chuyển hướng đến " + DATA[key].platform + "...");
-    
+    let targetUrl = "https://ueh.edu.vn/";
+    if (["personal", "green", "exam"].includes(key)) targetUrl = "https://student.ueh.edu.vn/";
+    else if (["materials", "quiz", "turnitin"].includes(key)) targetUrl = "https://lms.ueh.edu.vn/";
+    else if (["points", "activities", "review"].includes(key)) targetUrl = "https://drs.ueh.edu.vn/";
+    toast((currentLang === 'eng' ? "Redirecting to " : "Đang chuyển hướng đến ") + DATA[currentLang][key].platform + "...");
     setTimeout(() => window.open(targetUrl, '_blank'), 600);
   }
 }
 
 function renderSaved() {
-  const el = document.getElementById("savedList");
-  if (!el) return;
-
-  if (!saved.length) {
-    el.innerHTML = '<div class="card"><p>No routes saved yet. Find a task and click "Save route".</p></div>';
-    return;
-  }
-
+  const el = document.getElementById("savedList"); if (!el) return;
+  if (!saved.length) { el.innerHTML = `<div class="card"><p>${currentLang === 'eng' ? 'No routes saved yet.' : 'Chưa có lộ trình nào.'}</p></div>`; return; }
   el.innerHTML = saved.map(k => {
-    const d = DATA[k];
+    const d = DATA[currentLang][k];
     return `
       <div class="result">
-        <div class="left">
-          <div class="icon">${d.icon}</div>
-          <div>
-            <div class="platform">${d.platform}</div>
-            <h3>${d.title}</h3>
-          </div>
-        </div>
-        <button class="btn secondary" onclick="openDetail('${k}', 'saved')">View</button>
-      </div>
-    `;
+        <div class="left"><div class="icon">${d.icon}</div><div><div class="platform">${d.platform}</div><h3>${d.title}</h3></div></div>
+        <button class="btn secondary" onclick="openDetail('${k}', 'saved')">${currentLang === 'eng' ? 'View' : 'Xem'}</button>
+      </div>`;
   }).join("");
 }
 
 function renderActions() {
   document.getElementById("actions").innerHTML = `
     <div class="result">
-      <div class="left">
-        <div class="icon">🗓️</div>
-        <div>
-          <div class="platform">UEH Student</div>
-          <h3>Check your exam schedule</h3>
-          <div class="meta">Suggested quick action</div>
-        </div>
-      </div>
-      <button class="btn secondary" onclick="openDetail('exam', 'home')">Find it</button>
+      <div class="left"><div class="icon">🗓️</div><div><div class="platform">UEH Student</div><h3>${currentLang === 'eng' ? 'Check Exam Schedule' : 'Tra cứu Lịch học & thi'}</h3><div class="meta">${currentLang === 'eng' ? 'Suggested action' : 'Hành động gợi ý'}</div></div></div>
+      <button class="btn secondary" onclick="openDetail('exam', 'home')">${currentLang === 'eng' ? 'Open' : 'Mở nhanh'}</button>
     </div>
     <div class="result">
-      <div class="left">
-        <div class="icon">🏆</div>
-        <div>
-          <div class="platform">UEH DRS</div>
-          <h3>Check your training points</h3>
-          <div class="meta">Suggested quick action</div>
-        </div>
-      </div>
-      <button class="btn secondary" onclick="openDetail('points', 'home')">Find it</button>
-    </div>
-  `;
+      <div class="left"><div class="icon">🏆</div><div><div class="platform">UEH DRS</div><h3>${currentLang === 'eng' ? 'Check Training Points' : 'Tra cứu điểm rèn luyện'}</h3><div class="meta">${currentLang === 'eng' ? 'Suggested action' : 'Hành động gợi ý'}</div></div></div>
+      <button class="btn secondary" onclick="openDetail('points', 'home')">${currentLang === 'eng' ? 'Open' : 'Mở nhanh'}</button>
+    </div>`;
 }
 
 function sendChat() {
   const inputEl = document.getElementById("chatInput");
   const msg = inputEl.value.trim();
   if (!msg) return;
-
   const history = document.getElementById("chatHistory");
-
-  history.innerHTML += `
-    <div style="align-self: flex-end; max-width: 85%; background: var(--primary); color: #fff; padding: 10px 14px; border-radius: 12px 12px 2px 12px; font-size: 13.5px; line-height: 1.5; margin-top: 5px;">
-      ${msg}
-    </div>
-  `;
-  inputEl.value = "";
-  history.scrollTop = history.scrollHeight;
+  history.innerHTML += `<div style="align-self: flex-end; max-width: 85%; background: var(--primary); color: #fff; padding: 10px 14px; border-radius: 12px 12px 2px 12px; font-size: 13.5px; line-height: 1.5; margin-top: 5px;">${msg}</div>`;
+  inputEl.value = ""; history.scrollTop = history.scrollHeight;
 
   setTimeout(() => {
-    let reply = "Xin lỗi, mình mới chỉ là Prototype nên chưa hiểu hết ý của bạn. Bạn thử hỏi các từ khóa như 'lịch', 'điểm', hoặc 'tài liệu' nhé!";
+    let reply = currentLang === 'eng' ? "I'm just a prototype. Tell me your issue!" : "Xin lỗi, mình là Prototype. Bạn hãy chia sẻ 'vấn đề' bạn gặp (vd: quên phòng thi) nhé!";
     let actionBtn = "";
-
     const lowerMsg = msg.toLowerCase();
+    
+    const intentLich = /không thấy|quên phòng|thi ở đâu|làm sao để xem lịch|thời khóa biểu|kiểm tra lịch|phòng mấy|schedule|exam/i;
+    const intentDiem = /chưa có điểm|mất điểm|bị thiếu điểm|không được cộng|rèn luyện|drs|cộng điểm|khiếu nại|point/i;
+    const intentTaiLieu = /tìm tài liệu|không tải được|tải ở đâu|nộp bài|bài giảng|slide|lms|đạo văn|material/i;
 
-    if (lowerMsg.includes("lịch") || lowerMsg.includes("thi") || lowerMsg.includes("học")) {
-      reply = "Để xem lịch học và lịch thi, bạn cần truy cập vào cổng UEH Student nhé. Mình tìm thấy lối tắt cho bạn đây:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('exam schedule');">Mở Lịch thi & Lịch học</button>`;
+    if (intentLich.test(lowerMsg)) {
+      reply = currentLang === 'eng' ? "Looking for exam rooms or schedules? Check UEH Student:" : "Bạn muốn tra cứu lịch học hoặc thi cử? Thông tin này nằm trên UEH Student:";
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('exam');">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
     } 
-    else if (lowerMsg.includes("điểm") || lowerMsg.includes("rèn luyện") || lowerMsg.includes("drs")) {
-      reply = "Vấn đề liên quan đến Điểm rèn luyện sẽ được quản lý trên hệ thống UEH DRS. Bạn vào đây để kiểm tra tổng điểm nhé:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('training points');">Tra cứu điểm rèn luyện</button>`;
+    else if (intentDiem.test(lowerMsg)) {
+      reply = currentLang === 'eng' ? "Missing training points? Handle it on UEH DRS:" : "Bạn đang quan tâm đến điểm rèn luyện? Vấn đề này thuộc về hệ thống UEH DRS:";
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('points');">${currentLang === 'eng' ? 'Open DRS' : 'Tra cứu điểm rèn luyện'}</button>`;
     }
-    else if (lowerMsg.includes("tài liệu") || lowerMsg.includes("bài giảng") || lowerMsg.includes("lms")) {
-      reply = "Toàn bộ tài liệu môn học, bài giảng và bài tập sẽ nằm trên hệ thống học tập trực tuyến UEH LMS. Truy cập nhanh tại đây:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('course material');">Tìm tài liệu môn học</button>`;
-    }
-    else if (lowerMsg.includes("chào") || lowerMsg.includes("hello")) {
-      reply = "Chào tân sinh viên! Bạn cần tìm lối tắt đến nền tảng nào của trường?";
+    else if (intentTaiLieu.test(lowerMsg)) {
+      reply = currentLang === 'eng' ? "Need course materials or Turnitin? Go to UEH LMS:" : "Để tìm tài liệu môn học, làm bài quiz hay nộp Turnitin, lên UEH LMS nhé:";
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('materials');">${currentLang === 'eng' ? 'Find Materials' : 'Tìm tài liệu môn học'}</button>`;
     }
 
-    history.innerHTML += `
-      <div style="align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-        ${reply}
-        ${actionBtn}
-      </div>
-    `;
+    history.innerHTML += `<div style="align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">${reply}${actionBtn}</div>`;
     history.scrollTop = history.scrollHeight;
   }, 800);
 }
 
-function toggleChat() {
-  const c = document.getElementById("chat");
-  if(c.style.display === "none" || c.style.display === "") {
-    c.style.display = "flex"; 
-  } else {
-    c.style.display = "none";
-  }
-}
+function toggleChat() { const c = document.getElementById("chat"); c.style.display = (c.style.display === "none" || c.style.display === "") ? "flex" : "none"; }
+function toast(t) { const e = document.getElementById("toast"); e.textContent = t; e.style.display = "block"; clearTimeout(window.__t); window.__t = setTimeout(() => e.style.display = "none", 2200); }
+function toggleSettings() { const menu = document.getElementById("settingsDropdown"); menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none"; }
 
-function toast(t) {
-  const e = document.getElementById("toast");
-  e.textContent = t;
-  e.style.display = "block";
-  clearTimeout(window.__t);
-  window.__t = setTimeout(() => e.style.display = "none", 2200);
+
+const TEXT_DICT = {
+  "Chào mừng đến với Freshman Hub": "Welcome to Freshman Hub",
+  "Bạn đang gặp khó khăn gì?": "What do you need to find?",
+  "Tìm kiếm một lần. Đến đúng hệ thống cần thiết của UEH mà không cần phải đoán mò hay nhớ tên trang web.": "Search once. Get the right platform without guessing which UEH system to open.",
+  "Khám phá theo danh mục": "Browse by Category",
+  "Gợi ý hành động": "Suggested Actions",
+  "Kết quả tìm kiếm": "Search Results",
+  "Dựa trên vấn đề của bạn, đây là nền tảng phù hợp nhất để giải quyết.": "Based on your task, here is the most suitable platform.",
+  "Lộ trình đã lưu": "Saved Routes",
+  "Các lối tắt bạn đã ghim để truy cập nhanh.": "Your pinned shortcuts for quick access.",
+  "Học tập & Lịch trình": "Academic & Schedule",
+  "Thời khóa biểu, lịch thi và thông tin phòng học.": "Timetables, exam schedules, and room info.",
+  "Tài liệu & Bài tập": "Learning & Materials",
+  "Tài liệu môn học, bài kiểm tra và kiểm tra đạo văn.": "Course files, online quizzes, and Turnitin.",
+  "Điểm rèn luyện": "Activities & Points",
+  "Tra cứu điểm, hoạt động ngoại khóa và khiếu nại.": "Check points, find events, and submit appeals.",
+  "Dịch vụ Sinh viên": "Student Services",
+  "Hồ sơ cá nhân, ngôn ngữ và Green Campus.": "Personal profile, language, and Green Campus.",
+  "Lịch học & Lịch thi": "Class & Exam Schedule",
+  "Tra cứu phòng học, phòng thi chính thức.": "Check official rooms and exam dates.",
+  "Tài liệu môn học": "Course Materials",
+  "Lấy file bài giảng, slide trên LMS.": "Download lecture slides from LMS.",
+  "Bài kiểm tra (Quiz)": "Online Quiz",
+  "Vào làm bài trắc nghiệm hệ thống.": "Take online multiple-choice tests.",
+  "Kiểm tra đạo văn": "Plagiarism Check",
+  "Nộp bài luận văn qua Turnitin.": "Submit essays via Turnitin.",
+  "Hoạt động & Điểm rèn luyện": "Activities & Points",
+  "Tra cứu điểm": "Check Points",
+  "Kiểm tra tổng điểm và chi tiết tiêu chí.": "View total score and criteria details.",
+  "Tìm hoạt động": "Find Activities",
+  "Tham gia các hội thảo, cuộc thi.": "Join workshops and competitions.",
+  "Khắc phục điểm": "Review Points",
+  "Nộp minh chứng nếu bị thiếu điểm.": "Submit proof for missing points.",
+  "Hồ sơ & Cài đặt": "Profile & Settings",
+  "Cập nhật thông tin và chỉnh ngôn ngữ.": "Update info and change language.",
+  "Sống xanh (Green Campus)": "Green Campus",
+  "Theo dõi hoạt động sống xanh.": "Track your green activities.",
+  "Quản lý thời khóa biểu và lịch thi.": "Manage your classes and exams.",
+  "Truy cập tài nguyên học tập từ giảng viên.": "Access resources provided by your lecturers.",
+  "Theo dõi tiến trình ngoại khóa của bạn.": "Track your extracurricular progress.",
+  "Quản lý hồ sơ và các dịch vụ hành chính.": "Manage profiles and admin services.",
+  "Trang chủ / Tìm kiếm": "Home / Search",
+  "Trang chủ / Học tập & Lịch trình": "Home / Academic & Schedule",
+  "Trang chủ / Tài liệu & Bài tập": "Home / Learning & Materials",
+  "Trang chủ / Điểm rèn luyện": "Home / Activities & Points",
+  "Trang chủ / Dịch vụ Sinh viên": "Home / Student Services",
+  "Trang chủ / Lộ trình đã lưu": "Home / Saved Routes",
+  "Tìm kiếm": "Search",
+  "Lịch thi": "Exam Schedule",
+  "Tài liệu học": "Course Materials"
+};
+const engToVi = {}; for (let k in TEXT_DICT) engToVi[TEXT_DICT[k]] = k;
+
+function changeAppLanguage(lang) {
+  currentLang = (lang === 'en') ? 'eng' : lang; 
+  const dict = currentLang === 'eng' ? TEXT_DICT : engToVi;
+
+  
+  const sidebarDict = currentLang === 'eng' ? { home: "⌂ Home", find: "⌕ Search", academic: "📅 Academic", learning: "📚 Learning", drs: "🏆 Points", services: "🎓 Services", saved: "🔖 Saved", cat1: "CATEGORIES", cat2: "PERSONAL" } : { home: "⌂ Trang chủ", find: "⌕ Tìm kiếm", academic: "📅 Học tập & Lịch trình", learning: "📚 Tài liệu & Bài tập", drs: "🏆 Điểm rèn luyện", services: "🎓 Dịch vụ Sinh viên", saved: "🔖 Lộ trình đã lưu", cat1: "Danh mục", cat2: "Cá nhân" };
+  document.querySelector('[data-nav="home"]').innerText = sidebarDict.home; document.querySelector('[data-nav="find"]').innerText = sidebarDict.find; document.querySelector('[data-nav="academic"]').innerText = sidebarDict.academic; document.querySelector('[data-nav="learning"]').innerText = sidebarDict.learning; document.querySelector('[data-nav="drs"]').innerText = sidebarDict.drs; document.querySelector('[data-nav="services"]').innerText = sidebarDict.services; document.querySelector('[data-nav="saved"]').innerText = sidebarDict.saved;
+  const labels = document.querySelectorAll('.sidebar div'); if(labels.length >= 2) { labels[0].innerText = sidebarDict.cat1; labels[1].innerText = sidebarDict.cat2; }
+
+  
+  const walker = document.createTreeWalker(document.querySelector('main'), NodeFilter.SHOW_TEXT, null, false);
+  let node;
+  while (node = walker.nextNode()) {
+      let text = node.nodeValue.trim();
+      if (dict[text]) node.nodeValue = node.nodeValue.replace(text, dict[text]);
+  }
+  
+  
+  const search1 = document.getElementById('homeSearch'); if(search1) search1.placeholder = currentLang === 'eng' ? "Try: exam schedule, missing points, course materials..." : "VD: quên phòng thi, thiếu điểm rèn luyện, tìm bài giảng...";
+  const search2 = document.getElementById('findSearch'); if(search2) search2.placeholder = currentLang === 'eng' ? "What are you trying to find?" : "Bạn cần tìm gì?";
+  document.querySelectorAll('.search .btn').forEach(btn => btn.innerText = currentLang === 'eng' ? "Search" : "Tìm kiếm");
+
+  
+  renderActions();
+  renderSaved();
+  if (document.getElementById('detail').classList.contains('active') && currentDetailId) {
+    openDetail(currentDetailId, currentDetailFrom);
+  }
+  
+  toast(currentLang === 'eng' ? "Interface language switched to English" : "Đã chuyển giao diện sang Tiếng Việt");
 }
 </script>
 </body>
