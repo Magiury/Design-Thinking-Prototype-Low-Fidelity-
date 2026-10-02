@@ -1,21 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>UEH Freshman Information Hub — Prototype 1</title>
+<title>UEH Freshman Information Hub — Prototype</title>
 <style>
 :root {
   --bg: #f5f7fb; --surface: #fff; --text: #172033; --muted: #657085;
-  --primary: #005c5a; 
-  --primary2: #004543;
-  --accent: #e56a22; 
-  --border: #e3e7ef;
-  --success: #198754; --warning: #b7791f; --danger: #b42318;
+  --primary: #005c5a; --primary2: #004543; --accent: #e56a22; 
+  --border: #e3e7ef; --success: #198754; --warning: #b7791f; --danger: #b42318;
   --shadow: 0 10px 30px rgba(0, 92, 90, 0.08); --radius: 18px;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text)}
 button,input{font:inherit}
 button{cursor:pointer}
 .app{min-height:100vh}
@@ -64,21 +61,17 @@ p{color:var(--muted);line-height:1.6}
 .login-card{max-width:470px;width:100%;background:#fff;border:1px solid var(--border);border-radius:24px;padding:35px;box-shadow:var(--shadow)}
 .full{width:100%}
 .support{position:fixed;bottom:24px;left:24px;border:0;border-radius:50%;width:54px;height:54px;background:var(--primary);color:#fff;font-size:20px;box-shadow:var(--shadow);z-index:30}
-
-.mock-data {background:#f8f9fc; border:1px dashed #c1c9d6; border-radius:12px; padding:16px; margin:20px 0;}
-.mock-header {display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e3e7ef; padding-bottom:10px; margin-bottom:12px;}
-.mock-item {display:flex; gap:16px; padding:12px; background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04); margin-bottom:10px;}
-.mock-time {flex:none; width:65px; text-align:center; font-weight:700; color:var(--primary); font-size:13px; padding-right:12px; border-right:1px solid #e3e7ef;}
-.mock-info strong {color:var(--text); font-size:15px;}
-.mock-info span {font-size:13px; color:var(--muted); display:block; margin-top:4px;}
-.mock-file {display:flex; align-items:center; gap:12px; padding:12px; background:#fff; border-radius:8px; border:1px solid #e3e7ef; margin-bottom:8px; font-size:14px; cursor:pointer;}
-.mock-file:hover {border-color:var(--primary); color:var(--primary);}
-
 .spinner { width: 40px; height: 40px; border: 4px solid #e3e7ef; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
 @media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{display:none}.main{padding:20px}}
 @media(max-width:600px){.grid{grid-template-columns:1fr}.topbar{padding:0 16px}.main{padding:15px}h1{font-size:28px}}
+.mock-data { background: #f8f9fc; border: 1px dashed #c1c9d6; border-radius: 12px; padding: 16px; margin: 20px 0; }
+.mock-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e3e7ef; padding-bottom: 10px; margin-bottom: 12px; }
+.mock-item { display: flex; gap: 16px; padding: 12px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 10px; }
+.mock-time { flex: none; width: 65px; text-align: center; font-weight: 700; color: var(--primary); font-size: 13px; padding-right: 12px; border-right: 1px solid #e3e7ef; }
+.mock-info strong { color: var(--text); font-size: 15px; }
+.mock-info span { font-size: 13px; color: var(--muted); display: block; margin-top: 4px; }
+.mock-file { display: flex; align-items: center; gap: 12px; padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #e3e7ef; margin-bottom: 8px; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -92,25 +85,20 @@ p{color:var(--muted);line-height:1.6}
     </div>
     
     <div style="display: flex; align-items: center; gap: 16px; position: relative;">
-      <div class="user" id="userLabel">Unknown name</div>
-      
+      <div class="user" id="userLabel">Chưa đăng nhập</div>
       
       <button onclick="toggleSettings()" style="background: transparent; border: none; color: #fff; font-size: 26px; cursor: pointer; padding: 0; line-height: 1;" title="Cài đặt">
         ☰
       </button>
-      
       
       <div id="settingsDropdown" style="display: none; position: absolute; top: 45px; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); width: 240px; z-index: 100; color: var(--text); text-align: left;">
         <div style="padding: 14px 16px; border-bottom: 1px solid var(--border); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px;">
           ⚙️ Cài đặt chung
         </div>
         <div style="padding: 16px;">
-          
-          
           <button class="btn secondary" style="width: 100%; margin-bottom: 15px; font-size: 13px; padding: 10px;" onclick="openDetail('personal', 'home'); toggleSettings();">
             👤 Mở Hồ sơ & Cài đặt
           </button>
-          
           <div style="font-size: 13px; margin-bottom: 8px; font-weight: 600; color: var(--muted);">🌐 Ngôn ngữ (Language)</div>
           <select id="langSelect" onchange="changeAppLanguage(this.value); toggleSettings();" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; cursor: pointer; font-size: 14px;">
             <option value="vi">Tiếng Việt</option>
@@ -120,6 +108,7 @@ p{color:var(--muted);line-height:1.6}
       </div>
     </div>
   </header>
+
   <div id="loginScreen" class="login-wrap">
     <div class="login-card">
       <div align="center" style="margin-bottom: 20px;">
@@ -127,11 +116,9 @@ p{color:var(--muted);line-height:1.6}
       </div>
       <h1 style="text-align: center; font-size: 24px;">Đăng nhập một lần (SSO)</h1>
       <p style="text-align: center; margin-bottom: 24px; color: var(--muted); font-size: 14px;">Sử dụng tài khoản email <b>@st.ueh.edu.vn</b> để tự động đồng bộ thời khóa biểu, điểm số và dữ liệu từ các hệ thống UEH.</p>
-      
       <button id="loginBtn" class="btn full" onclick="login()" style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; padding: 14px; background: #fff; color: var(--text); border: 1px solid var(--border);">
        Sign in with UEH Account
       </button>
-
       <div id="loadingState" style="display: none; text-align: center; padding: 20px 0;">
         <div class="spinner"></div>
         <p style="color: var(--primary); font-weight: 600; margin-top: 15px;">Đang đồng bộ dữ liệu từ UEH Student và LMS...</p>
@@ -190,7 +177,14 @@ p{color:var(--muted);line-height:1.6}
             <input id="findSearch" placeholder="Bạn cần tìm gì?" oninput="search(this.value)">
             <button class="btn" onclick="search(document.getElementById('findSearch').value)">Tìm kiếm</button>
           </div>
-          <div id="results" style="margin-top: 20px;"></div>
+         <div id="results" style="margin-top: 20px;">
+            <p style="margin-bottom: 12px; color: var(--muted);">Hãy nhập tác vụ bạn muốn tìm, hoặc thử gợi ý sau:</p>
+            <div class="chips">
+              <button class="chip" onclick="document.getElementById('findSearch').value='lịch thi'; search('lịch thi');">📅 Lịch thi</button>
+              <button class="chip" onclick="document.getElementById('findSearch').value='điểm rèn luyện'; search('điểm rèn luyện');">🏆 Điểm rèn luyện</button>
+              <button class="chip" onclick="document.getElementById('findSearch').value='tài liệu'; search('tài liệu');">📚 Tài liệu học</button>
+            </div>
+          </div>
         </section>
 
         <section id="detail" class="screen">
@@ -245,7 +239,6 @@ p{color:var(--muted);line-height:1.6}
   <button class="support" onclick="toggleChat()" title="Hỗ trợ trực tuyến" style="font-size: 24px; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,92,90,0.3);">💬</button>
 
   <div class="chat" id="chat" style="padding: 0; border-radius: 20px; width: 350px; height: 480px; position: fixed; bottom: 88px; left: 24px; background: #fff; box-shadow: 0 12px 40px rgba(0,0,0,0.12); border: 1px solid var(--border); display: none; z-index: 30; flex-direction: column; overflow: hidden;">
-    
     <div style="padding: 16px 20px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: space-between;">
       <div style="display: flex; align-items: center; gap: 10px;">
         <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 50%; display: grid; place-items: center; font-size: 16px;">🤖</div>
@@ -256,13 +249,11 @@ p{color:var(--muted);line-height:1.6}
       </div>
       <button class="btn ghost" style="width: 28px; height: 28px; padding: 0; display: grid; place-items: center; border-radius: 8px; border: none; font-size: 20px; color: #fff; background: transparent; cursor: pointer;" onclick="toggleChat()">×</button>
     </div>
-
     <div id="chatHistory" style="flex: 1; padding: 20px; overflow-y: auto; background: #f8f9fc; display: flex; flex-direction: column; gap: 12px;">
       <div style="align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-        Chào bạn! 👋 Mình là trợ lý ảo của Hub. Bạn có thể gõ câu hỏi vào bên dưới (ví dụ: "Xem lịch thi ở đâu?", "Làm sao tra điểm rèn luyện?")
+        Chào bạn! 👋 Mình là trợ lý ảo của Hub. Bạn có thể gõ câu hỏi vào bên dưới (ví dụ: "Làm sao tra điểm rèn luyện?")
       </div>
     </div>
-
     <div style="padding: 14px; background: #fff; border-top: 1px solid var(--border); display: flex; gap: 8px;">
       <input id="chatInput" type="text" placeholder="Gõ câu hỏi của bạn..." onkeydown="if(event.key==='Enter') sendChat()" style="flex: 1; padding: 10px 14px; border-radius: 99px; border: 1px solid var(--border); outline: none; font-size: 13px; background: #f3f5f9;">
       <button onclick="sendChat()" style="width: 38px; height: 38px; border-radius: 50%; border: none; background: var(--primary); color: #fff; display: grid; place-items: center; cursor: pointer; flex-shrink: 0;">↑</button>
@@ -285,31 +276,116 @@ const DATA = {
       reason: "Cổng UEH Student là nơi duy nhất cập nhật chính xác phòng học và danh sách thi của cá nhân bạn.",
       steps: ["Mở cổng UEH Student.", "Chọn chức năng Lịch trình/Lịch thi.", "Chọn học kỳ để kiểm tra."], 
       actions: ["Mở hệ thống", "Thêm vào lịch"],
-      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📅 Thời khóa biểu Tuần này</strong><span style="font-size:12px; color:var(--muted)">Sinh viên: Unknown name</span></div><div class="mock-item"><div class="mock-time">Thứ 3<br>29/09</div><div class="mock-info"><strong>Kinh tế vi mô</strong><span>Ca 1 (07:30 - 09:45) | Phòng B1-204 (Cơ sở B)</span></div></div></div>`
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📅 Thời khóa biểu Tuần này</strong>
+            <span style="font-size:12px; color:var(--muted)">Sinh viên: Unknown name (K52)</span>
+          </div>
+          <div class="mock-item">
+            <div class="mock-time">Thứ 3<br>29/09</div>
+            <div class="mock-info">
+              <strong>Kinh tế vi mô</strong>
+              <span>Ca 1 (07:30 - 09:45) | Phòng B1-204 (Cơ sở B)</span>
+            </div>
+          </div>
+          <div class="mock-item">
+            <div class="mock-time">Thứ 5<br>01/10</div>
+            <div class="mock-info">
+              <strong>Triết học Mác - Lênin</strong>
+              <span>Ca 3 (12:30 - 15:00) | Phòng N1-301 (Cơ sở Nam TP)</span>
+            </div>
+          </div>
+        </div>
+      `
     },
     materials: { 
-      title: "Tài liệu môn học", platform: "UEH LMS", icon: "📄", desc: "Lấy slide bài giảng và tài liệu ôn tập.", reason: "Giảng viên sử dụng LMS để đăng tải tài nguyên chính thức và thông báo môn học.", steps: ["Mở hệ thống LMS.", "Chọn môn học tương ứng.", "Tìm đến tuần học và tải file về."], actions: ["Mở hệ thống", "Lưu lộ trình"],
-      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📚 Tài liệu học tập gần đây</strong><span style="font-size:12px; color:var(--muted)">Đã đồng bộ từ UEH LMS</span></div><div class="mock-file">📄 [KTVM] Chương 1: 10 Nguyên lý kinh tế học.pdf</div><div class="mock-file">🗂️ [Triết học] Slide bài giảng Tuần 1-4.zip</div></div>`
+      title: "Tài liệu môn học", platform: "UEH LMS", icon: "📄", 
+      desc: "Lấy slide bài giảng và tài liệu ôn tập.", 
+      reason: "Giảng viên sử dụng LMS để đăng tải tài nguyên chính thức và thông báo môn học.", 
+      steps: ["Mở hệ thống LMS.", "Chọn môn học tương ứng.", "Tìm đến tuần học và tải file về."], 
+      actions: ["Mở hệ thống", "Lưu lộ trình"],
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📚 Tài liệu học tập gần đây</strong>
+            <span style="font-size:12px; color:var(--muted)">Đã đồng bộ từ UEH LMS</span>
+          </div>
+          <div class="mock-file">📄 [KTVM] Chương 1: 10 Nguyên lý kinh tế học.pdf</div>
+          <div class="mock-file">📄 [Toán Cao Cấp] Bài tập đạo hàm & Tích phân.docx</div>
+          <div class="mock-file">🗂️ [Triết học] Slide bài giảng Tuần 1-4.zip</div>
+        </div>
+      `
     },
     points: { 
-      title: "Tra cứu điểm rèn luyện", platform: "UEH DRS", icon: "🏆", desc: "Kiểm tra tổng điểm rèn luyện và chi tiết từng cột tiêu chí.", reason: "UEH DRS là hệ thống tập trung duy nhất ghi nhận và đánh giá điểm ngoại khóa của sinh viên.", steps: ["Mở hệ thống DRS.", "Xem kết quả điểm của học kỳ hiện tại.", "Mở xem chi tiết các tiêu chí (M1, M2...)."], actions: ["Mở hệ thống", "Lưu lộ trình"],
-      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📊 Báo cáo Điểm rèn luyện - HK1</strong><span style="font-size:12px; color:var(--primary); font-weight:bold;">Tổng: 85/100 (Tốt)</span></div><div style="margin-top:10px; font-size:13px;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M1: Học tập, NCKH</span> <strong>20/20</strong></div><div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--primary); width:100%; height:100%; border-radius:4px;"></div></div></div></div>`
+      title: "Tra cứu điểm rèn luyện", platform: "UEH DRS", icon: "🏆", 
+      desc: "Kiểm tra tổng điểm rèn luyện và chi tiết từng cột tiêu chí.", 
+      reason: "UEH DRS là hệ thống tập trung duy nhất ghi nhận và đánh giá điểm ngoại khóa của sinh viên.", 
+      steps: ["Mở hệ thống DRS.", "Xem kết quả điểm của học kỳ hiện tại.", "Mở xem chi tiết các tiêu chí (M1, M2...)."], 
+      actions: ["Mở hệ thống", "Lưu lộ trình"],
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📊 Báo cáo Điểm rèn luyện - HK1</strong>
+            <span style="font-size:12px; color:var(--primary); font-weight:bold;">Tổng: 85/100 (Tốt)</span>
+          </div>
+          <div style="margin-top:10px; font-size:13px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M1: Học tập, NCKH</span> <strong>20/20</strong></div>
+            <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--primary); width:100%; height:100%; border-radius:4px;"></div></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M2: Chấp hành nội quy</span> <strong>25/25</strong></div>
+            <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--success); width:100%; height:100%; border-radius:4px;"></div></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M3: Ý thức công dân</span> <strong>15/25</strong></div>
+            <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--accent); width:60%; height:100%; border-radius:4px;"></div></div>
+          </div>
+        </div>
+      `
     },
     activities: { 
-      title: "Tìm hoạt động", platform: "UEH DRS", icon: "🎫", desc: "Xem các sự kiện, hội thảo đang mở đăng ký.", reason: "Đăng ký qua DRS giúp hệ thống tự động ghi nhận điểm rèn luyện hợp lệ cho bạn sau sự kiện.", steps: ["Mở hệ thống DRS.", "Lọc danh sách sự kiện đang mở.", "Kiểm tra thời gian và bấm đăng ký."], actions: ["Mở hệ thống", "Thêm vào lịch"],
-      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>🎫 Hoạt động đang mở đăng ký</strong></div><div class="mock-item" style="align-items:center;"><div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#fff3e0; color:var(--accent);">🏸</div><div class="mock-info" style="flex:1;"><strong>Giải Cầu Lông Tân sinh viên K52</strong><span>Hạn chót: 30/09 | Điểm rèn luyện: +5đ</span></div></div></div>`
+      title: "Tìm hoạt động", platform: "UEH DRS", icon: "🎫", 
+      desc: "Xem các sự kiện, hội thảo đang mở đăng ký.", 
+      reason: "Đăng ký qua DRS giúp hệ thống tự động ghi nhận điểm rèn luyện hợp lệ cho bạn sau sự kiện.", 
+      steps: ["Mở hệ thống DRS.", "Lọc danh sách sự kiện đang mở.", "Kiểm tra thời gian và bấm đăng ký."], 
+      actions: ["Mở hệ thống", "Thêm vào lịch"],
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>🎫 Hoạt động đang mở đăng ký</strong>
+            <span style="font-size:12px; color:var(--muted)">Cập nhật từ hệ thống</span>
+          </div>
+          <div class="mock-item" style="align-items:center;">
+            <div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#fff3e0; color:var(--accent);">🏸</div>
+            <div class="mock-info" style="flex:1;">
+              <strong>Giải Cầu Lông Tân sinh viên K52</strong>
+              <span>Hạn chót: 30/09 | Điểm rèn luyện: +5đ</span>
+            </div>
+            <button class="btn secondary" style="padding:8px 12px; font-size:12px;">Đăng ký</button>
+          </div>
+          <div class="mock-item" style="align-items:center;">
+            <div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#eaf7ef; color:var(--success);">💡</div>
+            <div class="mock-info" style="flex:1;">
+              <strong>Hội thảo Design Thinking 101</strong>
+              <span>Hạn chót: 02/10 | Điểm rèn luyện: +3đ</span>
+            </div>
+            <button class="btn secondary" style="padding:8px 12px; font-size:12px;">Đăng ký</button>
+          </div>
+        </div>
+      `
     },
     personal: { 
-      title: "Hồ sơ cá nhân & Cài đặt", platform: "UEH Student", icon: "👤", desc: "Cập nhật thông tin sinh viên và Cài đặt hệ thống.", reason: "Cổng thông tin sinh viên là nơi lưu trữ hồ sơ gốc và cho phép điều chỉnh các cài đặt cá nhân.", steps: ["Mở cổng UEH Student.", "Vào mục Hồ sơ / Cài đặt.", "Thay đổi ngôn ngữ hiển thị."], actions: ["Mở hệ thống", "Lưu lộ trình"],
+      title: "Hồ sơ cá nhân & Cài đặt", platform: "UEH Student", icon: "👤", 
+      desc: "Cập nhật thông tin sinh viên và Cài đặt hệ thống.", 
+      reason: "Cổng thông tin sinh viên là nơi lưu trữ hồ sơ gốc và cho phép điều chỉnh các cài đặt cá nhân.", 
+      steps: ["Mở cổng UEH Student.", "Vào mục Hồ sơ / Cài đặt.", "Thay đổi ngôn ngữ hiển thị."], 
+      actions: ["Mở hệ thống", "Lưu lộ trình"],
       previewHtml: `
         <div class="mock-data" style="background: transparent; border: none; padding: 0;">
           <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">👤 Thông tin cá nhân (Personal Info) ▾</summary>
-            <div style="padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;"><div><strong>Họ và tên:</strong> Unknown name</div><div><strong>MSSV:</strong> Đang cập nhật</div><div><strong>Khóa:</strong> K52</div><div><strong>Lớp:</strong> DB001</div></div>
+            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">👤 ${currentLang === 'eng' ? 'Personal Info' : 'Thông tin cá nhân'} ▾</summary>
+            <div style="padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;"><div><strong>${currentLang === 'eng' ? 'Name:' : 'Họ và tên:'}</strong> Unknown name</div><div><strong>${currentLang === 'eng' ? 'ID:' : 'MSSV:'}</strong> ${currentLang === 'eng' ? 'Updating...' : 'Đang cập nhật'}</div><div><strong>${currentLang === 'eng' ? 'Cohort:' : 'Khóa:'}</strong> K52</div><div><strong>${currentLang === 'eng' ? 'Class:' : 'Lớp:'}</strong> DB001</div></div>
           </details>
           <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">⚙️ Cài đặt (Settings) ▾</summary>
-            <div style="padding: 15px; font-size: 14px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span>🌐 Ngôn ngữ (Language)</span>
+            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">⚙️ ${currentLang === 'eng' ? 'Settings' : 'Cài đặt'} ▾</summary>
+            <div style="padding: 15px; font-size: 14px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span>🌐 ${currentLang === 'eng' ? 'Language' : 'Ngôn ngữ'}</span>
               <select onchange="changeAppLanguage(this.value)" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); outline: none; font-weight: 600; cursor: pointer;">
                 <option value="vi" ${currentLang === 'vi' ? 'selected' : ''}>Tiếng Việt</option>
                 <option value="eng" ${currentLang === 'eng' ? 'selected' : ''}>English</option>
@@ -318,23 +394,199 @@ const DATA = {
           </details>
         </div>`
     },
-    green: { title: "Sống xanh (Green Campus)", platform: "UEH Student", icon: "🌱", desc: "Tra cứu điểm sống xanh và lịch sử phân loại rác.", reason: "Các hoạt động Green Campus được liên kết trực tiếp với mã số sinh viên của bạn.", steps: ["Mở cổng UEH Student.", "Vào mục Green Campus.", "Kiểm tra điểm tích lũy tuần qua."], actions: ["Mở hệ thống", "Lưu lộ trình"], previewHtml: `<div class="mock-data"><div class="mock-header"><strong>🌱 Hoạt động Green Campus</strong><span style="font-size:12px; color:var(--success); font-weight:bold;">Cấp độ: Xanh Lá</span></div></div>` },
-    quiz: { title: "Bài kiểm tra (Quiz)", platform: "UEH LMS", icon: "📝", desc: "Vào phòng thi làm các bài kiểm tra trắc nghiệm trực tuyến.", reason: "LMS cung cấp môi trường làm bài kiểm tra bảo mật, có tính giờ.", steps: ["Mở môn học trên LMS.", "Tìm chuyên mục Bài kiểm tra.", "Đọc kỹ thời gian trước khi bắt đầu."], actions: ["Mở hệ thống", "Thêm vào lịch"], previewHtml: `` },
-    turnitin: { title: "Kiểm tra đạo văn", platform: "UEH LMS", icon: "🔎", desc: "Nộp bài luận và nhận báo cáo trùng lặp từ Turnitin.", reason: "UEH tích hợp sẵn Turnitin vào các thư mục nộp bài trên LMS.", steps: ["Mở khóa học trên LMS.", "Tìm thư mục Nộp tiểu luận.", "Tải file lên và chờ báo cáo."], actions: ["Mở hệ thống", "Lưu lộ trình"], previewHtml: `` },
-    review: { title: "Khắc phục/Khiếu nại điểm", platform: "UEH DRS", icon: "↩", desc: "Nộp minh chứng khi tham gia hoạt động mà chưa được cộng điểm.", reason: "Việc khiếu nại điểm phải nộp qua hệ thống DRS để Khoa đối soát.", steps: ["Mở hệ thống DRS.", "Vào mục 'Khắc phục điểm'.", "Tải ảnh minh chứng và bấm gửi."], actions: ["Mở hệ thống", "Lưu lộ trình"], previewHtml: `` }
+    green: { 
+      title: "Sống xanh (Green Campus)", platform: "UEH Student / DRS", icon: "🌱", 
+      desc: "Tra cứu điểm sống xanh và lịch sử phân loại rác.", 
+      reason: "Các hoạt động Green Campus được liên kết trực tiếp với mã số sinh viên của bạn.", 
+      steps: ["Mở cổng UEH Student.", "Vào mục Green Campus.", "Kiểm tra điểm tích lũy tuần qua."], 
+      actions: ["Mở hệ thống", "Lưu lộ trình"], 
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>🌱 Hoạt động Green Campus & Điểm Xanh</strong>
+            <span style="font-size:12px; color:var(--success); font-weight:bold;">Đang tham gia (Cấp độ: Xanh Lá)</span>
+          </div>
+          <div style="margin-top:10px; font-size:13px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Điểm Xanh tích lũy (Green Points):</span> <strong>45 điểm</strong></div>
+            <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--success); width:75%; height:100%; border-radius:4px;"></div></div>
+          </div>
+          <div class="mock-file">🌳 Phân loại rác thải tại cơ sở B (Đã xác nhận: +15đ) - 12/09/2026</div>
+          <div class="mock-file">🌳 Chiến dịch "Go Green UEH" (Đã xác nhận: +30đ) - 05/09/2026</div>
+        </div>` 
+    },
+    quiz: { 
+      title: "Bài kiểm tra (Quiz)", platform: "UEH LMS", icon: "📝", 
+      desc: "Vào phòng thi làm các bài kiểm tra trắc nghiệm trực tuyến.", 
+      reason: "LMS cung cấp môi trường làm bài kiểm tra bảo mật, có tính giờ.", 
+      steps: ["Mở môn học trên LMS.", "Tìm chuyên mục Bài kiểm tra.", "Đọc kỹ thời gian trước khi bắt đầu."], 
+      actions: ["Mở hệ thống", "Thêm vào lịch"], 
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📝 Danh sách Bài kiểm tra trực tuyến (LMS Quiz)</strong>
+            <span style="font-size:12px; color:var(--accent);">Sắp đến hạn</span>
+          </div>
+          <div class="mock-file">
+            <div style="flex:1;"><strong>[KTVM] Trắc nghiệm ôn tập Chương 1 & 2</strong><br><span style="font-size:12px; color:var(--muted);">⏳ Hạn chót: 23:59 - 30/09/2026 | Thời gian: 30 phút</span></div>
+            <button class="btn secondary" style="padding:6px 12px; font-size:12px;">Làm bài</button>
+          </div>
+          <div class="mock-file">
+            <div style="flex:1;"><strong>[Toán Cao Cấp] Kiểm tra trắc nghiệm hàng tuần</strong><br><span style="font-size:12px; color:var(--success);">✓ Đã hoàn thành | Điểm: 9.5/10</span></div>
+            <button class="btn ghost" style="padding:6px 12px; font-size:12px; border:1px solid var(--border);">Xem lại</button>
+          </div>
+        </div>` 
+    },
+    turnitin: { 
+      title: "Kiểm tra đạo văn", platform: "UEH LMS", icon: "🔎", 
+      desc: "Nộp bài luận và nhận báo cáo trùng lặp từ Turnitin.", 
+      reason: "UEH tích hợp sẵn Turnitin vào các thư mục nộp bài trên LMS.", 
+      steps: ["Mở khóa học trên LMS.", "Tìm thư mục Nộp tiểu luận.", "Tải file lên và chờ báo cáo."], 
+      actions: ["Mở hệ thống", "Lưu lộ trình"], 
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>🔎 Báo cáo Kiểm tra Đạo văn (Turnitin Report)</strong>
+            <span style="font-size:12px; color:var(--success);">Đã quét thành công</span>
+          </div>
+          <div class="mock-file" style="display:flex; justify-content:space-between; align-items:center;">
+            <div><strong>Tiểu luận Cuối kỳ: Kinh tế vi mô.docx</strong><br><span style="font-size:12px; color:var(--muted);">Nộp ngày: 20/09/2026 | Định dạng: DOCX</span></div>
+            <span class="chip" style="background:#eaf7ef; color:var(--success); border-color:#d1e7dd; font-weight:bold;">8% (An toàn)</span>
+          </div>
+        </div>` 
+    },
+    review: { 
+      title: "Khắc phục/Khiếu nại điểm", platform: "UEH DRS", icon: "↩", 
+      desc: "Nộp minh chứng khi tham gia hoạt động mà chưa được cộng điểm.", 
+      reason: "Việc khiếu nại điểm phải nộp qua hệ thống DRS để Khoa đối soát.", 
+      steps: ["Mở hệ thống DRS.", "Vào mục 'Khắc phục điểm'.", "Tải ảnh minh chứng và bấm gửi."], 
+      actions: ["Mở hệ thống", "Lưu lộ trình"], 
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📝 Trạng thái Yêu cầu Khắc phục điểm</strong>
+            <span style="font-size:12px; color:var(--warning);">• Đang chờ duyệt (Pending)</span>
+          </div>
+          <div class="mock-item" style="flex-direction:column; align-items:flex-start; gap:6px;">
+            <div style="display:flex; justify-content:space-between; width:100%;">
+              <strong>Hoạt động: Hội thảo Ý tưởng Khởi nghiệp</strong>
+              <span style="color:var(--accent); font-weight:bold;">+3 điểm</span>
+            </div>
+            <span style="font-size:13px; color:var(--muted);">Minh chứng: Chung_nhan_khoi_nghiep.png</span>
+            <span style="font-size:12px; color:var(--warning);">⏳ Khoa đang đối soát danh sách (Hạn xử lý: 3 ngày)</span>
+          </div>
+        </div>` 
+    }
   },
   eng: {
     exam: { 
-      title: "Class & Exam Schedule", platform: "UEH Student", icon: "🗓️", desc: "Check your current class timetable and exam rooms.", reason: "UEH Student is the official portal for personalized academic schedules.", steps: ["Open UEH Student.", "Navigate to Schedule/Exam.", "Select current semester."], actions: ["Open system", "Add to calendar"],
-      previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📅 This Week's Schedule</strong><span style="font-size:12px; color:var(--muted)">Student: Unknown name</span></div><div class="mock-item"><div class="mock-time">Tue<br>29/09</div><div class="mock-info"><strong>Microeconomics</strong><span>Shift 1 (07:30) | Room B1-204</span></div></div></div>`
-    },
-    materials: { title: "Course Materials", platform: "UEH LMS", icon: "📄", desc: "Download lecture slides and study materials.", reason: "Lecturers use LMS to upload official resources.", steps: ["Open LMS system.", "Select course.", "Download files."], actions: ["Open system", "Save route"], previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📚 Recent Materials</strong></div><div class="mock-file">📄 [MicroEcon] Chapter 1.pdf</div></div>` },
-    points: { title: "Training Points", platform: "UEH DRS", icon: "🏆", desc: "Check your total points and criteria details.", reason: "UEH DRS is the centralized system for extracurricular scores.", steps: ["Open DRS system.", "View semester results.", "Check criteria details."], actions: ["Open system", "Save route"], previewHtml: `<div class="mock-data"><div class="mock-header"><strong>📊 Points Report - Sem 1</strong><span style="font-size:12px; color:var(--primary); font-weight:bold;">Total: 85/100</span></div></div>` },
-    activities: { title: "Find Activities", platform: "UEH DRS", icon: "🎫", desc: "View events open for registration.", reason: "Registering via DRS automatically records your valid points.", steps: ["Open DRS system.", "Filter open events.", "Click register."], actions: ["Open system", "Add to calendar"], previewHtml: `<div class="mock-data"><div class="mock-header"><strong>🎫 Open Registrations</strong></div><div class="mock-item" style="align-items:center;"><div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#fff3e0; color:var(--accent);">🏸</div><div class="mock-info" style="flex:1;"><strong>Freshman Badminton Cup</strong><span>Deadline: 30/09 | Points: +5</span></div></div></div>` },
-    personal: { 
-      title: "Profile & Settings", platform: "UEH Student", icon: "👤", desc: "Update student info and system settings.", reason: "The Student Portal stores your official records and language settings.", steps: ["Open UEH Student.", "Go to Profile / Settings.", "Change language."], actions: ["Open system", "Save route"],
+      title: "Class & Exam Schedule", platform: "UEH Student", icon: "🗓️", 
+      desc: "Check your current class timetable and exam rooms.", 
+      reason: "UEH Student is the official portal for personalized academic schedules.", 
+      steps: ["Open UEH Student.", "Navigate to Schedule/Exam.", "Select current semester."], 
+      actions: ["Open system", "Add to calendar"],
       previewHtml: `
-        <div class="mock-data" style="background: transparent; border: none; padding: 0;">
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📅 This Week's Schedule</strong>
+            <span style="font-size:12px; color:var(--muted)">Student: Unknown name (K52)</span>
+          </div>
+          <div class="mock-item">
+            <div class="mock-time">Tue<br>29/09</div>
+            <div class="mock-info">
+              <strong>Microeconomics</strong>
+              <span>Shift 1 (07:30 - 09:45) | Room B1-204 (Campus B)</span>
+            </div>
+          </div>
+          <div class="mock-item">
+            <div class="mock-time">Thu<br>01/10</div>
+            <div class="mock-info">
+              <strong>Marxist - Leninist Philosophy</strong>
+              <span>Shift 3 (12:30 - 15:00) | Room N1-301 (South Campus)</span>
+            </div>
+          </div>
+        </div>
+      `
+    },
+    materials: { 
+      title: "Course Materials", platform: "UEH LMS", icon: "📄", 
+      desc: "Download lecture slides and study materials.", 
+      reason: "Lecturers use LMS to upload official resources.", 
+      steps: ["Open LMS system.", "Select course.", "Download files."], 
+      actions: ["Open system", "Save route"],
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📚 Recent Materials</strong>
+            <span style="font-size:12px; color:var(--muted)">Synced from UEH LMS</span>
+          </div>
+          <div class="mock-file">📄 [MicroEcon] Chapter 1: 10 Principles of Economics.pdf</div>
+          <div class="mock-file">📄 [Advanced Math] Derivatives & Integrals Exercises.docx</div>
+          <div class="mock-file">🗂️ [Philosophy] Lecture Slides Weeks 1-4.zip</div>
+        </div>
+      `
+    },
+    points: { 
+      title: "Check training points", platform: "UEH DRS", icon: "🏆", 
+      desc: "Check your training-point result and relevant criteria.", 
+      reason: "UEH DRS is the only centralized system that tracks, evaluates, and officially records extracurricular scores for all students.", 
+      steps: ["Open the DRS system.", "View semester results.", "Check criteria details."], 
+      actions: ["Open system", "Save route"],
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📊 Points Report - Sem 1</strong>
+            <span style="font-size:12px; color:var(--primary); font-weight:bold;">Total: 85/100 (Good)</span>
+          </div>
+          <div style="margin-top:10px; font-size:13px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M1: Study, Research</span> <strong>20/20</strong></div>
+            <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--primary); width:100%; height:100%; border-radius:4px;"></div></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M2: Regulations compliance</span> <strong>25/25</strong></div>
+            <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--success); width:100%; height:100%; border-radius:4px;"></div></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>M3: Civic consciousness</span> <strong>15/25</strong></div>
+            <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--accent); width:60%; height:100%; border-radius:4px;"></div></div>
+          </div>
+        </div>
+      `
+    },
+    activities: { 
+      title: "Find activities", platform: "UEH DRS", icon: "🎫", 
+      desc: "Find activities that are open for registration and review their details.", 
+      reason: "Registering through DRS ensures that your participation will be officially recorded for training points.", 
+      steps: ["Open the DRS system.", "Filter open events.", "Click register."], 
+      actions: ["Open system", "Add to calendar"],
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>🎫 Open Registrations</strong>
+            <span style="font-size:12px; color:var(--muted)">Updated from system</span>
+          </div>
+          <div class="mock-item" style="align-items:center;">
+            <div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#fff3e0; color:var(--accent);">🏸</div>
+            <div class="mock-info" style="flex:1;">
+              <strong>Freshman Badminton Cup K52</strong>
+              <span>Deadline: 30/09 | Points: +5</span>
+            </div>
+            <button class="btn secondary" style="padding:8px 12px; font-size:12px;">Register</button>
+          </div>
+          <div class="mock-item" style="align-items:center;">
+            <div class="icon" style="margin:0; width:42px; height:42px; font-size:24px; background:#eaf7ef; color:var(--success);">💡</div>
+            <div class="mock-info" style="flex:1;">
+              <strong>Design Thinking 101 Workshop</strong>
+              <span>Deadline: 02/10 | Points: +3</span>
+            </div>
+            <button class="btn secondary" style="padding:8px 12px; font-size:12px;">Register</button>
+          </div>
+        </div>
+      `
+    },
+    personal: { 
+      title: "Profile & Settings", platform: "UEH Student", icon: "👤", 
+      desc: "Update student info and system settings.", 
+      reason: "The Student Portal stores your official records and language settings.", 
+      steps: ["Open UEH Student.", "Go to Profile / Settings.", "Change language."], 
+      actions: ["Open system", "Save route"],
+      previewHtml: `
+        <div class="mock-data" style="background: transparent; border: none; padding: 0; box-shadow: none;">
           <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
             <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">👤 Personal Info ▾</summary>
             <div style="padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;"><div><strong>Name:</strong> Unknown name</div><div><strong>ID:</strong> Updating...</div><div><strong>Cohort:</strong> K52</div><div><strong>Class:</strong> DB001</div></div>
@@ -350,11 +602,89 @@ const DATA = {
           </details>
         </div>`
     },
-    green: { title: "Green Campus", platform: "UEH Student", icon: "🌱", desc: "Track green points and recycling history.", reason: "Activities are linked directly to your student ID.", steps: ["Open UEH Student.", "Go to Green Campus.", "Check weekly points."], actions: ["Open system", "Save route"], previewHtml: `` },
-    quiz: { title: "Online Quiz", platform: "UEH LMS", icon: "📝", desc: "Take online multiple-choice tests.", reason: "LMS provides a secure, timed environment for assessments.", steps: ["Open course on LMS.", "Find Quiz section.", "Start attempt."], actions: ["Open system", "Add to calendar"], previewHtml: `` },
-    turnitin: { title: "Plagiarism Check", platform: "UEH LMS", icon: "🔎", desc: "Submit essays and receive Turnitin similarity reports.", reason: "UEH integrates Turnitin directly into LMS submission folders.", steps: ["Open course on LMS.", "Find submission folder.", "Upload file."], actions: ["Open system", "Save route"], previewHtml: `` },
-    review: { title: "Review Points", platform: "UEH DRS", icon: "↩", desc: "Submit proof for unrecorded activities.", reason: "Appeals must be submitted via DRS for faculty approval.", steps: ["Open DRS system.", "Go to 'Appeals'.", "Upload proof and submit."], actions: ["Open system", "Save route"], previewHtml: `` }
-  
+    green: { 
+      title: "Green Campus", platform: "UEH Student / DRS", icon: "🌱", 
+      desc: "Access Green Campus-related activities, recycling logs, and sustainability scores.", 
+      reason: "Green Campus logs and sustainability metrics are tied directly to your student ID within the main university portal.", 
+      steps: ["Open UEH Student.", "Go to Green Campus.", "Check weekly points."], 
+      actions: ["Open system", "Save route"], 
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>🌱 Green Campus & Green Points</strong>
+            <span style="font-size:12px; color:var(--success); font-weight:bold;">Active (Level: Green)</span>
+          </div>
+          <div style="margin-top:10px; font-size:13px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Green Points:</span> <strong>45 pts</strong></div>
+            <div style="background:#e3e7ef; height:6px; border-radius:4px; margin-bottom:12px;"><div style="background:var(--success); width:75%; height:100%; border-radius:4px;"></div></div>
+          </div>
+          <div class="mock-file">🌳 Waste sorting at Campus B (Verified: +15pts) - 12/09/2026</div>
+          <div class="mock-file">🌳 "Go Green UEH" Campaign (Verified: +30pts) - 05/09/2026</div>
+        </div>` 
+    },
+    quiz: { 
+      title: "Online quiz / test", platform: "UEH LMS", icon: "📝", 
+      desc: "Find and access online assessments, multiple-choice quizzes, and mid-term tests associated with your courses.", 
+      reason: "UEH LMS provides the secure, monitored testing environment required for official online course evaluations and quizzes.", 
+      steps: ["Open course on LMS.", "Find Quiz section.", "Start attempt."], 
+      actions: ["Open system", "Add to calendar"], 
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📝 Online Quiz List (LMS Quiz)</strong>
+            <span style="font-size:12px; color:var(--accent);">Upcoming</span>
+          </div>
+          <div class="mock-file">
+            <div style="flex:1;"><strong>[MicroEcon] Chapter 1 & 2 Review Quiz</strong><br><span style="font-size:12px; color:var(--muted);">⏳ Deadline: 23:59 - 30/09/2026 | Duration: 30 mins</span></div>
+            <button class="btn secondary" style="padding:6px 12px; font-size:12px;">Start</button>
+          </div>
+          <div class="mock-file">
+            <div style="flex:1;"><strong>[Advanced Math] Weekly Online Quiz</strong><br><span style="font-size:12px; color:var(--success);">✓ Completed | Score: 9.5/10</span></div>
+            <button class="btn ghost" style="padding:6px 12px; font-size:12px; border:1px solid var(--border);">Review</button>
+          </div>
+        </div>` 
+    },
+    turnitin: { 
+      title: "Plagiarism check", platform: "UEH LMS", icon: "🔎", 
+      desc: "Find the plagiarism-checking instructions, submission points, and similarity reports via integrated Turnitin.", 
+      reason: "UEH integrates Turnitin directly inside LMS assignment folders for seamless checking and automated similarity reports.", 
+      steps: ["Open course on LMS.", "Find submission folder.", "Upload file."], 
+      actions: ["Open system", "Save route"], 
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>🔎 Plagiarism Check Report (Turnitin)</strong>
+            <span style="font-size:12px; color:var(--success);">Successfully scanned</span>
+          </div>
+          <div class="mock-file" style="display:flex; justify-content:space-between; align-items:center;">
+            <div><strong>Final Essay: Microeconomics.docx</strong><br><span style="font-size:12px; color:var(--muted);">Submitted: 20/09/2026 | Format: DOCX</span></div>
+            <span class="chip" style="background:#eaf7ef; color:var(--success); border-color:#d1e7dd; font-weight:bold;">8% (Safe)</span>
+          </div>
+        </div>` 
+    },
+    review: { 
+      title: "Review missing points", platform: "UEH DRS", icon: "↩", 
+      desc: "Submit proof and track appeals when a completed activity has not been recorded as expected.", 
+      reason: "Appeals for training points must be formally submitted through the DRS system for faculty approval and verification.", 
+      steps: ["Open DRS system.", "Go to 'Appeals'.", "Upload proof and submit."], 
+      actions: ["Open system", "Save route"], 
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📝 Points Appeal Status</strong>
+            <span style="font-size:12px; color:var(--warning);">• Pending</span>
+          </div>
+          <div class="mock-item" style="flex-direction:column; align-items:flex-start; gap:6px;">
+            <div style="display:flex; justify-content:space-between; width:100%;">
+              <strong>Activity: Startup Idea Workshop</strong>
+              <span style="color:var(--accent); font-weight:bold;">+3 pts</span>
+            </div>
+            <span style="font-size:13px; color:var(--muted);">Proof: Startup_certificate.png</span>
+            <span style="font-size:12px; color:var(--warning);">⏳ Faculty is verifying list (Processing time: 3 days)</span>
+          </div>
+        </div>` 
+    }
+  }
 };
 
 const INDEX = {
@@ -379,29 +709,26 @@ const INDEX = {
     ["turnitin", "plagiarism đạo văn", "Plagiarism Check", "UEH LMS"]
   ]
 };
-let saved = [];
 
-// Khôi phục dữ liệu nếu người dùng lỡ nhấn F5 (chỉ trong nội bộ Tab đang mở)
+let saved = [];
 try { 
   let stored = sessionStorage.getItem("uehSaved_temp"); 
   if (stored) saved = JSON.parse(stored); 
 } catch (e) {}
 
 function safeSaveToStorage() { 
-  // Dùng sessionStorage: Mở tab mới là không gian lưu trữ mới tinh, không bị trùng lặp
   try { sessionStorage.setItem("uehSaved_temp", JSON.stringify(saved)); } catch (e) {} 
 }
 
 function login() {
   document.getElementById("loginBtn").style.display = "none";
   document.getElementById("loadingState").style.display = "block";
-  
   setTimeout(() => {
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("mainApp").style.display = "block";
     
-    // Tự động tạo một cái tên ngẫu nhiên (VD: Tester 492) để góc phải nhìn có vẻ cá nhân hóa
-    document.getElementById("userLabel").textContent = "Tester " + Math.floor(Math.random() * 1000);
+    // Đã thay đổi trở lại "Unknown name" theo đúng feedback của Giảng viên
+    document.getElementById("userLabel").textContent = "Unknown name";
     
     renderActions(); 
     renderSaved();
@@ -409,19 +736,6 @@ function login() {
   }, 1500);
 }
 
-  document.getElementById("loginBtn").style.display = "none";
-  document.getElementById("loadingState").style.display = "block";
-  
-  setTimeout(() => {
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("mainApp").style.display = "block";
-    document.getElementById("userLabel").textContent = userName;
-    
-    renderActions(); 
-    renderSaved();
-    toast(currentLang === 'eng' ? "Data synced successfully!" : "Đã đồng bộ dữ liệu thành công!");
-  }, 1500);
-}
 function show(id, btn) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   const el = document.getElementById(id); if (el) el.classList.add("active");
@@ -434,8 +748,17 @@ function show(id, btn) {
 function search(q) {
   q = (q || "").toLowerCase().trim(); show("find");
   const box = document.getElementById("results");
-  if (!q) { box.innerHTML = currentLang === 'eng' ? '<p>Please type a task above.</p>' : '<p>Hãy nhập tác vụ bạn muốn tìm vào ô trên.</p>'; return; }
-  
+ if (!q) { 
+    const suggestText = currentLang === 'eng' ? '<p style="margin-bottom: 12px; color: var(--muted);">Please type a task above, or try a suggestion:</p>' : '<p style="margin-bottom: 12px; color: var(--muted);">Hãy nhập tác vụ bạn muốn tìm, hoặc thử gợi ý sau:</p>';
+    const suggestChips = `
+      <div class="chips">
+        <button class="chip" onclick="document.getElementById('findSearch').value='lịch thi'; search('lịch thi');">📅 ${currentLang === 'eng' ? 'Exam Schedule' : 'Lịch thi'}</button>
+        <button class="chip" onclick="document.getElementById('findSearch').value='điểm rèn luyện'; search('điểm rèn luyện');">🏆 ${currentLang === 'eng' ? 'Training Points' : 'Điểm rèn luyện'}</button>
+        <button class="chip" onclick="document.getElementById('findSearch').value='tài liệu'; search('tài liệu');">📚 ${currentLang === 'eng' ? 'Course Materials' : 'Tài liệu học'}</button>
+      </div>`;
+    box.innerHTML = suggestText + suggestChips; 
+    return; 
+  }
   const matches = INDEX[currentLang].filter(x => (x[1] + " " + x[2] + " " + x[3]).toLowerCase().includes(q) || q.split(" ").some(t => (x[1] + " " + x[2] + " " + x[3]).toLowerCase().includes(t)));
   if (matches.length > 0) {
     box.innerHTML = matches.map(x => `
@@ -450,7 +773,7 @@ function openDetail(key, fromScreen = 'find') {
   currentDetailId = key; currentDetailFrom = fromScreen;
   const d = DATA[currentLang][key];
   
-  let backName = "Trở lại";
+  let backName = currentLang === 'eng' ? 'Back' : 'Trở lại';
   if(currentLang === 'eng') {
      const engNames = { 'home': 'Home', 'find': 'Search', 'academic': 'Academic', 'learning': 'Learning', 'drs': 'Points', 'services': 'Services', 'saved': 'Saved' };
      backName = engNames[fromScreen] || 'Back';
@@ -465,6 +788,7 @@ function openDetail(key, fromScreen = 'find') {
     return `<button class="btn ${isSpecialBtn ? "secondary" : ""}" onclick="action(this, '${a}', '${key}')">${a}</button>`;
   }).join("");
   
+  // Lấy thẳng previewHtml từ trong object DATA[currentLang] để tự động chuẩn ngôn ngữ (Việt hoặc Anh)
   const previewBox = d.previewHtml ? d.previewHtml : '';
   const reasonText = currentLang === 'eng' ? 'Why this platform?' : 'Tại sao dùng nền tảng này?';
   const reasonBox = d.reason ? `<div class="notice"><b>${reasonText}</b><br>${d.reason}</div>` : '';
@@ -540,24 +864,33 @@ function sendChat() {
   inputEl.value = ""; history.scrollTop = history.scrollHeight;
 
   setTimeout(() => {
-    let reply = currentLang === 'eng' ? "I'm just a prototype. Tell me your issue!" : "Xin lỗi, mình là Prototype. Bạn hãy chia sẻ 'vấn đề' bạn gặp nhé!";
+    let reply = "";
     let actionBtn = "";
     const lowerMsg = msg.toLowerCase();
-    const intentLich = /phòng thi|lịch thi|lịch học|thời khóa biểu|quên phòng|thi ở đâu|xem lịch|phòng mấy|schedule|exam|class/i;
-    const intentDiem = /điểm|rèn luyện|drs|cộng điểm|thiếu điểm|chưa có điểm|khiếu nại|point/i;
+    
+    const intentLich = /phòng|thi|lịch|thời khóa biểu|học|exam|schedule|class|khi nào|ở đâu/i;
+    const intentDiem = /đrl|điểm rèn luyện|rèn luyện|drs|cộng điểm|thiếu|chưa có|khiếu nại|point/i;
     const intentTaiLieu = /tài liệu|bài giảng|slide|lms|bài tập|đạo văn|turnitin|material/i;
+    const intentChao = /chào|hi|hello|Alo|giúp mình|xin chào/i;
 
-    if (intentLich.test(lowerMsg)) {
+    if (intentDiem.test(lowerMsg)) {
+      reply = currentLang === 'eng' ? "Checking your training points? Handle it on UEH DRS:" : "Bạn đang muốn tra cứu điểm rèn luyện (ĐRL) hoặc khiếu nại? Vấn đề này thuộc về hệ thống UEH DRS:";
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('points');">${currentLang === 'eng' ? 'Open DRS' : 'Tra cứu điểm rèn luyện'}</button>`;
+    }
+    else if (intentLich.test(lowerMsg)) {
       reply = currentLang === 'eng' ? "Looking for exam rooms or schedules? Check UEH Student:" : "Bạn muốn tra cứu lịch học hoặc phòng thi? Thông tin này nằm trên UEH Student:";
       actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('exam');">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
     } 
-    else if (intentDiem.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Missing training points? Handle it on UEH DRS:" : "Bạn đang quan tâm đến điểm rèn luyện hoặc khiếu nại? Vấn đề này thuộc về hệ thống UEH DRS:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('points');">${currentLang === 'eng' ? 'Open DRS' : 'Tra cứu điểm rèn luyện'}</button>`;
-    }
     else if (intentTaiLieu.test(lowerMsg)) {
       reply = currentLang === 'eng' ? "Need course materials or Turnitin? Go to UEH LMS:" : "Để tìm tài liệu môn học, làm bài quiz hay nộp Turnitin, lên UEH LMS nhé:";
       actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('materials');">${currentLang === 'eng' ? 'Find Materials' : 'Tìm tài liệu môn học'}</button>`;
+    }
+    else if (intentChao.test(lowerMsg)) {
+      reply = currentLang === 'eng' ? "Hello freshman! How can I help you find your way around UEH systems today?" : "Chào tân sinh viên! Bạn đang cần tìm thông tin hoặc hệ thống nào của trường?";
+    }
+    else {
+      reply = currentLang === 'eng' ? "I understand you are looking for assistance. Let me route you to your class and exam schedule:" : "Mình hiểu vấn đề của bạn. Để kiểm tra thông tin lịch trình và phòng ốc, bạn hãy mở lối tắt này:";
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('exam');">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
     }
 
     history.innerHTML += `<div style="align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">${reply}${actionBtn}</div>`;
@@ -569,8 +902,8 @@ function toggleChat() { const c = document.getElementById("chat"); c.style.displ
 function toast(t) { const e = document.getElementById("toast"); e.textContent = t; e.style.display = "block"; clearTimeout(window.__t); window.__t = setTimeout(() => e.style.display = "none", 2200); }
 function toggleSettings() { const menu = document.getElementById("settingsDropdown"); menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none"; }
 
-
 const TEXT_DICT = {
+  "Hãy nhập tác vụ bạn muốn tìm, hoặc thử gợi ý sau:": "Please type a task above, or try a suggestion:",
   "Chào mừng đến với Freshman Hub": "Welcome to Freshman Hub",
   "Bạn đang gặp khó khăn gì?": "What do you need to find?",
   "Tìm kiếm một lần. Đến đúng hệ thống cần thiết của UEH mà không cần phải đoán mò hay nhớ tên trang web.": "Search once. Get the right platform without guessing which UEH system to open.",
@@ -631,17 +964,35 @@ function changeAppLanguage(lang) {
   currentLang = (lang === 'en') ? 'eng' : lang; 
   const dict = currentLang === 'eng' ? TEXT_DICT : engToVi;
 
-  
+ 
   const sidebarDict = currentLang === 'eng' ? { home: "⌂ Home", find: "⌕ Search", academic: "📅 Academic", learning: "📚 Learning", drs: "🏆 Points", services: "🎓 Services", saved: "🔖 Saved", cat1: "CATEGORIES", cat2: "PERSONAL" } : { home: "⌂ Trang chủ", find: "⌕ Tìm kiếm", academic: "📅 Học tập & Lịch trình", learning: "📚 Tài liệu & Bài tập", drs: "🏆 Điểm rèn luyện", services: "🎓 Dịch vụ Sinh viên", saved: "🔖 Lộ trình đã lưu", cat1: "Danh mục", cat2: "Cá nhân" };
-  document.querySelector('[data-nav="home"]').innerText = sidebarDict.home; document.querySelector('[data-nav="find"]').innerText = sidebarDict.find; document.querySelector('[data-nav="academic"]').innerText = sidebarDict.academic; document.querySelector('[data-nav="learning"]').innerText = sidebarDict.learning; document.querySelector('[data-nav="drs"]').innerText = sidebarDict.drs; document.querySelector('[data-nav="services"]').innerText = sidebarDict.services; document.querySelector('[data-nav="saved"]').innerText = sidebarDict.saved;
-  const labels = document.querySelectorAll('.sidebar div'); if(labels.length >= 2) { labels[0].innerText = sidebarDict.cat1; labels[1].innerText = sidebarDict.cat2; }
+  document.querySelector('[data-nav="home"]').innerText = sidebarDict.home; 
+  document.querySelector('[data-nav="find"]').innerText = sidebarDict.find; 
+  document.querySelector('[data-nav="academic"]').innerText = sidebarDict.academic; 
+  document.querySelector('[data-nav="learning"]').innerText = sidebarDict.learning; 
+  document.querySelector('[data-nav="drs"]').innerText = sidebarDict.drs; 
+  document.querySelector('[data-nav="services"]').innerText = sidebarDict.services; 
+  document.querySelector('[data-nav="saved"]').innerText = sidebarDict.saved;
+  const labels = document.querySelectorAll('.sidebar div'); 
+  if(labels.length >= 2) { labels[0].innerText = sidebarDict.cat1; labels[1].innerText = sidebarDict.cat2; }
 
-  
-  const walker = document.createTreeWalker(document.querySelector('main'), NodeFilter.SHOW_TEXT, null, false);
-  let node;
-  while (node = walker.nextNode()) {
-      let text = node.nodeValue.trim();
-      if (dict[text]) node.nodeValue = node.nodeValue.replace(text, dict[text]);
+
+const mainEl = document.querySelector('main');
+  if (mainEl) {
+    const walker = document.createTreeWalker(mainEl, NodeFilter.SHOW_TEXT, {
+        acceptNode: function(node) {
+            // Loại trừ hoàn toàn không quét vào vùng mock-data để bảo toàn khung giao diện mẫu
+            if (node.parentElement && node.parentElement.closest('.mock-data')) {
+                return NodeFilter.FILTER_REJECT;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+        }
+    }, false);
+    let node;
+    while (node = walker.nextNode()) {
+        let text = node.nodeValue.trim();
+        if (dict[text]) node.nodeValue = node.nodeValue.replace(text, dict[text]);
+    }
   }
   
   
@@ -649,7 +1000,22 @@ function changeAppLanguage(lang) {
   const search2 = document.getElementById('findSearch'); if(search2) search2.placeholder = currentLang === 'eng' ? "What are you trying to find?" : "Bạn cần tìm gì?";
   document.querySelectorAll('.search .btn').forEach(btn => btn.innerText = currentLang === 'eng' ? "Search" : "Tìm kiếm");
 
-  
+ 
+  const userLbl = document.getElementById("userLabel");
+  if (userLbl && (userLbl.textContent === "Chưa đăng nhập" || userLbl.textContent === "Not signed in")) {
+      userLbl.textContent = currentLang === 'eng' ? "Not signed in" : "Chưa đăng nhập";
+  }
+  const loginH1 = document.querySelector("#loginScreen h1");
+  if (loginH1) loginH1.innerText = currentLang === 'eng' ? "Single Sign-On (SSO)" : "Đăng nhập một lần (SSO)";
+  const loginP = document.querySelector("#loginScreen p");
+  if (loginP) loginP.innerHTML = currentLang === 'eng' ? "Use your <b>@st.ueh.edu.vn</b> email to automatically sync your schedule, grades, and data from UEH systems." : "Sử dụng tài khoản email <b>@st.ueh.edu.vn</b> để tự động đồng bộ thời khóa biểu, điểm số và dữ liệu từ các hệ thống UEH.";
+  const loginBtnText = document.getElementById("loginBtn");
+  if (loginBtnText) loginBtnText.innerText = currentLang === 'eng' ? "Sign in with UEH Account" : "Đăng nhập bằng tài khoản UEH";
+  const loadP1 = document.querySelector("#loadingState p:nth-of-type(1)");
+  if (loadP1) loadP1.innerText = currentLang === 'eng' ? "Syncing data from UEH Student and LMS..." : "Đang đồng bộ dữ liệu từ UEH Student và LMS...";
+  const loadP2 = document.querySelector("#loadingState p:nth-of-type(2)");
+  if (loadP2) loadP2.innerText = currentLang === 'eng' ? "This process takes about 2 seconds" : "Quá trình này mất khoảng 2 giây";
+
   renderActions();
   renderSaved();
   if (document.getElementById('detail').classList.contains('active') && currentDetailId) {
