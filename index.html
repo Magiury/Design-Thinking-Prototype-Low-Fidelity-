@@ -380,23 +380,34 @@ const INDEX = {
   ]
 };
 let saved = [];
-let currentUserKey = "uehSaved_guest"; 
+
+// Khôi phục dữ liệu nếu người dùng lỡ nhấn F5 (chỉ trong nội bộ Tab đang mở)
+try { 
+  let stored = sessionStorage.getItem("uehSaved_temp"); 
+  if (stored) saved = JSON.parse(stored); 
+} catch (e) {}
+
 function safeSaveToStorage() { 
-  try { localStorage.setItem(currentUserKey, JSON.stringify(saved)); } catch (e) {} 
+  // Dùng sessionStorage: Mở tab mới là không gian lưu trữ mới tinh, không bị trùng lặp
+  try { sessionStorage.setItem("uehSaved_temp", JSON.stringify(saved)); } catch (e) {} 
 }
 
 function login() {
+  document.getElementById("loginBtn").style.display = "none";
+  document.getElementById("loadingState").style.display = "block";
   
-  let userName = prompt(currentLang === 'eng' ? "Enter your Name or ID to create a separate workspace:" : "Nhập Tên hoặc MSSV để tạo không gian lưu trữ riêng biệt:", "Tester 1");
-  if (!userName) userName = "Unknown name";
-
-  currentUserKey = "uehSaved_" + userName.toLowerCase().replace(/\s/g, '');
-  
-  try { 
-    let stored = localStorage.getItem(currentUserKey); 
-    if (stored) saved = JSON.parse(stored); 
-    else saved = []; 
-  } catch (e) { saved = []; }
+  setTimeout(() => {
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("mainApp").style.display = "block";
+    
+    // Tự động tạo một cái tên ngẫu nhiên (VD: Tester 492) để góc phải nhìn có vẻ cá nhân hóa
+    document.getElementById("userLabel").textContent = "Tester " + Math.floor(Math.random() * 1000);
+    
+    renderActions(); 
+    renderSaved();
+    toast(currentLang === 'eng' ? "Data synced successfully!" : "Đã đồng bộ dữ liệu thành công!");
+  }, 1500);
+}
 
   document.getElementById("loginBtn").style.display = "none";
   document.getElementById("loadingState").style.display = "block";
