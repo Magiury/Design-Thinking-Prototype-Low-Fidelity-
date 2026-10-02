@@ -92,26 +92,28 @@ p{color:var(--muted);line-height:1.6}
     </div>
     
     <div style="display: flex; align-items: center; gap: 16px; position: relative;">
-      <div class="user" id="userLabel">Not signed in</div>
+      <div class="user" id="userLabel">Unknown name</div>
       
       
       <button onclick="toggleSettings()" style="background: transparent; border: none; color: #fff; font-size: 26px; cursor: pointer; padding: 0; line-height: 1;" title="Cài đặt">
         ☰
       </button>
       
+      
       <div id="settingsDropdown" style="display: none; position: absolute; top: 45px; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); width: 240px; z-index: 100; color: var(--text); text-align: left;">
         <div style="padding: 14px 16px; border-bottom: 1px solid var(--border); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px;">
           ⚙️ Cài đặt chung
         </div>
         <div style="padding: 16px;">
-         
-          <button class="btn secondary" style="width: 100%; margin-bottom: 12px; font-size: 13px; padding: 8px;" onclick="openDetail('personal', 'home'); toggleSettings();">
+          
+          
+          <button class="btn secondary" style="width: 100%; margin-bottom: 15px; font-size: 13px; padding: 10px;" onclick="openDetail('personal', 'home'); toggleSettings();">
             👤 Mở Hồ sơ & Cài đặt
           </button>
           
           <div style="font-size: 13px; margin-bottom: 8px; font-weight: 600; color: var(--muted);">🌐 Ngôn ngữ (Language)</div>
-          <select onchange="changeAppLanguage(this.value); toggleSettings();" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; cursor: pointer; font-size: 14px;">
-            <option value="vi">Tiếng Việt (Mặc định)</option>
+          <select id="langSelect" onchange="changeAppLanguage(this.value); toggleSettings();" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; cursor: pointer; font-size: 14px;">
+            <option value="vi">Tiếng Việt</option>
             <option value="eng">English</option>
           </select>
         </div>
@@ -608,6 +610,9 @@ const TEXT_DICT = {
   "📅 Lịch thi": "📅 Exam Schedule",
   "🏆 Điểm rèn luyện": "🏆 Training Points",
   "📚 Tài liệu học": "📚 Course Materials"
+  "⚙️ Cài đặt chung": "⚙️ General Settings",
+  "👤 Mở Hồ sơ & Cài đặt": "👤 Open Profile & Settings",
+  "🌐 Ngôn ngữ (Language)": "🌐 Language"
 };
 const engToVi = {}; for (let k in TEXT_DICT) engToVi[TEXT_DICT[k]] = k;
 
