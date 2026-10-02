@@ -788,8 +788,27 @@ function openDetail(key, fromScreen = 'find') {
     return `<button class="btn ${isSpecialBtn ? "secondary" : ""}" onclick="action(this, '${a}', '${key}')">${a}</button>`;
   }).join("");
   
- 
-  const previewBox = d.previewHtml ? d.previewHtml : '';
+  // Xử lý render động riêng cho phần personal để cập nhật chuẩn trạng thái ngôn ngữ hiện tại
+  let previewBox = d.previewHtml ? d.previewHtml : '';
+  if (key === 'personal') {
+    previewBox = `
+      <div class="mock-data" style="background: transparent; border: none; padding: 0; box-shadow: none;">
+        <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+          <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">👤 ${currentLang === 'eng' ? 'Personal Info' : 'Thông tin cá nhân'} ▾</summary>
+          <div style="padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;"><div><strong>${currentLang === 'eng' ? 'Name:' : 'Họ và tên:'}</strong> Unknown name</div><div><strong>${currentLang === 'eng' ? 'ID:' : 'MSSV:'}</strong> ${currentLang === 'eng' ? 'Updating...' : 'Đang cập nhật'}</div><div><strong>${currentLang === 'eng' ? 'Cohort:' : 'Khóa:'}</strong> K52</div><div><strong>${currentLang === 'eng' ? 'Class:' : 'Lớp:'}</strong> DB001</div></div>
+        </details>
+        <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+          <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">⚙️ ${currentLang === 'eng' ? 'Settings' : 'Cài đặt'} ▾</summary>
+          <div style="padding: 15px; font-size: 14px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span>🌐 ${currentLang === 'eng' ? 'Language' : 'Ngôn ngữ'}</span>
+            <select onchange="changeAppLanguage(this.value)" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); outline: none; font-weight: 600; cursor: pointer;">
+              <option value="vi" ${currentLang === 'vi' ? 'selected' : ''}>Tiếng Việt</option>
+              <option value="eng" ${currentLang === 'eng' ? 'selected' : ''}>English</option>
+            </select>
+          </div></div>
+        </details>
+      </div>`;
+  }
+
   const reasonText = currentLang === 'eng' ? 'Why this platform?' : 'Tại sao dùng nền tảng này?';
   const reasonBox = d.reason ? `<div class="notice"><b>${reasonText}</b><br>${d.reason}</div>` : '';
   const routeText = currentLang === 'eng' ? 'Short Navigation Route' : 'Lộ trình Điều hướng Nhanh';
