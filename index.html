@@ -727,7 +727,7 @@ function login() {
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("mainApp").style.display = "block";
     
-    // Đã thay đổi trở lại "Unknown name" theo đúng feedback của Giảng viên
+
     document.getElementById("userLabel").textContent = "Unknown name";
     
     renderActions(); 
@@ -788,7 +788,7 @@ function openDetail(key, fromScreen = 'find') {
     return `<button class="btn ${isSpecialBtn ? "secondary" : ""}" onclick="action(this, '${a}', '${key}')">${a}</button>`;
   }).join("");
   
-  // Lấy thẳng previewHtml từ trong object DATA[currentLang] để tự động chuẩn ngôn ngữ (Việt hoặc Anh)
+ 
   const previewBox = d.previewHtml ? d.previewHtml : '';
   const reasonText = currentLang === 'eng' ? 'Why this platform?' : 'Tại sao dùng nền tảng này?';
   const reasonBox = d.reason ? `<div class="notice"><b>${reasonText}</b><br>${d.reason}</div>` : '';
@@ -981,7 +981,7 @@ const mainEl = document.querySelector('main');
   if (mainEl) {
     const walker = document.createTreeWalker(mainEl, NodeFilter.SHOW_TEXT, {
         acceptNode: function(node) {
-            // Loại trừ hoàn toàn không quét vào vùng mock-data để bảo toàn khung giao diện mẫu
+            
             if (node.parentElement && node.parentElement.closest('.mock-data')) {
                 return NodeFilter.FILTER_REJECT;
             }
