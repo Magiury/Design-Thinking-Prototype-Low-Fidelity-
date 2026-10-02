@@ -99,12 +99,16 @@ p{color:var(--muted);line-height:1.6}
         ☰
       </button>
       
-      
       <div id="settingsDropdown" style="display: none; position: absolute; top: 45px; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); width: 240px; z-index: 100; color: var(--text); text-align: left;">
         <div style="padding: 14px 16px; border-bottom: 1px solid var(--border); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px;">
           ⚙️ Cài đặt chung
         </div>
         <div style="padding: 16px;">
+         
+          <button class="btn secondary" style="width: 100%; margin-bottom: 12px; font-size: 13px; padding: 8px;" onclick="openDetail('personal', 'home'); toggleSettings();">
+            👤 Mở Hồ sơ & Cài đặt
+          </button>
+          
           <div style="font-size: 13px; margin-bottom: 8px; font-weight: 600; color: var(--muted);">🌐 Ngôn ngữ (Language)</div>
           <select onchange="changeAppLanguage(this.value); toggleSettings();" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; cursor: pointer; font-size: 14px;">
             <option value="vi">Tiếng Việt (Mặc định)</option>
@@ -373,23 +377,38 @@ const INDEX = {
     ["turnitin", "plagiarism đạo văn", "Plagiarism Check", "UEH LMS"]
   ]
 };
-
 let saved = [];
-try { let stored = localStorage.getItem("uehSaved"); if (stored) saved = JSON.parse(stored); } catch (e) {}
-function safeSaveToStorage() { try { localStorage.setItem("uehSaved", JSON.stringify(saved)); } catch (e) {} }
+let currentUserKey = "uehSaved_guest"; 
+function safeSaveToStorage() { 
+  try { localStorage.setItem(currentUserKey, JSON.stringify(saved)); } catch (e) {} 
+}
 
 function login() {
+  
+  let userName = prompt(currentLang === 'eng' ? "Enter your Name or ID to create a separate workspace:" : "Nhập Tên hoặc MSSV để tạo không gian lưu trữ riêng biệt:", "Tester 1");
+  if (!userName) userName = "Unknown name";
+
+  currentUserKey = "uehSaved_" + userName.toLowerCase().replace(/\s/g, '');
+  
+  try { 
+    let stored = localStorage.getItem(currentUserKey); 
+    if (stored) saved = JSON.parse(stored); 
+    else saved = []; 
+  } catch (e) { saved = []; }
+
   document.getElementById("loginBtn").style.display = "none";
   document.getElementById("loadingState").style.display = "block";
+  
   setTimeout(() => {
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("mainApp").style.display = "block";
-    document.getElementById("userLabel").textContent = "Unknown name";
-    renderActions(); renderSaved();
+    document.getElementById("userLabel").textContent = userName;
+    
+    renderActions(); 
+    renderSaved();
     toast(currentLang === 'eng' ? "Data synced successfully!" : "Đã đồng bộ dữ liệu thành công!");
-  }, 2000);
+  }, 1500);
 }
-
 function show(id, btn) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   const el = document.getElementById(id); if (el) el.classList.add("active");
