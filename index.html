@@ -1056,6 +1056,24 @@ const mainEl = document.querySelector('main');
     show('home', null, false);
   }
 });
+  // Kích hoạt tất cả thanh điều hướng (breadcrumb) thành nút bấm về Trang chủ
+document.querySelectorAll('.screen > .breadcrumb').forEach(el => {
+  el.style.cursor = 'pointer';
+  el.title = 'Quay về trang chủ';
+  
+  // Lệnh quay lại màn hình chính
+  el.addEventListener('click', () => show('home'));
+  
+  // Thêm hiệu ứng đổi màu khi đưa chuột/bấm vào
+  el.addEventListener('mouseenter', () => { 
+    el.style.color = 'var(--primary)'; 
+    el.style.fontWeight = '700'; 
+  });
+  el.addEventListener('mouseleave', () => { 
+    el.style.color = 'var(--muted)'; 
+    el.style.fontWeight = 'normal'; 
+  });
+});
 </script>
 </body>
 </html>
