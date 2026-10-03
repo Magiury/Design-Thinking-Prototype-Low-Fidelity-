@@ -192,7 +192,7 @@ p{color:var(--muted);line-height:1.6}
         </section>
 
         <section id="academic" class="screen">
-          <div class="breadcrumb">Trang chủ / Học tập & Lịch trình</div>
+          <div class="breadcrumb"><span onclick="show('home')" style="cursor:pointer; font-weight:700; color:var(--primary)">Trang chủ</span> / Học tập & Lịch trình</div>
           <h1>Học tập & Lịch trình</h1><p>Quản lý thời khóa biểu và lịch thi.</p>
           <div class="grid">
             <div class="card clickable" onclick="openDetail('exam', 'academic')"><div class="icon">🗓️</div><h3>Lịch học & Lịch thi</h3><p>Tra cứu phòng học, phòng thi chính thức.</p></div>
@@ -200,7 +200,7 @@ p{color:var(--muted);line-height:1.6}
         </section>
 
         <section id="learning" class="screen">
-          <div class="breadcrumb">Trang chủ / Tài liệu & Bài tập</div>
+          <div class="breadcrumb"><span onclick="show('home')" style="cursor:pointer; font-weight:700; color:var(--primary)">Trang chủ</span> / Tài liệu & Bài tập</div>
           <h1>Tài liệu & Bài tập</h1><p>Truy cập tài nguyên học tập từ giảng viên.</p>
           <div class="grid">
             <div class="card clickable" onclick="openDetail('materials', 'learning')"><div class="icon">📄</div><h3>Tài liệu môn học</h3><p>Lấy file bài giảng, slide trên LMS.</p></div>
@@ -210,7 +210,7 @@ p{color:var(--muted);line-height:1.6}
         </section>
 
         <section id="drs" class="screen">
-          <div class="breadcrumb">Trang chủ / Điểm rèn luyện</div>
+          <div class="breadcrumb"><span onclick="show('home')" style="cursor:pointer; font-weight:700; color:var(--primary)">Trang chủ</span> / Điểm rèn luyện</div>
           <h1>Hoạt động & Điểm rèn luyện</h1><p>Theo dõi tiến trình ngoại khóa của bạn.</p>
           <div class="grid">
             <div class="card clickable" onclick="openDetail('points', 'drs')"><div class="icon">🏆</div><h3>Tra cứu điểm</h3><p>Kiểm tra tổng điểm và chi tiết tiêu chí.</p></div>
@@ -220,7 +220,7 @@ p{color:var(--muted);line-height:1.6}
         </section>
 
         <section id="services" class="screen">
-          <div class="breadcrumb">Trang chủ / Dịch vụ Sinh viên</div>
+          <div class="breadcrumb"><span onclick="show('home')" style="cursor:pointer; font-weight:700; color:var(--primary)">Trang chủ</span> / Dịch vụ Sinh viên</div>
           <h1>Dịch vụ Sinh viên</h1><p>Quản lý hồ sơ và các dịch vụ hành chính.</p>
           <div class="grid">
             <div class="card clickable" onclick="openDetail('personal', 'services')"><div class="icon">👤</div><h3>Hồ sơ & Cài đặt</h3><p>Cập nhật thông tin và chỉnh ngôn ngữ.</p></div>
@@ -229,7 +229,7 @@ p{color:var(--muted);line-height:1.6}
         </section>
 
         <section id="saved" class="screen">
-          <div class="breadcrumb">Trang chủ / Lộ trình đã lưu</div><h1>Lộ trình đã lưu</h1><p>Các lối tắt bạn đã ghim để truy cập nhanh.</p>
+          <div class="breadcrumb"><span onclick="show('home')" style="cursor:pointer; font-weight:700; color:var(--primary)">Trang chủ</span> / Lộ trình đã lưu</div><h1>Lộ trình đã lưu</h1><p>Các lối tắt bạn đã ghim để truy cập nhanh.</p>
           <div id="savedList"></div>
         </section>
       </main>
@@ -733,6 +733,7 @@ function login() {
     renderActions(); 
     renderSaved();
     toast(currentLang === 'eng' ? "Data synced successfully!" : "Đã đồng bộ dữ liệu thành công!");
+    history.replaceState({ screen: 'home', type: 'main' }, "", "#home");
   }, 1500);
 }
 
@@ -771,7 +772,7 @@ function search(q) {
   } else { box.innerHTML = `<div class="notice">${currentLang === 'eng' ? 'No exact match found.' : 'Không tìm thấy kết quả khớp.'}</div>`; }
 }
 
-function openDetail(key, fromScreen = 'find') {
+function openDetail(key, fromScreen = 'find', pushHistory = true) {
   currentDetailId = key; currentDetailFrom = fromScreen;
   const d = DATA[currentLang][key];
   
@@ -826,8 +827,10 @@ function openDetail(key, fromScreen = 'find') {
       <div class="steps">${stepsHtml}</div>
       <div class="row" style="justify-content:flex-start; flex-wrap:wrap">${actionsHtml}</div>
     </div>`;
-  show("detail");
+  show("detail", null, false);
+  if (pushHistory) history.pushState({ screen: key, from: fromScreen, type: 'detail' }, "", `#detail-${key}`);
 }
+
 
 function action(btn, a, key) {
   const al = a.toLowerCase();
@@ -1045,6 +1048,14 @@ const mainEl = document.querySelector('main');
   
   toast(currentLang === 'eng' ? "Interface language switched to English" : "Đã chuyển giao diện sang Tiếng Việt");
 }
+  window.addEventListener('popstate', (e) => {
+  if (e.state) {
+    if (e.state.type === 'detail') openDetail(e.state.screen, e.state.from, false);
+    else show(e.state.screen, null, false);
+  } else {
+    show('home', null, false);
+  }
+});
 </script>
 </body>
 </html>
