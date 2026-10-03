@@ -77,8 +77,8 @@ p{color:var(--muted);line-height:1.6}
 <body>
 <div class="app">
  <header class="topbar">
-    <div class="brand">
-      <img src="https://ueh.edu.vn/images/logo-ueh-deparment.png" alt="UEH Logo" style="height: 38px; object-fit: contain;">
+  <div class="brand" onclick="show('home')" style="cursor: pointer;" title="Về trang chủ">
+  <img src="https://ueh.edu.vn/images/logo-ueh-deparment.png" alt="UEH Logo" style="height: 38px; object-fit: contain;">
       <div style="font-size: 16px; border-left: 2px solid rgba(255,255,255,0.3); padding-left: 12px; margin-left: 4px; font-weight: 600;">
         Freshman Hub
       </div>
@@ -170,7 +170,7 @@ p{color:var(--muted);line-height:1.6}
         </section>
 
         <section id="find" class="screen">
-          <div class="breadcrumb">Trang chủ / Tìm kiếm</div>
+          <div class="breadcrumb"><span onclick="show('home')" style="cursor:pointer; font-weight:700; color:var(--primary)">Trang chủ</span> / Tìm kiếm</div>
           <h1>Kết quả tìm kiếm</h1>
           <p>Dựa trên vấn đề của bạn, đây là nền tảng phù hợp nhất để giải quyết.</p>
           <div class="search">
@@ -736,13 +736,15 @@ function login() {
   }, 1500);
 }
 
-function show(id, btn) {
+function show(id, btn, pushHistory = true) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   const el = document.getElementById(id); if (el) el.classList.add("active");
   document.querySelectorAll(".navbtn").forEach(b => b.classList.remove("active"));
   if (btn) btn.classList.add("active");
   else { const n = document.querySelector(`[data-nav="${id}"]`); if (n) n.classList.add("active"); }
   window.scrollTo({ top: 0, behavior: "smooth" });
+  
+  if (pushHistory) history.pushState({ screen: id, type: 'main' }, "", `#${id}`);
 }
 
 function search(q) {
