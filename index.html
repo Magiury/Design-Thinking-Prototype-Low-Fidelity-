@@ -33,7 +33,7 @@ p{color:var(--muted);line-height:1.6}
 .hero {background:linear-gradient(135deg,#005c5a,#007a75);color:#fff;border-radius:24px;padding:34px;box-shadow:var(--shadow);margin-bottom:22px}
 .hero p {color:#e0f2f1;max-width:720px}
 .search{display:flex;gap:10px;margin-top:20px}
-.search input{flex:1;padding:15px 17px;border-radius:14px;border:1px solid rgba(255,255,255,.3);background:#fff;color:var(--text);outline:none}
+.search input { width: 100%; padding: 15px 17px; border-radius: 14px; border: 1px solid rgba(255,255,255,.3); background: #fff; color: var(--text); outline: none; box-sizing: border-box; font-size: 15px; }
 .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;background:var(--primary);color:#fff;transition:.2s}
 .btn.secondary{background:#eef3ff;color:var(--primary)}
 .btn.ghost{background:#fff;color:var(--primary);border:1px solid var(--border)}
@@ -72,13 +72,50 @@ p{color:var(--muted);line-height:1.6}
 .mock-info strong { color: var(--text); font-size: 15px; }
 .mock-info span { font-size: 13px; color: var(--muted); display: block; margin-top: 4px; }
 .mock-file { display: flex; align-items: center; gap: 12px; padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #e3e7ef; margin-bottom: 8px; font-size: 14px; }
+/* 1. Hiệu ứng chuyển trang (Fade-in) */
+.screen.active { animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 2. Giao diện Live Search */
+.search-wrapper { position: relative; flex: 1; }
+.live-search-results { position: absolute; top: 110%; left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 100; display: none; overflow: hidden; max-height: 260px; overflow-y: auto; }
+.live-item { padding: 12px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; border-bottom: 1px solid #f0f0f0; transition: background 0.2s; color: var(--text); }
+.live-item:hover { background: #f8f9fc; }
+.live-item:last-child { border-bottom: none; }
+
+/* 3. Giao diện Chat nâng cấp (Gợi ý & Typing) */
+.quick-replies { display: flex; gap: 8px; padding: 10px 14px; overflow-x: auto; border-top: 1px solid var(--border); background: #f8f9fc; }
+.quick-replies::-webkit-scrollbar { height: 0; display: none; }
+.qr-btn { white-space: nowrap; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--primary); color: var(--primary); background: #fff; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+.qr-btn:hover { background: var(--primary); color: #fff; }
+.typing { display: none; padding: 12px 16px; background: #fff; border: 1px solid var(--border); border-radius: 12px 12px 12px 2px; align-self: flex-start; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+.dot { display: inline-block; width: 6px; height: 6px; background: var(--muted); border-radius: 50%; margin: 0 2px; animation: bounce 1.3s linear infinite; }
+.dot:nth-child(2) { animation-delay: -1.1s; }
+.dot:nth-child(3) { animation-delay: -0.9s; }
+@keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
+/* Dark Mode Colors & Overrides */
+body.dark-mode {
+  --bg: #0f172a; --surface: #1e293b; --text: #f8fafc; --muted: #94a3b8;
+  --primary: #0f766e; --primary2: #115e59; --border: #334155;
+  --shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+body.dark-mode .sidebar, body.dark-mode .topbar, body.dark-mode .card, body.dark-mode .detail, body.dark-mode .result, body.dark-mode .step, body.dark-mode .mock-data, body.dark-mode .mock-item, body.dark-mode .mock-file, body.dark-mode .chat, body.dark-mode .typing, body.dark-mode .login-card, body.dark-mode #settingsDropdown, body.dark-mode .live-search-results {
+  background: var(--surface); border-color: var(--border);
+}
+body.dark-mode input, body.dark-mode select { background: #0f172a; border-color: var(--border); color: var(--text); }
+body.dark-mode .step, body.dark-mode .quick-replies, body.dark-mode .icon, body.dark-mode summary { background: #334155 !important; }
+body.dark-mode .hero { background: linear-gradient(135deg, #0f766e, #134e4a); }
+
+/* Bảng tin Deadline */
+.alert-banner { background: var(--danger); color: #fff; padding: 10px 28px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; z-index: 15; position: sticky; top: 68px; }
+.alert-label { background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 4px; font-weight: bold; margin-right: 10px; font-size: 11px; letter-spacing: 0.5px; }
 </style>
 </head>
 <body>
 <div class="app">
- <header class="topbar">
-  <div class="brand" onclick="show('home')" style="cursor: pointer;" title="Về trang chủ">
-  <img src="https://ueh.edu.vn/images/logo-ueh-deparment.png" alt="UEH Logo" style="height: 38px; object-fit: contain;">
+<header class="topbar">
+    <div class="brand" onclick="show('home')" style="cursor: pointer;" title="Về trang chủ">
+      <img src="https://ueh.edu.vn/images/logo-ueh-deparment.png" alt="UEH Logo" style="height: 38px; object-fit: contain;">
       <div style="font-size: 16px; border-left: 2px solid rgba(255,255,255,0.3); padding-left: 12px; margin-left: 4px; font-weight: 600;">
         Freshman Hub
       </div>
@@ -86,6 +123,8 @@ p{color:var(--muted);line-height:1.6}
     
     <div style="display: flex; align-items: center; gap: 16px; position: relative;">
       <div class="user" id="userLabel">Chưa đăng nhập</div>
+      
+      <button id="darkModeToggle" onclick="toggleDarkMode()" style="background: transparent; border: none; color: #fff; font-size: 22px; cursor: pointer; padding: 0; line-height: 1; margin-right: 8px;" title="Chế độ Tối">🌙</button>
       
       <button onclick="toggleSettings()" style="background: transparent; border: none; color: #fff; font-size: 26px; cursor: pointer; padding: 0; line-height: 1;" title="Cài đặt">
         ☰
@@ -108,6 +147,14 @@ p{color:var(--muted);line-height:1.6}
       </div>
     </div>
   </header>
+
+  <div id="alertBanner" class="alert-banner">
+    <div>
+      <span id="alertLabel" class="alert-label">CẬP NHẬT</span>
+      <span id="alertText">Đừng quên lịch đăng ký học phần Học kỳ 2 sắp mở vào 08:00 ngày 15/10!</span>
+    </div>
+    <button onclick="document.getElementById('alertBanner').style.display='none'" style="background: transparent; border: none; color: #fff; cursor: pointer; font-size: 16px;">✕</button>
+  </div>
 
   <div id="loginScreen" class="login-wrap">
     <div class="login-card">
@@ -146,12 +193,15 @@ p{color:var(--muted);line-height:1.6}
       <main class="main">
         <section id="home" class="screen active">
           <div class="hero">
-            <div class="eyebrow" style="color:#ffd3ba">Chào mừng đến với Freshman Hub</div>
+            <div class="eyebrow" id="greetingText" style="color:#ffd3ba">Chào mừng đến với Freshman Hub</div>
             <h1>Bạn đang gặp khó khăn gì?</h1>
             <p>Tìm kiếm một lần. Đến đúng hệ thống cần thiết của UEH mà không cần phải đoán mò hay nhớ tên trang web.</p>
             <div class="search">
-              <input id="homeSearch" placeholder="VD: quên phòng thi, thiếu điểm rèn luyện, tìm bài giảng..." onkeydown="if(event.key==='Enter') search(this.value)">
-              <button class="btn" onclick="search(document.getElementById('homeSearch').value)">Tìm kiếm</button>
+              <div class="search-wrapper">
+                <input id="homeSearch" autocomplete="off" placeholder="VD: quên phòng thi, thiếu điểm rèn luyện, tìm bài giảng..." oninput="liveSearch(this.value)" onkeydown="if(event.key==='Enter') { document.getElementById('liveSearchResults').style.display='none'; search(this.value); }">
+                <div id="liveSearchResults" class="live-search-results"></div>
+              </div>
+              <button class="btn search-btn" onclick="document.getElementById('liveSearchResults').style.display='none'; search(document.getElementById('homeSearch').value)">Tìm kiếm</button>
             </div>
             <div class="chips" style="margin-top: 15px;">
               <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('lịch thi')">📅 Lịch thi</button>
@@ -243,16 +293,22 @@ p{color:var(--muted);line-height:1.6}
       <div style="display: flex; align-items: center; gap: 10px;">
         <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 50%; display: grid; place-items: center; font-size: 16px;">🤖</div>
         <div>
-          <h3 style="margin: 0; font-size: 15px; color: #fff;">Trợ lý ảo Hub</h3>
-          <div style="font-size: 11px; color: #a7f3d0; font-weight: 600;">● Sẵn sàng hỗ trợ K52</div>
+          <h3 id="chatTitle" style="margin: 0; font-size: 15px; color: #fff;">Trợ lý ảo Hub</h3>
+          <div id="chatStatus" style="font-size: 11px; color: #a7f3d0; font-weight: 600;">● Sẵn sàng hỗ trợ K52</div>
         </div>
       </div>
       <button class="btn ghost" style="width: 28px; height: 28px; padding: 0; display: grid; place-items: center; border-radius: 8px; border: none; font-size: 20px; color: #fff; background: transparent; cursor: pointer;" onclick="toggleChat()">×</button>
     </div>
     <div id="chatHistory" style="flex: 1; padding: 20px; overflow-y: auto; background: #f8f9fc; display: flex; flex-direction: column; gap: 12px;">
-      <div style="align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-        Chào bạn! 👋 Mình là trợ lý ảo của Hub. Bạn có thể gõ câu hỏi vào bên dưới (ví dụ: "Làm sao tra điểm rèn luyện?")
+      <div id="chatWelcome" style="align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+        Chào bạn! 👋 Mình là trợ lý ảo của Hub. Bạn có thể chọn câu hỏi nhanh bên dưới hoặc gõ để mình hỗ trợ nha.
       </div>
+      <div id="chatTyping" class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    </div>
+    <div class="quick-replies" id="quickReplies">
+      <button class="qr-btn" id="qrExam" onclick="sendChat('Lịch thi & Phòng học')">📅 Lịch thi</button>
+      <button class="qr-btn" id="qrPoints" onclick="sendChat('Tra cứu điểm rèn luyện')">🏆 Điểm rèn luyện</button>
+      <button class="qr-btn" id="qrDocs" onclick="sendChat('Tìm tài liệu môn học')">📚 Tài liệu</button>
     </div>
     <div style="padding: 14px; background: #fff; border-top: 1px solid var(--border); display: flex; gap: 8px;">
       <input id="chatInput" type="text" placeholder="Gõ câu hỏi của bạn..." onkeydown="if(event.key==='Enter') sendChat()" style="flex: 1; padding: 10px 14px; border-radius: 99px; border: 1px solid var(--border); outline: none; font-size: 13px; background: #f3f5f9;">
@@ -264,6 +320,15 @@ p{color:var(--muted);line-height:1.6}
 </div>
 
 <script>
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const btn = document.getElementById("darkModeToggle");
+  const isDark = document.body.classList.contains("dark-mode");
+  btn.innerText = isDark ? "☀️" : "🌙";
+  try { localStorage.setItem("uehDark", isDark); } catch(e) {}
+}
+
+try { if(localStorage.getItem("uehDark") === "true") toggleDarkMode(); } catch(e) {}
 let currentLang = 'vi';
 let currentDetailId = null;
 let currentDetailFrom = null;
@@ -711,6 +776,48 @@ const INDEX = {
 };
 
 let saved = [];
+function liveSearch(q) {
+  const box = document.getElementById("liveSearchResults");
+  q = q.toLowerCase().trim();
+  if (!q) { box.style.display = "none"; return; }
+  
+  const matches = INDEX[currentLang].filter(x => (x[1] + " " + x[2] + " " + x[3]).toLowerCase().includes(q) || q.split(" ").some(t => (x[1] + " " + x[2] + " " + x[3]).toLowerCase().includes(t))).slice(0, 4);
+  
+  if (matches.length > 0) {
+    box.innerHTML = matches.map(x => `
+      <div class="live-item" onclick="document.getElementById('homeSearch').value=''; document.getElementById('liveSearchResults').style.display='none'; openDetail('${x[0]}', 'home')">
+        <span style="font-size:22px">${DATA[currentLang][x[0]].icon}</span>
+        <div style="flex:1">
+          <div style="font-size:14px; font-weight:700; color:var(--primary)">${x[2]}</div>
+          <div style="font-size:12px; color:var(--muted)">Hệ thống: ${x[3]}</div>
+        </div>
+      </div>
+    `).join("");
+    box.style.display = "block";
+  } else {
+    box.style.display = "none";
+  }
+}
+
+document.addEventListener('click', (e) => {
+  if(!e.target.closest('.search-wrapper')) {
+    const box = document.getElementById('liveSearchResults');
+    if(box) box.style.display = 'none';
+  }
+});
+
+function updateGreeting() {
+  const hour = new Date().getHours();
+  let viGreeting, enGreeting;
+  
+  if (hour >= 5 && hour < 12) { viGreeting = "Chào buổi sáng, năng suất nhé! ☀️"; enGreeting = "Good morning, stay productive! ☀️"; }
+  else if (hour >= 12 && hour < 18) { viGreeting = "Chào buổi chiều! 🌤️"; enGreeting = "Good afternoon! 🌤"; }
+  else if (hour >= 18 && hour < 23) { viGreeting = "Chào buổi tối! 🌙"; enGreeting = "Good evening! 🌙"; }
+  else { viGreeting = "Cú đêm chạy deadline nhớ giữ sức khỏe nha! 🦉"; enGreeting = "Late night grinding! Take care of your health! 🦉"; }
+  
+  const el = document.getElementById("greetingText");
+  if(el) el.innerText = currentLang === 'eng' ? enGreeting : viGreeting;
+}
 try { 
   let stored = sessionStorage.getItem("uehSaved_temp"); 
   if (stored) saved = JSON.parse(stored); 
@@ -791,7 +898,6 @@ function openDetail(key, fromScreen = 'find', pushHistory = true) {
     return `<button class="btn ${isSpecialBtn ? "secondary" : ""}" onclick="action(this, '${a}', '${key}')">${a}</button>`;
   }).join("");
   
-  // Xử lý render động riêng cho phần personal để cập nhật chuẩn trạng thái ngôn ngữ hiện tại
   let previewBox = d.previewHtml ? d.previewHtml : '';
   if (key === 'personal') {
     previewBox = `
@@ -879,15 +985,25 @@ function renderActions() {
     </div>`;
 }
 
-function sendChat() {
+function sendChat(forceMsg = null) {
   const inputEl = document.getElementById("chatInput");
-  const msg = inputEl.value.trim();
+  const msg = forceMsg || inputEl.value.trim();
   if (!msg) return;
+  
   const history = document.getElementById("chatHistory");
-  history.innerHTML += `<div style="align-self: flex-end; max-width: 85%; background: var(--primary); color: #fff; padding: 10px 14px; border-radius: 12px 12px 2px 12px; font-size: 13.5px; line-height: 1.5; margin-top: 5px;">${msg}</div>`;
-  inputEl.value = ""; history.scrollTop = history.scrollHeight;
+  const typingEl = document.getElementById("chatTyping");
+  
+  const userMsgDiv = document.createElement('div');
+  userMsgDiv.style.cssText = "align-self: flex-end; max-width: 85%; background: var(--primary); color: #fff; padding: 10px 14px; border-radius: 12px 12px 2px 12px; font-size: 13.5px; line-height: 1.5; margin-top: 5px;";
+  userMsgDiv.innerText = msg;
+  history.insertBefore(userMsgDiv, typingEl);
+  
+  inputEl.value = ""; 
+  typingEl.style.display = "block"; 
+  history.scrollTop = history.scrollHeight;
 
   setTimeout(() => {
+    typingEl.style.display = "none";
     let reply = "";
     let actionBtn = "";
     const lowerMsg = msg.toLowerCase();
@@ -895,31 +1011,30 @@ function sendChat() {
     const intentLich = /phòng|thi|lịch|thời khóa biểu|học|exam|schedule|class|khi nào|ở đâu/i;
     const intentDiem = /đrl|điểm rèn luyện|rèn luyện|drs|cộng điểm|thiếu|chưa có|khiếu nại|point/i;
     const intentTaiLieu = /tài liệu|bài giảng|slide|lms|bài tập|đạo văn|turnitin|material/i;
-    const intentChao = /chào|hi|hello|Alo|giúp mình|xin chào/i;
 
     if (intentDiem.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Checking your training points? Handle it on UEH DRS:" : "Bạn đang muốn tra cứu điểm rèn luyện (ĐRL) hoặc khiếu nại? Vấn đề này thuộc về hệ thống UEH DRS:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('points');">${currentLang === 'eng' ? 'Open DRS' : 'Tra cứu điểm rèn luyện'}</button>`;
+      reply = currentLang === 'eng' ? "Checking your training points? Handle it on UEH DRS:" : "Bạn đang muốn tra cứu điểm rèn luyện hoặc khiếu nại? Mở lối tắt UEH DRS này nhé:";
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="openDetail('points', 'home'); toggleChat();">${currentLang === 'eng' ? 'Open DRS' : 'Tra cứu điểm rèn luyện'}</button>`;
     }
     else if (intentLich.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Looking for exam rooms or schedules? Check UEH Student:" : "Bạn muốn tra cứu lịch học hoặc phòng thi? Thông tin này nằm trên UEH Student:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('exam');">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
+      reply = currentLang === 'eng' ? "Looking for exam rooms or schedules? Check UEH Student:" : "Để tra cứu lịch học hoặc phòng thi mới nhất, bạn xem thông tin trên UEH Student nhé:";
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="openDetail('exam', 'home'); toggleChat();">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
     } 
     else if (intentTaiLieu.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Need course materials or Turnitin? Go to UEH LMS:" : "Để tìm tài liệu môn học, làm bài quiz hay nộp Turnitin, lên UEH LMS nhé:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('materials');">${currentLang === 'eng' ? 'Find Materials' : 'Tìm tài liệu môn học'}</button>`;
-    }
-    else if (intentChao.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Hello freshman! How can I help you find your way around UEH systems today?" : "Chào tân sinh viên! Bạn đang cần tìm thông tin hoặc hệ thống nào của trường?";
+      reply = currentLang === 'eng' ? "Need course materials or Turnitin? Go to UEH LMS:" : "Để tải tài liệu môn học, làm bài quiz hay nộp Turnitin, bạn lên UEH LMS nhé:";
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="openDetail('materials', 'home'); toggleChat();">${currentLang === 'eng' ? 'Find Materials' : 'Tìm tài liệu môn học'}</button>`;
     }
     else {
       reply = currentLang === 'eng' ? "I understand you are looking for assistance. Let me route you to your class and exam schedule:" : "Mình hiểu vấn đề của bạn. Để kiểm tra thông tin lịch trình và phòng ốc, bạn hãy mở lối tắt này:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="search('exam');">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
+      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="openDetail('exam', 'home'); toggleChat();">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
     }
 
-    history.innerHTML += `<div style="align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">${reply}${actionBtn}</div>`;
+    const botMsgDiv = document.createElement('div');
+    botMsgDiv.style.cssText = "align-self: flex-start; max-width: 85%; background: #fff; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px 12px 12px 2px; font-size: 13.5px; color: var(--text); line-height: 1.5; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);";
+    botMsgDiv.innerHTML = reply + actionBtn;
+    history.insertBefore(botMsgDiv, typingEl);
     history.scrollTop = history.scrollHeight;
-  }, 800);
+  }, 800 + Math.random() * 400); 
 }
 
 function toggleChat() { const c = document.getElementById("chat"); c.style.display = (c.style.display === "none" || c.style.display === "") ? "flex" : "none"; }
@@ -1045,9 +1160,18 @@ const mainEl = document.querySelector('main');
   if (document.getElementById('detail').classList.contains('active') && currentDetailId) {
     openDetail(currentDetailId, currentDetailFrom);
   }
-  
+  updateGreeting();
+  document.getElementById('qrExam').innerText = currentLang === 'eng' ? "📅 Exam Schedule" : "📅 Lịch thi";
+  document.getElementById('qrPoints').innerText = currentLang === 'eng' ? "🏆 Training Points" : "🏆 Điểm rèn luyện";
+  document.getElementById('qrDocs').innerText = currentLang === 'eng' ? "📚 Materials" : "📚 Tài liệu";
+  document.getElementById('chatInput').placeholder = currentLang === 'eng' ? "Type your question..." : "Gõ câu hỏi của bạn...";
+  const alertLbl = document.getElementById("alertLabel");
+  if(alertLbl) alertLbl.innerText = currentLang === 'eng' ? "ALERT" : "CẬP NHẬT";
+  const alertTxt = document.getElementById("alertText");
+  if(alertTxt) alertTxt.innerText = currentLang === 'eng' ? "Don't forget Course Registration for Semester 2 opens at 8:00 AM on Oct 15!" : "Đừng quên lịch đăng ký học phần Học kỳ 2 sắp mở vào 08:00 ngày 15/10!";
   toast(currentLang === 'eng' ? "Interface language switched to English" : "Đã chuyển giao diện sang Tiếng Việt");
 }
+updateGreeting();
   window.addEventListener('popstate', (e) => {
   if (e.state) {
     if (e.state.type === 'detail') openDetail(e.state.screen, e.state.from, false);
@@ -1056,15 +1180,12 @@ const mainEl = document.querySelector('main');
     show('home', null, false);
   }
 });
-  // Kích hoạt tất cả thanh điều hướng (breadcrumb) thành nút bấm về Trang chủ
 document.querySelectorAll('.screen > .breadcrumb').forEach(el => {
   el.style.cursor = 'pointer';
   el.title = 'Quay về trang chủ';
   
-  // Lệnh quay lại màn hình chính
   el.addEventListener('click', () => show('home'));
   
-  // Thêm hiệu ứng đổi màu khi đưa chuột/bấm vào
   el.addEventListener('mouseenter', () => { 
     el.style.color = 'var(--primary)'; 
     el.style.fontWeight = '700'; 
