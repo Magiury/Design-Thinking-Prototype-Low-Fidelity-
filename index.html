@@ -109,6 +109,40 @@ body.dark-mode .hero { background: linear-gradient(135deg, #0f766e, #134e4a); }
 /* Bảng tin Deadline */
 .alert-banner { background: var(--danger); color: #fff; padding: 10px 28px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; z-index: 15; position: sticky; top: 68px; }
 .alert-label { background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 4px; font-weight: bold; margin-right: 10px; font-size: 11px; letter-spacing: 0.5px; }
+/* --- NÂNG CẤP COMMAND CENTER (MY DAY & NEXT MOVE) --- */
+.priority-section { margin-top: 10px; margin-bottom: 30px; display: flex; flex-direction: column; gap: 14px; }
+.priority-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: 0.2s; }
+.priority-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.06); transform: translateY(-2px); }
+.priority-header { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+.priority-header.red { color: var(--danger); }
+.priority-header.orange { color: var(--warning); }
+.priority-header.green { color: var(--success); }
+.priority-header.primary { color: var(--primary); }
+
+.task-item { display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; }
+.task-info h4 { margin: 0 0 6px 0; font-size: 16px; color: var(--text); line-height: 1.3; }
+.task-info p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.task-action { flex-shrink: 0; }
+
+/* Trust Layer (Nguồn thông tin) */
+.trust-layer { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.source-tag { font-size: 11px; background: #f0f2f5; color: var(--muted); padding: 4px 8px; border-radius: 6px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid #e3e7ef; }
+.source-tag.verified { color: var(--success); background: #eaf7ef; border-color: #c6ebd4; }
+.source-tag.changed { color: var(--warning); background: #fff7e8; border-color: #fce8c0; }
+
+body.dark-mode .priority-card { background: var(--surface); border-color: var(--border); }
+body.dark-mode .source-tag { background: #1e293b; color: #94a3b8; border-color: #334155; }
+body.dark-mode .source-tag.verified { background: rgba(25, 135, 84, 0.15); border-color: rgba(25, 135, 84, 0.3); }
+body.dark-mode .source-tag.changed { background: rgba(183, 121, 31, 0.15); border-color: rgba(183, 121, 31, 0.3); }
+/* Modal Onboarding */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: none; place-items: center; padding: 20px; backdrop-filter: blur(4px); }
+.modal-content { background: #fff; width: 100%; max-width: 450px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.checklist-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8f9fc; border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid var(--border); transition: 0.2s; font-size: 14px; font-weight: 600; }
+.checklist-item:hover { border-color: var(--primary); }
+.checklist-item.done { background: #eaf7ef; border-color: #c6ebd4; color: var(--success); text-decoration: line-through; }
+.checklist-item input { transform: scale(1.4); cursor: pointer; }
+body.dark-mode .modal-content { background: var(--surface); border-color: var(--border); }
+body.dark-mode .checklist-item { background: #1e293b; border-color: #334155; }
 </style>
 </head>
 <body>
@@ -147,13 +181,34 @@ body.dark-mode .hero { background: linear-gradient(135deg, #0f766e, #134e4a); }
       </div>
     </div>
   </header>
+  <!-- Adaptive Freshman Mode -->
+  <div id="onboardingModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2 style="margin-top:0; color: var(--primary);">👋 Welcome to UEH!</h2>
+      <p style="color:var(--muted); margin-bottom:20px; font-size: 14px;">Let's set up your first week. What are you trying to accomplish today?</p>
+      
+      <div style="font-size: 12px; font-weight: bold; color: var(--muted); margin-bottom: 10px;">YOUR FIRST-WEEK CHECKLIST</div>
+      <label class="checklist-item done">
+        <input type="checkbox" checked disabled> <span>Find my timetable (Done)</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onclick="this.parentElement.classList.add('done'); setTimeout(() => { document.getElementById('onboardingModal').style.display='none'; show('learning'); }, 1000);"> <span>Understand LMS & Submit assignments</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onclick="this.parentElement.classList.add('done'); setTimeout(() => { document.getElementById('onboardingModal').style.display='none'; show('drs'); }, 1000);"> <span>Find DRS activities & Get points</span>
+      </label>
+      
+      <button class="btn secondary full" style="margin-top:15px;" onclick="document.getElementById('onboardingModal').style.display='none'">Maybe Later</button>
+    </div>
+  </div>
 
   <div id="alertBanner" class="alert-banner">
-    <div>
+    <div onclick="window.open('https://student.ueh.edu.vn/Home/DangKyHocPhan', '_blank')" style="cursor: pointer; flex: 1; display: flex; align-items: center;" title="Nhấn để mở trang Đăng ký học phần">
       <span id="alertLabel" class="alert-label">CẬP NHẬT</span>
-      <span id="alertText">Đừng quên lịch đăng ký học phần Học kỳ 2 sắp mở vào 08:00 ngày 15/10!</span>
+      <span id="alertText" style="text-decoration: underline; text-underline-offset: 3px;">Đừng quên lịch đăng ký học phần Học kỳ 2 sắp mở vào 08:00 ngày 15/10!</span>
+      <span style="margin-left: 8px; font-size: 14px;">→</span>
     </div>
-    <button onclick="document.getElementById('alertBanner').style.display='none'" style="background: transparent; border: none; color: #fff; cursor: pointer; font-size: 16px;">✕</button>
+    <button onclick="document.getElementById('alertBanner').style.display='none'" style="background: transparent; border: none; color: #fff; cursor: pointer; font-size: 16px; padding: 0 10px;">✕</button>
   </div>
 
   <div id="loginScreen" class="login-wrap">
@@ -209,14 +264,85 @@ body.dark-mode .hero { background: linear-gradient(135deg, #0f766e, #134e4a); }
               <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('tài liệu')">📚 Tài liệu học</button>
             </div>
           </div>
-          <div class="row"><h2>Khám phá theo danh mục</h2></div>
-          <div class="grid" style="margin-top:14px">
-            <div class="card clickable" onclick="show('academic')"><div class="icon">📅</div><h3>Học tập & Lịch trình</h3><p>Thời khóa biểu, lịch thi và thông tin phòng học.</p></div>
-            <div class="card clickable" onclick="show('learning')"><div class="icon">📚</div><h3>Tài liệu & Bài tập</h3><p>Tài liệu môn học, bài kiểm tra và kiểm tra đạo văn.</p></div>
-            <div class="card clickable" onclick="show('drs')"><div class="icon">🏆</div><h3>Điểm rèn luyện</h3><p>Tra cứu điểm, hoạt động ngoại khóa và khiếu nại.</p></div>
-            <div class="card clickable" onclick="show('services')"><div class="icon">🎓</div><h3>Dịch vụ Sinh viên</h3><p>Hồ sơ cá nhân, ngôn ngữ và Green Campus.</p></div>
+          <!-- COMMAND CENTER: MY DAY & NEXT MOVE -->
+          <div class="row" style="margin-top: 10px; margin-bottom: 20px;">
+            <div>
+              <h2 id="personalGreeting" style="font-size: 26px; margin-bottom: 5px; color: var(--text);">👋 Chào bạn,</h2>
+              <p id="personalSub" style="color: var(--muted); margin: 0; font-size: 15px;">Đây là những việc quan trọng nhất hôm nay.</p>
+            </div>
           </div>
-          <div style="margin-top:24px"><h2>Gợi ý hành động</h2><div id="actions"></div></div>
+
+          <div class="priority-section">
+
+            <!-- 1. YOUR NEXT MOVE (Highlight) -->
+            <div class="priority-card" style="border: 2px solid var(--danger); box-shadow: 0 8px 25px rgba(180, 35, 24, 0.08);">
+              <div class="priority-header red" style="font-size: 13px;">🔴 <span id="lblAction">BƯỚC ĐI TIẾP THEO (YOUR NEXT MOVE)</span></div>
+              <div class="task-item">
+                <div class="task-info">
+                  <h4 id="task2Title" style="font-size: 18px;">Bài kiểm tra (Quiz) Kinh tế vi mô</h4>
+                  <p id="task2Desc" style="color: var(--danger); font-weight: 600;">Hạn chót: 23:59 đêm nay</p>
+                  <div class="trust-layer">
+                    <span class="source-tag">📚 <span id="src2">Nguồn: UEH LMS</span></span>
+                  </div>
+                </div>
+                <div class="task-action">
+                  <button class="btn" style="background: var(--danger); font-size: 14px; padding: 10px 20px;" onclick="openDetail('quiz', 'home')"><span id="btn2">Làm bài trên LMS</span></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. TIMELINE LỊCH TRÌNH -->
+            <div class="priority-card" style="border-left: 4px solid var(--primary);">
+              <div class="priority-header primary">📅 <span id="lblTimeline">TIMELINE CỦA BẠN</span></div>
+              <div style="display:flex; flex-direction:column; gap:16px; position: relative; margin-left: 6px; border-left: 2px dashed #e3e7ef; padding-left: 18px; padding-top: 5px; padding-bottom: 5px;">
+
+                <!-- Event 1 -->
+                <div style="position: relative;">
+                  <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--primary); border: 2px solid #fff;"></div>
+                  <div style="font-size:12px; font-weight:800; color:var(--primary);">07:30 AM</div>
+                  <div style="font-size:14px; font-weight:600; margin-top:2px;">Kinh tế vi mô (Phòng B1-204)</div>
+                  <div style="font-size:12px; color:var(--primary); cursor:pointer; margin-top:4px; font-weight:600;" onclick="openDetail('classes', 'home')">Mở lịch trình →</div>
+                </div>
+
+                <!-- Event 2 -->
+                <div style="position: relative;">
+                  <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--danger); border: 2px solid #fff;"></div>
+                  <div style="font-size:12px; font-weight:800; color:var(--danger);">11:59 PM</div>
+                  <div style="font-size:14px; font-weight:600; margin-top:2px;">Hạn chót Quiz Kinh tế vi mô</div>
+                  <div style="font-size:12px; color:var(--danger); cursor:pointer; margin-top:4px; font-weight:600;" onclick="openDetail('quiz', 'home')">Làm bài LMS →</div>
+                </div>
+
+                <!-- Event 3 -->
+                <div style="position: relative;">
+                  <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--warning); border: 2px solid #fff;"></div>
+                  <div style="font-size:12px; font-weight:800; color:var(--warning);">Ngày mai</div>
+                  <div style="font-size:14px; font-weight:600; margin-top:2px;">Đóng đăng ký Giải cầu lông (+5Đ)</div>
+                  <div style="font-size:12px; color:var(--warning); cursor:pointer; margin-top:4px; font-weight:600;" onclick="openDetail('activities', 'home')">Đăng ký DRS →</div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- 3. TRUST LAYER: What changed? -->
+            <div class="priority-card" style="border-left: 4px solid var(--success); background: #f8fafc;">
+              <div class="priority-header green">🟢 <span id="lblInfo">DÀNH CHO BẠN (CÓ THAY ĐỔI)</span></div>
+              <div class="task-item">
+                <div class="task-info">
+                  <h4 id="task4Title">Cập nhật Lịch thi Giữa kỳ</h4>
+                  <p id="task4Desc">Phòng thi môn Triết học Mác - Lênin vừa được đổi.</p>
+                  <div class="trust-layer">
+                    <span class="source-tag">🏢 <span id="src4">Nguồn: UEH Student</span></span>
+                    <span class="source-tag changed">⚠️ <span id="ver4">Đã cập nhật lúc 10:32 AM</span></span>
+                  </div>
+                </div>
+                <div class="task-action">
+                  <button class="btn ghost" style="font-size: 13px;" onclick="openDetail('exams', 'home')"><span id="btn4">Xem thay đổi</span></button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- END COMMAND CENTER -->
         </section>
 
         <section id="find" class="screen">
@@ -245,7 +371,16 @@ body.dark-mode .hero { background: linear-gradient(135deg, #0f766e, #134e4a); }
           <div class="breadcrumb"><span onclick="show('home')" style="cursor:pointer; font-weight:700; color:var(--primary)">Trang chủ</span> / Học tập & Lịch trình</div>
           <h1>Học tập & Lịch trình</h1><p>Quản lý thời khóa biểu và lịch thi.</p>
           <div class="grid">
-            <div class="card clickable" onclick="openDetail('exam', 'academic')"><div class="icon">🗓️</div><h3>Lịch học & Lịch thi</h3><p>Tra cứu phòng học, phòng thi chính thức.</p></div>
+            <div class="card clickable" onclick="openDetail('classes', 'academic')">
+              <div class="icon" style="background:#e8f4fd; color:#0288d1;">📅</div>
+              <h3>Lịch học</h3>
+              <p>Tra cứu thời khóa biểu và phòng học hàng tuần.</p>
+            </div>
+            <div class="card clickable" onclick="openDetail('exams', 'academic')">
+              <div class="icon" style="background:#fef2f2; color:var(--danger);">📝</div>
+              <h3>Lịch thi</h3>
+              <p>Xem danh sách phòng thi, số báo danh và ca thi chính thức.</p>
+            </div>
           </div>
         </section>
 
@@ -335,11 +470,11 @@ let currentDetailFrom = null;
 
 const DATA = {
   vi: {
-    exam: { 
-      title: "Lịch học & Lịch thi", platform: "UEH Student", icon: "🗓️", 
-      desc: "Tra cứu thời khóa biểu và phòng thi hiện tại của bạn.", 
-      reason: "Cổng UEH Student là nơi duy nhất cập nhật chính xác phòng học và danh sách thi của cá nhân bạn.",
-      steps: ["Mở cổng UEH Student.", "Chọn chức năng Lịch trình/Lịch thi.", "Chọn học kỳ để kiểm tra."], 
+    classes: { 
+      title: "Lịch học (Thời khóa biểu)", platform: "UEH Student", icon: "📅", 
+      desc: "Tra cứu thời khóa biểu và phòng học hiện tại của bạn.", 
+      reason: "Cổng UEH Student là nơi duy nhất cập nhật chính xác phòng học của cá nhân bạn.",
+      steps: ["Mở cổng UEH Student.", "Chọn chức năng Lịch trình học.", "Chọn học tuần/học kỳ để kiểm tra."], 
       actions: ["Mở hệ thống", "Thêm vào lịch"],
       previewHtml: `
         <div class="mock-data">
@@ -348,18 +483,39 @@ const DATA = {
             <span style="font-size:12px; color:var(--muted)">Sinh viên: Unknown name (K52)</span>
           </div>
           <div class="mock-item">
-            <div class="mock-time">Thứ 3<br>29/09</div>
-            <div class="mock-info">
-              <strong>Kinh tế vi mô</strong>
-              <span>Ca 1 (07:30 - 09:45) | Phòng B1-204 (Cơ sở B)</span>
-            </div>
+            <div class="mock-time">Thứ 3<br>06/10</div>
+            <div class="mock-info"><strong>Vật lý 1 (Cơ học cổ điển)</strong><span>Ca 1 (07:30 - 09:45) | Phòng B1-204 (Cơ sở B)</span></div>
           </div>
           <div class="mock-item">
-            <div class="mock-time">Thứ 5<br>01/10</div>
-            <div class="mock-info">
-              <strong>Triết học Mác - Lênin</strong>
-              <span>Ca 3 (12:30 - 15:00) | Phòng N1-301 (Cơ sở Nam TP)</span>
-            </div>
+            <div class="mock-time">Thứ 4<br>07/10</div>
+            <div class="mock-info"><strong>Toán nền tảng (Giải tích 1)</strong><span>Ca 2 (09:50 - 12:05) | Phòng N1-301 (Nam Sài Gòn)</span></div>
+          </div>
+          <div class="mock-item">
+            <div class="mock-time">Thứ 6<br>09/10</div>
+            <div class="mock-info"><strong>Kinh tế vi mô</strong><span>Ca 3 (12:30 - 15:00) | Phòng V-202 (Cơ sở V)</span></div>
+          </div>
+        </div>
+      `
+    },
+    exams: { 
+      title: "Lịch thi", platform: "UEH Student", icon: "📝", 
+      desc: "Xem danh sách phòng thi, ca thi và số báo danh chính thức.", 
+      reason: "Việc thay đổi phòng thi thường xuyên diễn ra, cần kiểm tra hệ thống chính thức trước ngày thi.",
+      steps: ["Mở cổng UEH Student.", "Chọn chức năng Lịch thi.", "Kiểm tra kỹ ngày, giờ và Số báo danh."], 
+      actions: ["Mở hệ thống", "Thêm vào lịch"],
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📝 Lịch thi sắp tới</strong>
+            <span style="font-size:12px; color:var(--danger)">Cập nhật mới nhất</span>
+          </div>
+          <div class="mock-item" style="border-left: 3px solid var(--danger);">
+            <div class="mock-time">15/10<br>09:30</div>
+            <div class="mock-info"><strong>Toán nền tảng (Giữa kỳ)</strong><span>Phòng B1-204 | SBD: 045 | Tự luận</span></div>
+          </div>
+          <div class="mock-item" style="border-left: 3px solid var(--danger);">
+            <div class="mock-time">20/10<br>13:30</div>
+            <div class="mock-info"><strong>Vật lý 1 (Giữa kỳ)</strong><span>Phòng N1-201 | SBD: 045 | Trắc nghiệm</span></div>
           </div>
         </div>
       `
@@ -526,28 +682,34 @@ const DATA = {
       steps: ["Mở hệ thống DRS.", "Vào mục 'Khắc phục điểm'.", "Tải ảnh minh chứng và bấm gửi."], 
       actions: ["Mở hệ thống", "Lưu lộ trình"], 
       previewHtml: `
-        <div class="mock-data">
-          <div class="mock-header">
-            <strong>📝 Trạng thái Yêu cầu Khắc phục điểm</strong>
-            <span style="font-size:12px; color:var(--warning);">• Đang chờ duyệt (Pending)</span>
+        <div class="mock-data" style="background:#fff; padding:20px;">
+          <h3 style="margin-top:0; color:var(--primary); font-size:16px;">Your task journey</h3>
+          <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">I want to register for an activity and get DRS points.</p>
+          
+          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:bold; color:var(--accent); margin-bottom:8px;">
+            <span>Tiến độ thực hiện:</span> <span>0/6</span>
           </div>
-          <div class="mock-item" style="flex-direction:column; align-items:flex-start; gap:6px;">
-            <div style="display:flex; justify-content:space-between; width:100%;">
-              <strong>Hoạt động: Hội thảo Ý tưởng Khởi nghiệp</strong>
-              <span style="color:var(--accent); font-weight:bold;">+3 điểm</span>
-            </div>
-            <span style="font-size:13px; color:var(--muted);">Minh chứng: Chung_nhan_khoi_nghiep.png</span>
-            <span style="font-size:12px; color:var(--warning);">⏳ Khoa đang đối soát danh sách (Hạn xử lý: 3 ngày)</span>
+          <div style="background:#e3e7ef; height:8px; border-radius:4px; margin-bottom:16px;">
+            <div style="background:var(--accent); width:5%; height:100%; border-radius:4px;"></div>
           </div>
-        </div>` 
+
+          <div style="display:flex; flex-direction:column; gap:8px; font-size:13.5px;">
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>1. Find eligible activities</span></label>
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>2. Check registration deadline</span></label>
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>3. Register on DRS</span></label>
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>4. Save event to Calendar</span></label>
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>5. Attend & Keep evidence</span></label>
+            <label style="display:flex; gap:10px; font-weight:bold; color:var(--primary); background:#eef3ff; padding:8px; border-radius:6px;"><input type="checkbox" checked> <span>6. Submit evidence (Doing)</span></label>
+          </div>
+        </div>`
     }
   },
   eng: {
-    exam: { 
-      title: "Class & Exam Schedule", platform: "UEH Student", icon: "🗓️", 
-      desc: "Check your current class timetable and exam rooms.", 
-      reason: "UEH Student is the official portal for personalized academic schedules.", 
-      steps: ["Open UEH Student.", "Navigate to Schedule/Exam.", "Select current semester."], 
+    classes: { 
+      title: "Class Schedule", platform: "UEH Student", icon: "📅", 
+      desc: "Check your weekly class timetable and room assignments.", 
+      reason: "UEH Student provides the most accurate and up-to-date schedules from the academic office.",
+      steps: ["Open UEH Student.", "Navigate to Class Schedule.", "Select current week/semester."], 
       actions: ["Open system", "Add to calendar"],
       previewHtml: `
         <div class="mock-data">
@@ -556,18 +718,39 @@ const DATA = {
             <span style="font-size:12px; color:var(--muted)">Student: Unknown name (K52)</span>
           </div>
           <div class="mock-item">
-            <div class="mock-time">Tue<br>29/09</div>
-            <div class="mock-info">
-              <strong>Microeconomics</strong>
-              <span>Shift 1 (07:30 - 09:45) | Room B1-204 (Campus B)</span>
-            </div>
+            <div class="mock-time">Tue<br>06/10</div>
+            <div class="mock-info"><strong>Physics 1 (Classical Mechanics)</strong><span>Shift 1 (07:30 - 09:45) | Room B1-204 (Campus B)</span></div>
           </div>
           <div class="mock-item">
-            <div class="mock-time">Thu<br>01/10</div>
-            <div class="mock-info">
-              <strong>Marxist - Leninist Philosophy</strong>
-              <span>Shift 3 (12:30 - 15:00) | Room N1-301 (South Campus)</span>
-            </div>
+            <div class="mock-time">Wed<br>07/10</div>
+            <div class="mock-info"><strong>Calculus 1 (Foundation Math)</strong><span>Shift 2 (09:50 - 12:05) | Room N1-301 (South Campus)</span></div>
+          </div>
+          <div class="mock-item">
+            <div class="mock-time">Fri<br>09/10</div>
+            <div class="mock-info"><strong>Microeconomics</strong><span>Shift 3 (12:30 - 15:00) | Room V-202 (Campus V)</span></div>
+          </div>
+        </div>
+      `
+    },
+    exams: { 
+      title: "Exam Schedule", platform: "UEH Student", icon: "📝", 
+      desc: "Check your official exam rooms, dates, and candidate numbers.", 
+      reason: "Exam rooms can change. Always verify via the official system before your exam date.",
+      steps: ["Open UEH Student.", "Navigate to Exam Schedule.", "Double-check date, time, and Candidate No."], 
+      actions: ["Open system", "Add to calendar"],
+      previewHtml: `
+        <div class="mock-data">
+          <div class="mock-header">
+            <strong>📝 Upcoming Exams</strong>
+            <span style="font-size:12px; color:var(--danger)">Latest update</span>
+          </div>
+          <div class="mock-item" style="border-left: 3px solid var(--danger);">
+            <div class="mock-time">Oct 15<br>09:30</div>
+            <div class="mock-info"><strong>Foundation Math (Midterm)</strong><span>Room B1-204 | Candidate No: 045 | Format: Essay</span></div>
+          </div>
+          <div class="mock-item" style="border-left: 3px solid var(--danger);">
+            <div class="mock-time">Oct 20<br>13:30</div>
+            <div class="mock-info"><strong>Physics 1 (Midterm)</strong><span>Room N1-201 | Candidate No: 045 | Format: Multiple Choice</span></div>
           </div>
         </div>
       `
@@ -653,7 +836,7 @@ const DATA = {
       previewHtml: `
         <div class="mock-data" style="background: transparent; border: none; padding: 0; box-shadow: none;">
           <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">👤 Personal Info ▾</summary>
+            <summary style="padding: 12px 15px; font-weight: bold; color: var(--primary); background: #f8f9fc; cursor: pointer; outline: none; border-bottom: 1px solid var(--border); list-style: none;">👤 ${currentLang === 'eng' ? 'Personal Info' : 'Thông Internal Info'} ▾</summary>
             <div style="padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;"><div><strong>Name:</strong> Unknown name</div><div><strong>ID:</strong> Updating...</div><div><strong>Cohort:</strong> K52</div><div><strong>Class:</strong> DB001</div></div>
           </details>
           <details open style="background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
@@ -733,28 +916,35 @@ const DATA = {
       reason: "Appeals for training points must be formally submitted through the DRS system for faculty approval and verification.", 
       steps: ["Open DRS system.", "Go to 'Appeals'.", "Upload proof and submit."], 
       actions: ["Open system", "Save route"], 
-      previewHtml: `
-        <div class="mock-data">
-          <div class="mock-header">
-            <strong>📝 Points Appeal Status</strong>
-            <span style="font-size:12px; color:var(--warning);">• Pending</span>
+     previewHtml: `
+        <div class="mock-data" style="background:#fff; padding:20px;">
+          <h3 style="margin-top:0; color:var(--primary); font-size:16px;">Your task journey</h3>
+          <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">I want to register for an activity and get DRS points.</p>
+          
+          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:bold; color:var(--accent); margin-bottom:8px;">
+            <span>Tiến độ thực hiện:</span> <span>0/6</span>
           </div>
-          <div class="mock-item" style="flex-direction:column; align-items:flex-start; gap:6px;">
-            <div style="display:flex; justify-content:space-between; width:100%;">
-              <strong>Activity: Startup Idea Workshop</strong>
-              <span style="color:var(--accent); font-weight:bold;">+3 pts</span>
-            </div>
-            <span style="font-size:13px; color:var(--muted);">Proof: Startup_certificate.png</span>
-            <span style="font-size:12px; color:var(--warning);">⏳ Faculty is verifying list (Processing time: 3 days)</span>
+          <div style="background:#e3e7ef; height:8px; border-radius:4px; margin-bottom:16px;">
+            <div style="background:var(--accent); width:5%; height:100%; border-radius:4px;"></div>
           </div>
-        </div>` 
+
+          <div style="display:flex; flex-direction:column; gap:8px; font-size:13.5px;">
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>1. Find eligible activities</span></label>
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>2. Check registration deadline</span></label>
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>3. Register on DRS</span></label>
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>4. Save event to Calendar</span></label>
+            <label style="display:flex; gap:10px;"><input type="checkbox" disabled> <span>5. Attend & Keep evidence</span></label>
+            <label style="display:flex; gap:10px; font-weight:bold; color:var(--primary); background:#eef3ff; padding:8px; border-radius:6px;"><input type="checkbox" checked> <span>6. Submit evidence (Doing)</span></label>
+          </div>
+        </div>`
     }
   }
 };
 
 const INDEX = {
   vi: [
-    ["exam", "exam schedule lịch thi lịch học quên phòng không thấy", "Lịch học & Lịch thi", "UEH Student"],
+    ["classes", "class schedule thời khóa biểu lịch học phòng học quên phòng", "Lịch học (Thời khóa biểu)", "UEH Student"],
+    ["exams", "exam schedule lịch thi phòng thi số báo danh", "Lịch thi", "UEH Student"],
     ["materials", "course material tài liệu bài giảng slide tải", "Tài liệu môn học", "UEH LMS"],
     ["points", "training points điểm rèn luyện thiếu điểm chưa có khiếu nại", "Tra cứu điểm rèn luyện", "UEH DRS"],
     ["activities", "activities hoạt động đăng ký hội thảo", "Tìm hoạt động", "UEH DRS"],
@@ -764,7 +954,8 @@ const INDEX = {
     ["turnitin", "plagiarism đạo văn nộp bài", "Kiểm tra đạo văn", "UEH LMS"]
   ],
   eng: [
-    ["exam", "exam schedule lịch thi lịch học", "Class & Exam Schedule", "UEH Student"],
+    ["classes", "class schedule thời khóa biểu lịch học", "Class Schedule", "UEH Student"],
+    ["exams", "exam schedule lịch thi phòng thi", "Exam Schedule", "UEH Student"],
     ["materials", "course material tài liệu bài giảng", "Course Materials", "UEH LMS"],
     ["points", "training points điểm rèn luyện", "Training Points", "UEH DRS"],
     ["activities", "activities hoạt động đăng ký", "Find Activities", "UEH DRS"],
@@ -809,14 +1000,19 @@ document.addEventListener('click', (e) => {
 function updateGreeting() {
   const hour = new Date().getHours();
   let viGreeting, enGreeting;
-  
-  if (hour >= 5 && hour < 12) { viGreeting = "Chào buổi sáng, năng suất nhé! ☀️"; enGreeting = "Good morning, stay productive! ☀️"; }
-  else if (hour >= 12 && hour < 18) { viGreeting = "Chào buổi chiều! 🌤️"; enGreeting = "Good afternoon! 🌤"; }
-  else if (hour >= 18 && hour < 23) { viGreeting = "Chào buổi tối! 🌙"; enGreeting = "Good evening! 🌙"; }
-  else { viGreeting = "Cú đêm chạy deadline nhớ giữ sức khỏe nha! 🦉"; enGreeting = "Late night grinding! Take care of your health! 🦉"; }
-  
+  let userName = document.getElementById("userLabel").textContent;
+  if (userName === "Chưa đăng nhập" || userName === "Not signed in") userName = currentLang === 'eng' ? "there" : "bạn";
+
+  if (hour >= 5 && hour < 12) { viGreeting = `Chào buổi sáng, ${userName}! ☀️`; enGreeting = `Good morning, ${userName}! ☀️`; }
+  else if (hour >= 12 && hour < 18) { viGreeting = `Chào buổi chiều, ${userName}! 🌤️`; enGreeting = `Good afternoon, ${userName}! 🌤`; }
+  else if (hour >= 18 && hour < 23) { viGreeting = `Chào buổi tối, ${userName}! 🌙`; enGreeting = `Good evening, ${userName}! 🌙`; }
+  else { viGreeting = `Cú đêm ${userName} nhớ nghỉ ngơi nha! 🦉`; enGreeting = `Late night, ${userName}! Take care! 🦉`; }
+
   const el = document.getElementById("greetingText");
-  if(el) el.innerText = currentLang === 'eng' ? enGreeting : viGreeting;
+  if(el) el.innerText = currentLang === 'eng' ? "Welcome to Freshman Hub" : "Chào mừng đến với Freshman Hub";
+
+  const pEl = document.getElementById("personalGreeting");
+  if(pEl) pEl.innerText = "👋 " + (currentLang === 'eng' ? enGreeting : viGreeting);
 }
 try { 
   let stored = sessionStorage.getItem("uehSaved_temp"); 
@@ -836,11 +1032,14 @@ function login() {
     
 
     document.getElementById("userLabel").textContent = "Unknown name";
+	updateGreeting();
     
     renderActions(); 
     renderSaved();
     toast(currentLang === 'eng' ? "Data synced successfully!" : "Đã đồng bộ dữ liệu thành công!");
     history.replaceState({ screen: 'home', type: 'main' }, "", "#home");
+    // Hiện bảng Onboarding sau khi login 1 giây
+    setTimeout(() => { document.getElementById("onboardingModal").style.display = "grid"; }, 800);
   }, 1500);
 }
 
@@ -952,9 +1151,11 @@ function action(btn, a, key) {
   }
   else {
     let targetUrl = "https://ueh.edu.vn/";
-    if (["personal", "green", "exam"].includes(key)) targetUrl = "https://student.ueh.edu.vn/";
+    // Đã cập nhật thêm 'classes' và 'exams' vào đây để nhận diện đúng trang Student
+    if (["personal", "green", "classes", "exams"].includes(key)) targetUrl = "https://student.ueh.edu.vn/";
     else if (["materials", "quiz", "turnitin"].includes(key)) targetUrl = "https://lms.ueh.edu.vn/";
     else if (["points", "activities", "review"].includes(key)) targetUrl = "https://drs.ueh.edu.vn/";
+    
     toast((currentLang === 'eng' ? "Redirecting to " : "Đang chuyển hướng đến ") + DATA[currentLang][key].platform + "...");
     setTimeout(() => window.open(targetUrl, '_blank'), 600);
   }
@@ -976,8 +1177,8 @@ function renderSaved() {
 function renderActions() {
   document.getElementById("actions").innerHTML = `
     <div class="result">
-      <div class="left"><div class="icon">🗓️</div><div><div class="platform">UEH Student</div><h3>${currentLang === 'eng' ? 'Check Exam Schedule' : 'Tra cứu Lịch học & thi'}</h3><div class="meta">${currentLang === 'eng' ? 'Suggested action' : 'Hành động gợi ý'}</div></div></div>
-      <button class="btn secondary" onclick="openDetail('exam', 'home')">${currentLang === 'eng' ? 'Open' : 'Mở nhanh'}</button>
+      <div class="left"><div class="icon">📅</div><div><div class="platform">UEH Student</div><h3>${currentLang === 'eng' ? 'Check Class Schedule' : 'Tra cứu Lịch học'}</h3><div class="meta">${currentLang === 'eng' ? 'Suggested action' : 'Hành động gợi ý'}</div></div></div>
+      <button class="btn secondary" onclick="openDetail('classes', 'home')">${currentLang === 'eng' ? 'Open' : 'Mở nhanh'}</button>
     </div>
     <div class="result">
       <div class="left"><div class="icon">🏆</div><div><div class="platform">UEH DRS</div><h3>${currentLang === 'eng' ? 'Check Training Points' : 'Tra cứu điểm rèn luyện'}</h3><div class="meta">${currentLang === 'eng' ? 'Suggested action' : 'Hành động gợi ý'}</div></div></div>
@@ -1008,25 +1209,56 @@ function sendChat(forceMsg = null) {
     let actionBtn = "";
     const lowerMsg = msg.toLowerCase();
     
-    const intentLich = /phòng|thi|lịch|thời khóa biểu|học|exam|schedule|class|khi nào|ở đâu/i;
-    const intentDiem = /đrl|điểm rèn luyện|rèn luyện|drs|cộng điểm|thiếu|chưa có|khiếu nại|point/i;
-    const intentTaiLieu = /tài liệu|bài giảng|slide|lms|bài tập|đạo văn|turnitin|material/i;
+    const intentLich = /phòng|thi|lịch|thời khóa biểu|học/i;
+    const intentDiem = /đrl|điểm rèn luyện|drs/i;
+    // Từ khóa kích hoạt "UEH Translator"
+    const intentDich = /dịch|thông báo|hiểu|nghĩa là gì|explain/i;
+	const intentUuTien = /làm gì trước|ưu tiên|first|next|nên làm gì/i;
 
-    if (intentDiem.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Checking your training points? Handle it on UEH DRS:" : "Bạn đang muốn tra cứu điểm rèn luyện hoặc khiếu nại? Mở lối tắt UEH DRS này nhé:";
+    if (intentUuTien.test(lowerMsg)) {
+      reply = currentLang === 'eng' ?
+        "Looking at your schedule, you should prioritize completing the <strong>Microeconomics Quiz</strong>. It's due tonight at 11:59 PM. After that, don't forget to register for the Badminton Cup to get DRS points!" :
+        "Dựa vào lịch trình, bạn nên ưu tiên hoàn thành <strong>Bài kiểm tra (Quiz) Kinh tế vi mô</strong>. Hạn chót là 23:59 đêm nay. Sau đó, đừng quên đăng ký Giải Cầu Lông trước ngày mai để nhận điểm rèn luyện nhé!";
+      actionBtn = `<button class="btn" style="margin-top:10px; width:100%; font-size: 12px; padding: 8px 12px; background:var(--danger);" onclick="openDetail('quiz', 'home'); toggleChat();">${currentLang === 'eng' ? 'Start Quiz on LMS' : 'Làm bài trên LMS ngay'}</button>`;
+    }
+
+    else if (intentDich.test(lowerMsg)) {
+      reply = `
+        <strong style="color:var(--primary);">🧠 In simple words:</strong><br>
+        Bạn cần nộp minh chứng để được ghi nhận điểm rèn luyện cho hoạt động này.<br><br>
+        <strong style="color:var(--text);">📋 What do I need to do?</strong>
+        <div style="margin:6px 0; padding-left:5px;">
+          ☑ Tham gia hoạt động<br>
+          ☐ Giữ lại giấy chứng nhận/ảnh chụp<br>
+          ☐ Nộp minh chứng lên hệ thống<br>
+          ☐ Chờ khoa xác nhận
+        </div>
+        <strong style="color:var(--danger);">⏳ Deadline:</strong> 12/10 - 23:59<br>
+        <strong style="color:var(--success);">📍 Where:</strong> UEH DRS
+      `;
+      actionBtn = `<button class="btn" style="margin-top:10px; width:100%; font-size: 12px; padding: 8px 12px;" onclick="openDetail('review', 'home'); toggleChat();">Start this task</button>`;
+    }
+    else if (intentDiem.test(lowerMsg)) {
+      reply = currentLang === 'eng' ? "Checking your training points? Handle it on UEH DRS:" : "Bạn đang muốn tra cứu điểm rèn luyện? Mở lối tắt UEH DRS này nhé:";
       actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="openDetail('points', 'home'); toggleChat();">${currentLang === 'eng' ? 'Open DRS' : 'Tra cứu điểm rèn luyện'}</button>`;
     }
     else if (intentLich.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Looking for exam rooms or schedules? Check UEH Student:" : "Để tra cứu lịch học hoặc phòng thi mới nhất, bạn xem thông tin trên UEH Student nhé:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="openDetail('exam', 'home'); toggleChat();">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
-    } 
-    else if (intentTaiLieu.test(lowerMsg)) {
-      reply = currentLang === 'eng' ? "Need course materials or Turnitin? Go to UEH LMS:" : "Để tải tài liệu môn học, làm bài quiz hay nộp Turnitin, bạn lên UEH LMS nhé:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="openDetail('materials', 'home'); toggleChat();">${currentLang === 'eng' ? 'Find Materials' : 'Tìm tài liệu môn học'}</button>`;
+      reply = currentLang === 'eng' ? "Looking for class or exam schedules? Check UEH Student:" : "Để tra cứu lịch học hoặc phòng thi, xem thông tin trên UEH Student nhé:";
+      actionBtn = `
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button class="btn secondary" style="flex:1; font-size: 12px; padding: 8px 12px;" onclick="openDetail('classes', 'home'); toggleChat();">${currentLang === 'eng' ? 'Class Schedule' : 'Mở Lịch học'}</button>
+          <button class="btn ghost" style="flex:1; font-size: 12px; padding: 8px 12px; border:1px solid var(--border);" onclick="openDetail('exams', 'home'); toggleChat();">${currentLang === 'eng' ? 'Exams' : 'Lịch thi'}</button>
+        </div>`;
     }
     else {
-      reply = currentLang === 'eng' ? "I understand you are looking for assistance. Let me route you to your class and exam schedule:" : "Mình hiểu vấn đề của bạn. Để kiểm tra thông tin lịch trình và phòng ốc, bạn hãy mở lối tắt này:";
-      actionBtn = `<button class="btn secondary" style="margin-top:10px; font-size: 12px; padding: 8px 12px;" onclick="openDetail('exam', 'home'); toggleChat();">${currentLang === 'eng' ? 'Open Schedule' : 'Mở Lịch thi & Lịch học'}</button>`;
+      // Tính năng ASK A HUMAN (Nếu bot không hiểu)
+      reply = currentLang === 'eng' ? "I'm not fully confident about this information. Do you need help from a real person?" : "Trợ lý ảo chưa chắc chắn về thông tin này. Bạn có muốn kết nối với người thật để được hỗ trợ không?";
+      actionBtn = `
+        <div style="background:#f8f9fc; padding:10px; border-radius:8px; margin-top:10px; border:1px solid var(--border);">
+          <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">Kết nối với:</div>
+          <button class="btn secondary" style="width:100%; font-size: 12px; padding: 6px; margin-bottom:6px; background:#fff;">👩‍🎓 Phòng CSKH (Student Support)</button>
+          <button class="btn secondary" style="width:100%; font-size: 12px; padding: 6px; background:#fff;" onclick="toast('Đã gửi tin nhắn đến Cố vấn học tập'); toggleChat();">👨‍🏫 Cố vấn học tập</button>
+        </div>`;
     }
 
     const botMsgDiv = document.createElement('div');
@@ -1034,7 +1266,7 @@ function sendChat(forceMsg = null) {
     botMsgDiv.innerHTML = reply + actionBtn;
     history.insertBefore(botMsgDiv, typingEl);
     history.scrollTop = history.scrollHeight;
-  }, 800 + Math.random() * 400); 
+  }, 1000); 
 }
 
 function toggleChat() { const c = document.getElementById("chat"); c.style.display = (c.style.display === "none" || c.style.display === "") ? "flex" : "none"; }
@@ -1169,6 +1401,25 @@ const mainEl = document.querySelector('main');
   if(alertLbl) alertLbl.innerText = currentLang === 'eng' ? "ALERT" : "CẬP NHẬT";
   const alertTxt = document.getElementById("alertText");
   if(alertTxt) alertTxt.innerText = currentLang === 'eng' ? "Don't forget Course Registration for Semester 2 opens at 8:00 AM on Oct 15!" : "Đừng quên lịch đăng ký học phần Học kỳ 2 sắp mở vào 08:00 ngày 15/10!";
+  // Dịch thuật Command Center
+  const isEng = currentLang === 'eng';
+  const safeSet = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
+  
+  safeSet('personalSub', isEng ? "Here's what matters to you today." : "Đây là những việc quan trọng nhất hôm nay.");
+  safeSet('lblAction', isEng ? "YOUR NEXT MOVE" : "BƯỚC ĐI TIẾP THEO (YOUR NEXT MOVE)");
+  safeSet('task2Title', isEng ? "Microeconomics Quiz" : "Bài kiểm tra (Quiz) Kinh tế vi mô");
+  safeSet('task2Desc', isEng ? "Due tonight 23:59" : "Hạn chót: 23:59 đêm nay");
+  safeSet('src2', isEng ? "Source: UEH LMS" : "Nguồn: UEH LMS");
+  safeSet('btn2', isEng ? "Continue on LMS" : "Làm bài trên LMS");
+
+  safeSet('lblTimeline', isEng ? "YOUR TIMELINE" : "TIMELINE CỦA BẠN");
+
+  safeSet('lblInfo', isEng ? "FOR YOU (UPDATED)" : "DÀNH CHO BẠN (CÓ THAY ĐỔI)");
+  safeSet('task4Title', isEng ? "Midterm Exam Schedule Updated" : "Cập nhật Lịch thi Giữa kỳ");
+  safeSet('task4Desc', isEng ? "Room for Marxist-Leninist Philosophy has changed." : "Phòng thi môn Triết học Mác - Lênin vừa được đổi.");
+  safeSet('src4', isEng ? "Source: UEH Student" : "Nguồn: UEH Student");
+  safeSet('ver4', isEng ? "Updated at 10:32 AM" : "Đã cập nhật lúc 10:32 AM");
+  safeSet('btn4', isEng ? "View changes" : "Xem thay đổi");
   toast(currentLang === 'eng' ? "Interface language switched to English" : "Đã chuyển giao diện sang Tiếng Việt");
 }
 updateGreeting();
