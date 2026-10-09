@@ -34,7 +34,7 @@ p{color:var(--muted);line-height:1.6}
 .hero p {color:#e0f2f1;max-width:720px}
 .search{display:flex;gap:10px;margin-top:20px}
 .search input { width: 100%; padding: 15px 17px; border-radius: 14px; border: 1px solid rgba(255,255,255,.3); background: #fff; color: var(--text); outline: none; box-sizing: border-box; font-size: 15px; }
-.btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;background:var(--primary);color:#fff;transition:.2s}
+.btn{border:0;border-radius:999px;padding:12px 16px;font-weight:700;background:var(--primary);color:#fff;transition:.2s}
 .btn.secondary{background:#eef3ff;color:var(--primary)}
 .btn.ghost{background:#fff;color:var(--primary);border:1px solid var(--border)}
 .btn.success{background:#eaf7ef;color:var(--success)}
@@ -143,6 +143,20 @@ body.dark-mode .source-tag.changed { background: rgba(183, 121, 31, 0.15); borde
 .checklist-item input { transform: scale(1.4); cursor: pointer; }
 body.dark-mode .modal-content { background: var(--surface); border-color: var(--border); }
 body.dark-mode .checklist-item { background: #1e293b; border-color: #334155; }
+/* --- Sửa lỗi hiển thị nút trên điện thoại --- */
+@media(max-width:600px) {
+  #tlAction1, #tlAction2, #tlAction3 {
+    font-size: 0 !important;
+  }
+  #tlAction1::after, #tlAction2::after, #tlAction3::after {
+    content: '→';
+    font-size: 14px;
+    margin-left: 5px;
+  }
+  .search { flex-direction: column; }
+  .search .btn { width: 100%; margin-top: 10px; }
+  #lblTimeline { font-size: 11px !important; }
+}
 </style>
 </head>
 <body>
@@ -247,33 +261,66 @@ body.dark-mode .checklist-item { background: #1e293b; border-color: #334155; }
 
       <main class="main">
         <section id="home" class="screen active">
+          <!-- 1. KHUNG XANH (HERO) -->
           <div class="hero">
             <div class="eyebrow" id="greetingText" style="color:#ffd3ba">Chào mừng đến với Freshman Hub</div>
-            <h1>Bạn đang gặp khó khăn gì?</h1>
-            <p>Tìm kiếm một lần. Đến đúng hệ thống cần thiết của UEH mà không cần phải đoán mò hay nhớ tên trang web.</p>
+            <h1 id="personalGreeting" style="font-size: 34px; line-height: 1.2; margin-bottom: 5px; color: #fff;">👋 Chào bạn,</h1>
+            <p style="color:#e0f2f1; max-width:720px; font-size: 15px; margin-bottom: 20px;">Tìm kiếm một lần. Đến đúng hệ thống cần thiết của UEH mà không cần phải đoán mò hay nhớ tên trang web.</p>
+
             <div class="search">
               <div class="search-wrapper">
                 <input id="homeSearch" autocomplete="off" placeholder="VD: quên phòng thi, thiếu điểm rèn luyện, tìm bài giảng..." oninput="liveSearch(this.value)" onkeydown="if(event.key==='Enter') { document.getElementById('liveSearchResults').style.display='none'; search(this.value); }">
                 <div id="liveSearchResults" class="live-search-results"></div>
               </div>
-              <button class="btn search-btn" onclick="document.getElementById('liveSearchResults').style.display='none'; search(document.getElementById('homeSearch').value)">Tìm kiếm</button>
+              <button class="btn search-btn" style="background: #fff; color: var(--primary);" onclick="document.getElementById('liveSearchResults').style.display='none'; search(document.getElementById('homeSearch').value)">Tìm kiếm</button>
             </div>
+
             <div class="chips" style="margin-top: 15px;">
               <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('lịch thi')">📅 Lịch thi</button>
               <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('điểm rèn luyện')">🏆 Điểm rèn luyện</button>
               <button class="chip" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;" onclick="search('tài liệu')">📚 Tài liệu học</button>
             </div>
-          </div>
-          <div class="row" style="margin-top: 10px; margin-bottom: 20px;">
-            <div>
-              <h2 id="personalGreeting" style="font-size: 26px; margin-bottom: 5px; color: var(--text);">👋 Chào bạn,</h2>
-              <p id="personalSub" style="color: var(--muted); margin: 0; font-size: 15px;">Đây là những việc quan trọng nhất hôm nay.</p>
+
+            <!-- LỊCH TRÌNH ĐƯA VÀO TRONG KHUNG XANH -->
+            <div class="priority-card" style="background: #fff; border-left: 4px solid var(--primary); margin-top: 30px; color: var(--text); text-align: left; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+               <div class="priority-header primary" style="font-size: 13px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 15px;">📅 <span id="lblTimeline">TIMELINE CỦA BẠN (HÔM NAY)</span></div>
+               <div style="display:flex; flex-direction:column; gap:16px; position: relative; margin-left: 6px; border-left: 2px dashed #e3e7ef; padding-left: 18px; padding-top: 5px; padding-bottom: 5px;">
+
+                  <!-- Event 1 -->
+                  <div style="position: relative;">
+                    <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--primary); border: 2px solid #fff;"></div>
+                    <div style="font-size:12px; font-weight:800; color:var(--primary);" id="tlTime1">07:30 AM</div>
+                    <div style="font-size:14px; font-weight:600; margin-top:2px;" id="tlTitle1">Kinh tế vi mô (Phòng B1-204)</div>
+                    <div style="font-size:13px; color:var(--primary); cursor:pointer; margin-top:4px; font-weight:600; text-decoration:underline;" onclick="openDetail('classes', 'home')" id="tlAction1">Mở lịch trình →</div>
+                  </div>
+
+                  <!-- Event 2 -->
+                  <div style="position: relative;">
+                    <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--danger); border: 2px solid #fff;"></div>
+                    <div style="font-size:12px; font-weight:800; color:var(--danger);" id="tlTime2">11:59 PM</div>
+                    <div style="font-size:14px; font-weight:600; margin-top:2px;" id="tlTitle2">Hạn chót Quiz Kinh tế vi mô</div>
+                    <div style="font-size:13px; color:var(--danger); cursor:pointer; margin-top:4px; font-weight:600; text-decoration:underline;" onclick="openDetail('quiz', 'home')" id="tlAction2">Làm bài LMS →</div>
+                  </div>
+
+                  <!-- Event 3 -->
+                  <div style="position: relative;">
+                    <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--warning); border: 2px solid #fff;"></div>
+                    <div style="font-size:12px; font-weight:800; color:var(--warning);" id="tlTime3">Ngày mai</div>
+                    <div style="font-size:14px; font-weight:600; margin-top:2px;" id="tlTitle3">Đóng đăng ký Giải cầu lông (+5Đ)</div>
+                    <div style="font-size:13px; color:var(--warning); cursor:pointer; margin-top:4px; font-weight:600; text-decoration:underline;" onclick="openDetail('activities', 'home')" id="tlAction3">Đăng ký DRS →</div>
+                  </div>
+
+               </div>
             </div>
           </div>
 
-          <div class="priority-section">
+          <!-- 2. ƯU TIÊN XỬ LÝ (PRIORITIZATION) NẰM GIỮA -->
+          <div class="row" style="margin-top: 15px;">
+            <h2 id="myDayTitle" style="font-size: 22px;">⚡ Ưu tiên xử lý</h2>
+          </div>
 
-            
+          <div class="priority-section">
+            <!-- Priority 1: Action Needed -->
             <div class="priority-card" style="border: 2px solid var(--danger); box-shadow: 0 8px 25px rgba(180, 35, 24, 0.08);">
               <div class="priority-header red" style="font-size: 13px;">🔴 <span id="lblAction">BƯỚC ĐI TIẾP THEO (YOUR NEXT MOVE)</span></div>
               <div class="task-item">
@@ -290,39 +337,24 @@ body.dark-mode .checklist-item { background: #1e293b; border-color: #334155; }
               </div>
             </div>
 
-            
-            <div class="priority-card" style="border-left: 4px solid var(--primary);">
-              <div class="priority-header primary">📅 <span id="lblTimeline">TIMELINE CỦA BẠN</span></div>
-              <div style="display:flex; flex-direction:column; gap:16px; position: relative; margin-left: 6px; border-left: 2px dashed #e3e7ef; padding-left: 18px; padding-top: 5px; padding-bottom: 5px;">
-
-                
-                <div style="position: relative;">
-                  <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--primary); border: 2px solid #fff;"></div>
-                  <div style="font-size:12px; font-weight:800; color:var(--primary);">07:30 AM</div>
-                  <div style="font-size:14px; font-weight:600; margin-top:2px;">Kinh tế vi mô (Phòng B1-204)</div>
-                  <div style="font-size:12px; color:var(--primary); cursor:pointer; margin-top:4px; font-weight:600;" onclick="openDetail('classes', 'home')">Mở lịch trình →</div>
+            <!-- Priority 2: Don't forget -->
+            <div class="priority-card" style="border-left: 4px solid var(--warning);">
+              <div class="priority-header orange">🟡 <span id="lblWarn">ĐỪNG QUÊN</span></div>
+              <div class="task-item">
+                <div class="task-info">
+                  <h4 id="task3Title">Giải Cầu Lông Tân sinh viên K52</h4>
+                  <p id="task3Desc">Đóng đăng ký vào ngày mai • +5 điểm rèn luyện</p>
+                  <div class="trust-layer">
+                    <span class="source-tag">🏆 <span id="src3">Nguồn: UEH DRS</span></span>
+                  </div>
                 </div>
-
-                
-                <div style="position: relative;">
-                  <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--danger); border: 2px solid #fff;"></div>
-                  <div style="font-size:12px; font-weight:800; color:var(--danger);">11:59 PM</div>
-                  <div style="font-size:14px; font-weight:600; margin-top:2px;">Hạn chót Quiz Kinh tế vi mô</div>
-                  <div style="font-size:12px; color:var(--danger); cursor:pointer; margin-top:4px; font-weight:600;" onclick="openDetail('quiz', 'home')">Làm bài LMS →</div>
+                <div class="task-action">
+                  <button class="btn" style="background: var(--warning); color: #000; font-size: 13px;" onclick="openDetail('activities', 'home')"><span id="btn3">Đăng ký ngay</span></button>
                 </div>
-
-                
-                <div style="position: relative;">
-                  <div style="position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--warning); border: 2px solid #fff;"></div>
-                  <div style="font-size:12px; font-weight:800; color:var(--warning);">Ngày mai</div>
-                  <div style="font-size:14px; font-weight:600; margin-top:2px;">Đóng đăng ký Giải cầu lông (+5Đ)</div>
-                  <div style="font-size:12px; color:var(--warning); cursor:pointer; margin-top:4px; font-weight:600;" onclick="openDetail('activities', 'home')">Đăng ký DRS →</div>
-                </div>
-
               </div>
             </div>
 
-            
+            <!-- Priority 3: What changed? -->
             <div class="priority-card" style="border-left: 4px solid var(--success); background: #f8fafc;">
               <div class="priority-header green">🟢 <span id="lblInfo">DÀNH CHO BẠN (CÓ THAY ĐỔI)</span></div>
               <div class="task-item">
@@ -339,9 +371,16 @@ body.dark-mode .checklist-item { background: #1e293b; border-color: #334155; }
                 </div>
               </div>
             </div>
-
           </div>
-          
+
+          <!-- 3. KHÔI PHỤC: KHÁM PHÁ THEO DANH MỤC Ở DƯỚI CÙNG -->
+          <div class="row" style="margin-top: 20px;"><h2>Khám phá theo danh mục</h2></div>
+          <div class="grid" style="margin-top:14px">
+            <div class="card clickable" onclick="openDetail('classes', 'academic')"><div class="icon">📅</div><h3>Học tập & Lịch trình</h3><p>Thời khóa biểu, lịch thi và thông tin phòng học.</p></div>
+            <div class="card clickable" onclick="openDetail('materials', 'learning')"><div class="icon">📚</div><h3>Tài liệu & Bài tập</h3><p>Tài liệu môn học, bài kiểm tra và kiểm tra đạo văn.</p></div>
+            <div class="card clickable" onclick="openDetail('points', 'drs')"><div class="icon">🏆</div><h3>Điểm rèn luyện</h3><p>Tra cứu điểm, hoạt động ngoại khóa và khiếu nại.</p></div>
+            <div class="card clickable" onclick="openDetail('personal', 'services')"><div class="icon">🎓</div><h3>Dịch vụ Sinh viên</h3><p>Hồ sơ cá nhân, ngôn ngữ và Green Campus.</p></div>
+          </div>
         </section>
 
         <section id="find" class="screen">
@@ -999,19 +1038,33 @@ document.addEventListener('click', (e) => {
 function updateGreeting() {
   const hour = new Date().getHours();
   let viGreeting, enGreeting;
-  let userName = document.getElementById("userLabel").textContent;
-  if (userName === "Chưa đăng nhập" || userName === "Not signed in") userName = currentLang === 'eng' ? "there" : "bạn";
 
-  if (hour >= 5 && hour < 12) { viGreeting = `Chào buổi sáng, ${userName}! ☀️`; enGreeting = `Good morning, ${userName}! ☀️`; }
-  else if (hour >= 12 && hour < 18) { viGreeting = `Chào buổi chiều, ${userName}! 🌤️`; enGreeting = `Good afternoon, ${userName}! 🌤`; }
-  else if (hour >= 18 && hour < 23) { viGreeting = `Chào buổi tối, ${userName}! 🌙`; enGreeting = `Good evening, ${userName}! 🌙`; }
-  else { viGreeting = `Cú đêm ${userName} nhớ nghỉ ngơi nha! 🦉`; enGreeting = `Late night, ${userName}! Take care! 🦉`; }
+  const isEng = currentLang === 'eng'; // Kiểm tra xem ngôn ngữ hiện tại là gì
+  let userName = document.getElementById("userLabel").textContent;
+  if (userName === "Chưa đăng nhập" || userName === "Not signed in") userName = isEng ? "there" : "bạn";
+
+  if (hour >= 5 && hour < 12) {
+      viGreeting = `Chào buổi sáng, ${userName}! ☀️`;
+      enGreeting = `Good morning, ${userName}! ☀️`;
+  }
+  else if (hour >= 12 && hour < 18) {
+      viGreeting = `Chào buổi chiều, ${userName}! 🌤️`;
+      enGreeting = `Good afternoon, ${userName}! 🌤`;
+  }
+  else if (hour >= 18 && hour < 23) {
+      viGreeting = `Chào buổi tối, ${userName}! 🌙`;
+      enGreeting = `Good evening, ${userName}! 🌙`;
+  }
+  else {
+      viGreeting = `Cú đêm ${userName} nhớ nghỉ ngơi nha! 🦉`;
+      enGreeting = `Late night, ${userName}! Take care! 🦉`;
+  }
 
   const el = document.getElementById("greetingText");
-  if(el) el.innerText = currentLang === 'eng' ? "Welcome to Freshman Hub" : "Chào mừng đến với Freshman Hub";
+  if(el) el.innerText = isEng ? "WELCOME TO FRESHMAN HUB" : "CHÀO MỪNG ĐẾN VỚI FRESHMAN HUB";
 
   const pEl = document.getElementById("personalGreeting");
-  if(pEl) pEl.innerText = "👋 " + (currentLang === 'eng' ? enGreeting : viGreeting);
+  if(pEl) pEl.innerText = "👋 " + (isEng ? enGreeting : viGreeting);
 }
 try { 
   let stored = sessionStorage.getItem("uehSaved_temp"); 
@@ -1174,7 +1227,9 @@ function renderSaved() {
 }
 
 function renderActions() {
-  document.getElementById("actions").innerHTML = `
+  const el = document.getElementById("actions");
+  if (!el) return; // CHỐT CHẶN CHỐNG SẬP NẰM Ở ĐÂY
+  el.innerHTML = `
     <div class="result">
       <div class="left"><div class="icon">📅</div><div><div class="platform">UEH Student</div><h3>${currentLang === 'eng' ? 'Check Class Schedule' : 'Tra cứu Lịch học'}</h3><div class="meta">${currentLang === 'eng' ? 'Suggested action' : 'Hành động gợi ý'}</div></div></div>
       <button class="btn secondary" onclick="openDetail('classes', 'home')">${currentLang === 'eng' ? 'Open' : 'Mở nhanh'}</button>
@@ -1331,49 +1386,69 @@ const TEXT_DICT = {
 const engToVi = {}; for (let k in TEXT_DICT) engToVi[TEXT_DICT[k]] = k;
 
 function changeAppLanguage(lang) {
-  currentLang = (lang === 'en') ? 'eng' : lang; 
+  currentLang = (lang === 'en') ? 'eng' : lang;
   const dict = currentLang === 'eng' ? TEXT_DICT : engToVi;
 
- 
-  const sidebarDict = currentLang === 'eng' ? { home: "⌂ Home", find: "⌕ Search", academic: "📅 Academic", learning: "📚 Learning", drs: "🏆 Points", services: "🎓 Services", saved: "🔖 Saved", cat1: "CATEGORIES", cat2: "PERSONAL" } : { home: "⌂ Trang chủ", find: "⌕ Tìm kiếm", academic: "📅 Học tập & Lịch trình", learning: "📚 Tài liệu & Bài tập", drs: "🏆 Điểm rèn luyện", services: "🎓 Dịch vụ Sinh viên", saved: "🔖 Lộ trình đã lưu", cat1: "Danh mục", cat2: "Cá nhân" };
-  document.querySelector('[data-nav="home"]').innerText = sidebarDict.home; 
-  document.querySelector('[data-nav="find"]').innerText = sidebarDict.find; 
-  document.querySelector('[data-nav="academic"]').innerText = sidebarDict.academic; 
-  document.querySelector('[data-nav="learning"]').innerText = sidebarDict.learning; 
-  document.querySelector('[data-nav="drs"]').innerText = sidebarDict.drs; 
-  document.querySelector('[data-nav="services"]').innerText = sidebarDict.services; 
+  const sidebarDict = currentLang === 'eng' ? {
+    home: "⌂ Home",
+    find: "⌕ Search",
+    academic: "📅 Academic",
+    learning: "📚 Learning",
+    drs: "🏆 Points",
+    services: "🎓 Services",
+    saved: "🔖 Saved",
+    cat1: "CATEGORIES",
+    cat2: "PERSONAL"
+  } : {
+    home: "⌂ Trang chủ",
+    find: "⌕ Tìm kiếm",
+    academic: "📅 Học tập & Lịch trình",
+    learning: "📚 Tài liệu & Bài tập",
+    drs: "🏆 Điểm rèn luyện",
+    services: "🎓 Dịch vụ Sinh viên",
+    saved: "🔖 Lộ trình đã lưu",
+    cat1: "Danh mục",
+    cat2: "Cá nhân"
+  };
+  document.querySelector('[data-nav="home"]').innerText = sidebarDict.home;
+  document.querySelector('[data-nav="find"]').innerText = sidebarDict.find;
+  document.querySelector('[data-nav="academic"]').innerText = sidebarDict.academic;
+  document.querySelector('[data-nav="learning"]').innerText = sidebarDict.learning;
+  document.querySelector('[data-nav="drs"]').innerText = sidebarDict.drs;
+  document.querySelector('[data-nav="services"]').innerText = sidebarDict.services;
   document.querySelector('[data-nav="saved"]').innerText = sidebarDict.saved;
-  const labels = document.querySelectorAll('.sidebar div'); 
-  if(labels.length >= 2) { labels[0].innerText = sidebarDict.cat1; labels[1].innerText = sidebarDict.cat2; }
+  const labels = document.querySelectorAll('.sidebar div');
+  if (labels.length >= 2) {
+    labels[0].innerText = sidebarDict.cat1;
+    labels[1].innerText = sidebarDict.cat2;
+  }
 
-
-const mainEl = document.querySelector('main');
+  const mainEl = document.querySelector('main');
   if (mainEl) {
     const walker = document.createTreeWalker(mainEl, NodeFilter.SHOW_TEXT, {
-        acceptNode: function(node) {
-            
-            if (node.parentElement && node.parentElement.closest('.mock-data')) {
-                return NodeFilter.FILTER_REJECT;
-            }
-            return NodeFilter.FILTER_ACCEPT;
+      acceptNode: function (node) {
+        if (node.parentElement && node.parentElement.closest('.mock-data')) {
+          return NodeFilter.FILTER_REJECT;
         }
+        return NodeFilter.FILTER_ACCEPT;
+      }
     }, false);
     let node;
     while (node = walker.nextNode()) {
-        let text = node.nodeValue.trim();
-        if (dict[text]) node.nodeValue = node.nodeValue.replace(text, dict[text]);
+      let text = node.nodeValue.trim();
+      if (dict[text]) node.nodeValue = node.nodeValue.replace(text, dict[text]);
     }
   }
-  
-  
-  const search1 = document.getElementById('homeSearch'); if(search1) search1.placeholder = currentLang === 'eng' ? "Try: exam schedule, missing points, course materials..." : "VD: quên phòng thi, thiếu điểm rèn luyện, tìm bài giảng...";
-  const search2 = document.getElementById('findSearch'); if(search2) search2.placeholder = currentLang === 'eng' ? "What are you trying to find?" : "Bạn cần tìm gì?";
+
+  const search1 = document.getElementById('homeSearch');
+  if (search1) search1.placeholder = currentLang === 'eng' ? "Try: exam schedule, missing points, course materials..." : "VD: quên phòng thi, thiếu điểm rèn luyện, tìm bài giảng...";
+  const search2 = document.getElementById('findSearch');
+  if (search2) search2.placeholder = currentLang === 'eng' ? "What are you trying to find?" : "Bạn cần tìm gì?";
   document.querySelectorAll('.search .btn').forEach(btn => btn.innerText = currentLang === 'eng' ? "Search" : "Tìm kiếm");
 
- 
   const userLbl = document.getElementById("userLabel");
   if (userLbl && (userLbl.textContent === "Chưa đăng nhập" || userLbl.textContent === "Not signed in")) {
-      userLbl.textContent = currentLang === 'eng' ? "Not signed in" : "Chưa đăng nhập";
+    userLbl.textContent = currentLang === 'eng' ? "Not signed in" : "Chưa đăng nhập";
   }
   const loginH1 = document.querySelector("#loginScreen h1");
   if (loginH1) loginH1.innerText = currentLang === 'eng' ? "Single Sign-On (SSO)" : "Đăng nhập một lần (SSO)";
@@ -1388,9 +1463,77 @@ const mainEl = document.querySelector('main');
 
   renderActions();
   renderSaved();
-  if (document.getElementById('detail').classList.contains('active') && currentDetailId) {
+  if (document.getElementById('detail') && document.getElementById('detail').classList.contains('active') && currentDetailId) {
     openDetail(currentDetailId, currentDetailFrom);
   }
+
+  updateGreeting();
+
+  const qrExam = document.getElementById('qrExam');
+  if (qrExam) qrExam.innerText = currentLang === 'eng' ? "📅 Exam Schedule" : "📅 Lịch thi";
+  const qrPoints = document.getElementById('qrPoints');
+  if (qrPoints) qrPoints.innerText = currentLang === 'eng' ? "🏆 Training Points" : "🏆 Điểm rèn luyện";
+  const qrDocs = document.getElementById('qrDocs');
+  if (qrDocs) qrDocs.innerText = currentLang === 'eng' ? "📚 Materials" : "📚 Tài liệu";
+  const chatInput = document.getElementById('chatInput');
+  if (chatInput) chatInput.placeholder = currentLang === 'eng' ? "Type your question..." : "Gõ câu hỏi của bạn...";
+  const alertLbl = document.getElementById("alertLabel");
+  if (alertLbl) alertLbl.innerText = currentLang === 'eng' ? "ALERT" : "CẬP NHẬT";
+  const alertTxt = document.getElementById("alertText");
+  if (alertTxt) alertTxt.innerText = currentLang === 'eng' ? "Don't forget Course Registration for Semester 2 opens at 8:00 AM on Oct 15!" : "Đừng quên lịch đăng ký học phần Học kỳ 2 sắp mở vào 08:00 ngày 15/10!";
+
+  // --- DỊCH THUẬT TIMELINE & LỜI CHÀO ---
+  const isEng = currentLang === 'eng';
+  const safeSet = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.innerText = text;
+  };
+
+  safeSet('myDayTitle', isEng ? "⚡ Prioritization" : "⚡ Ưu tiên xử lý");
+  safeSet('lblTimeline', isEng ? "YOUR TIMELINE (TODAY)" : "TIMELINE CỦA BẠN (HÔM NAY)");
+  safeSet('tlTime1', isEng ? "07:30 AM" : "07:30 AM");
+  safeSet('tlTitle1', isEng ? "Microeconomics (Room B1-204)" : "Kinh tế vi mô (Phòng B1-204)");
+  safeSet('tlAction1', isEng ? "Open schedule →" : "Mở lịch trình →");
+
+  safeSet('tlTime2', isEng ? "11:59 PM" : "11:59 PM");
+  safeSet('tlTitle2', isEng ? "Microeconomics Quiz Deadline" : "Hạn chót Quiz Kinh tế vi mô");
+  safeSet('tlAction2', isEng ? "Start Quiz →" : "Làm bài LMS →");
+
+  safeSet('tlTime3', isEng ? "Tomorrow" : "Ngày mai");
+  safeSet('tlTitle3', isEng ? "Badminton Cup Registration Closes (+5 pts)" : "Đóng đăng ký Giải cầu lông (+5Đ)");
+  safeSet('tlAction3', isEng ? "Register on DRS →" : "Đăng ký DRS →");
+
+  safeSet('lblAction', isEng ? "YOUR NEXT MOVE" : "BƯỚC ĐI TIẾP THEO (YOUR NEXT MOVE)");
+  safeSet('task2Title', isEng ? "Microeconomics Quiz" : "Bài kiểm tra (Quiz) Kinh tế vi mô");
+  safeSet('task2Desc', isEng ? "Due tonight 23:59" : "Hạn chót: 23:59 đêm nay");
+  safeSet('src2', isEng ? "Source: UEH LMS" : "Nguồn: UEH LMS");
+  safeSet('btn2', isEng ? "Continue on LMS" : "Làm bài trên LMS");
+
+  safeSet('lblWarn', isEng ? "DON'T FORGET" : "ĐỪNG QUÊN");
+  safeSet('task3Title', isEng ? "Freshman Badminton Cup K52" : "Giải Cầu Lông Tân sinh viên K52");
+  safeSet('task3Desc', isEng ? "Registration closes tomorrow • +5 DRS points" : "Đóng đăng ký vào ngày mai • +5 điểm rèn luyện");
+  safeSet('src3', isEng ? "Source: UEH DRS" : "Nguồn: UEH DRS");
+  safeSet('btn3', isEng ? "Register" : "Đăng ký ngay");
+
+  safeSet('lblInfo', isEng ? "FOR YOU (UPDATED)" : "DÀNH CHO BẠN (CÓ THAY ĐỔI)");
+  safeSet('task4Title', isEng ? "Midterm Exam Schedule Updated" : "Cập nhật Lịch thi Giữa kỳ");
+  safeSet('task4Desc', isEng ? "Room for Marxist-Leninist Philosophy has changed." : "Phòng thi môn Triết học Mác - Lênin vừa được đổi.");
+  safeSet('src4', isEng ? "Source: UEH Student" : "Nguồn: UEH Student");
+  safeSet('ver4', isEng ? "Updated at 10:32 AM" : "Đã cập nhật lúc 10:32 AM");
+  safeSet('btn4', isEng ? "View changes" : "Xem thay đổi");
+
+  // Đồng bộ Dropdown Ngôn ngữ và Menu Cài đặt
+  const headerLangSelect = document.getElementById('langSelect');
+  if (headerLangSelect) headerLangSelect.value = isEng ? 'eng' : 'vi';
+
+  const settingsTitle = document.querySelector('#settingsDropdown div:first-child');
+  if (settingsTitle) settingsTitle.innerHTML = isEng ? "⚙️ General Settings" : "⚙️ Cài đặt chung";
+
+  const btnProfileSettings = document.querySelector('#settingsDropdown .btn.secondary');
+  if (btnProfileSettings) btnProfileSettings.innerText = isEng ? "👤 Open Profile & Settings" : "👤 Mở Hồ sơ & Cài đặt";
+
+  toast(currentLang === 'eng' ? "Interface language switched to English" : "Đã chuyển giao diện sang Tiếng Việt");
+}
   updateGreeting();
   document.getElementById('qrExam').innerText = currentLang === 'eng' ? "📅 Exam Schedule" : "📅 Lịch thi";
   document.getElementById('qrPoints').innerText = currentLang === 'eng' ? "🏆 Training Points" : "🏆 Điểm rèn luyện";
@@ -1400,18 +1543,39 @@ const mainEl = document.querySelector('main');
   if(alertLbl) alertLbl.innerText = currentLang === 'eng' ? "ALERT" : "CẬP NHẬT";
   const alertTxt = document.getElementById("alertText");
   if(alertTxt) alertTxt.innerText = currentLang === 'eng' ? "Don't forget Course Registration for Semester 2 opens at 8:00 AM on Oct 15!" : "Đừng quên lịch đăng ký học phần Học kỳ 2 sắp mở vào 08:00 ngày 15/10!";
-  // Dịch thuật Command Center
+  // Dịch thuật Command Center & Timeline
   const isEng = currentLang === 'eng';
   const safeSet = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
-  
-  safeSet('personalSub', isEng ? "Here's what matters to you today." : "Đây là những việc quan trọng nhất hôm nay.");
+
+  // Dịch Tiêu đề Ưu tiên
+  safeSet('myDayTitle', isEng ? "⚡ Prioritization" : "⚡ Ưu tiên xử lý");
+
+  // Dịch Timeline trong Khung Xanh
+  safeSet('lblTimeline', isEng ? "YOUR TIMELINE (TODAY)" : "TIMELINE CỦA BẠN (HÔM NAY)");
+  safeSet('tlTime1', isEng ? "07:30 AM" : "07:30 AM");
+  safeSet('tlTitle1', isEng ? "Microeconomics (Room B1-204)" : "Kinh tế vi mô (Phòng B1-204)");
+  safeSet('tlAction1', isEng ? "Open schedule →" : "Mở lịch trình →");
+
+  safeSet('tlTime2', isEng ? "11:59 PM" : "11:59 PM");
+  safeSet('tlTitle2', isEng ? "Microeconomics Quiz Deadline" : "Hạn chót Quiz Kinh tế vi mô");
+  safeSet('tlAction2', isEng ? "Start Quiz →" : "Làm bài LMS →");
+
+  safeSet('tlTime3', isEng ? "Tomorrow" : "Ngày mai");
+  safeSet('tlTitle3', isEng ? "Badminton Cup Registration Closes (+5 pts)" : "Đóng đăng ký Giải cầu lông (+5Đ)");
+  safeSet('tlAction3', isEng ? "Register on DRS →" : "Đăng ký DRS →");
+
+  // Dịch phần Ưu Tiên Xử Lý (Priority Feed)
   safeSet('lblAction', isEng ? "YOUR NEXT MOVE" : "BƯỚC ĐI TIẾP THEO (YOUR NEXT MOVE)");
   safeSet('task2Title', isEng ? "Microeconomics Quiz" : "Bài kiểm tra (Quiz) Kinh tế vi mô");
   safeSet('task2Desc', isEng ? "Due tonight 23:59" : "Hạn chót: 23:59 đêm nay");
   safeSet('src2', isEng ? "Source: UEH LMS" : "Nguồn: UEH LMS");
   safeSet('btn2', isEng ? "Continue on LMS" : "Làm bài trên LMS");
 
-  safeSet('lblTimeline', isEng ? "YOUR TIMELINE" : "TIMELINE CỦA BẠN");
+  safeSet('lblWarn', isEng ? "DON'T FORGET" : "ĐỪNG QUÊN");
+  safeSet('task3Title', isEng ? "Freshman Badminton Cup K52" : "Giải Cầu Lông Tân sinh viên K52");
+  safeSet('task3Desc', isEng ? "Registration closes tomorrow • +5 DRS points" : "Đóng đăng ký vào ngày mai • +5 điểm rèn luyện");
+  safeSet('src3', isEng ? "Source: UEH DRS" : "Nguồn: UEH DRS");
+  safeSet('btn3', isEng ? "Register" : "Đăng ký ngay");
 
   safeSet('lblInfo', isEng ? "FOR YOU (UPDATED)" : "DÀNH CHO BẠN (CÓ THAY ĐỔI)");
   safeSet('task4Title', isEng ? "Midterm Exam Schedule Updated" : "Cập nhật Lịch thi Giữa kỳ");
@@ -1419,8 +1583,20 @@ const mainEl = document.querySelector('main');
   safeSet('src4', isEng ? "Source: UEH Student" : "Nguồn: UEH Student");
   safeSet('ver4', isEng ? "Updated at 10:32 AM" : "Đã cập nhật lúc 10:32 AM");
   safeSet('btn4', isEng ? "View changes" : "Xem thay đổi");
+
+  // Đồng bộ Dropdown Ngôn ngữ và Menu Cài đặt
+  const headerLangSelect = document.getElementById('langSelect');
+  if (headerLangSelect) headerLangSelect.value = isEng ? 'eng' : 'vi';
+
+  const settingsTitle = document.querySelector('#settingsDropdown div:first-child');
+  if (settingsTitle) settingsTitle.innerHTML = isEng ? "⚙️ General Settings" : "⚙️ Cài đặt chung";
+
+  const btnProfileSettings = document.querySelector('#settingsDropdown .btn.secondary');
+  if (btnProfileSettings) btnProfileSettings.innerText = isEng ? "👤 Open Profile & Settings" : "👤 Mở Hồ sơ & Cài đặt";
+  updateGreeting(); // <--- CHÍNH LÀ CÁI NÀY
+
   toast(currentLang === 'eng' ? "Interface language switched to English" : "Đã chuyển giao diện sang Tiếng Việt");
-}
+
 updateGreeting();
   window.addEventListener('popstate', (e) => {
   if (e.state) {
