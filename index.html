@@ -157,35 +157,46 @@ body.dark-mode .checklist-item { background: #1e293b; border-color: #334155; }
   .search .btn { width: 100%; margin-top: 10px; }
   #lblTimeline { font-size: 11px !important; }
 }
+/* --- CSS Menu Trượt (Off-Canvas) trên Di Động --- */
+.mobile-overlay { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 35; backdrop-filter: blur(2px); transition: 0.3s; }
+.mobile-overlay.active { display: block; }
+.mobile-menu-btn { display: none; background: transparent; border: none; color: #fff; font-size: 26px; cursor: pointer; margin-right: 15px; padding: 0; line-height: 1; }
+
+@media(max-width:900px){
+  /* Kích hoạt Menu trượt ngang */
+  .sidebar { display: block !important; position: fixed; top: 68px; left: -300px; width: 260px; height: calc(100vh - 68px); z-index: 40; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 4px 0 20px rgba(0,0,0,0.15); overflow-y: auto; padding-bottom: 30px; }
+  .sidebar.open { left: 0; }
+  .mobile-menu-btn { display: block; }
+  /* Ẩn bớt chữ Freshman Hub nếu màn hình điện thoại quá hẹp */
+  @media(max-width:400px){ .brand-text { display: none; } }
+}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
-    <div class="brand" onclick="show('home')" style="cursor: pointer;" title="Về trang chủ">
-      <img src="https://ueh.edu.vn/images/logo-ueh-deparment.png" alt="UEH Logo" style="height: 38px; object-fit: contain;">
-      <div style="font-size: 16px; border-left: 2px solid rgba(255,255,255,0.3); padding-left: 12px; margin-left: 4px; font-weight: 600;">
-        Freshman Hub
+    <div style="display: flex; align-items: center;">
+      <!-- Nút Hamburger Menu bên trái -->
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Mở danh mục">☰</button>
+      <div class="brand" onclick="show('home')" style="cursor: pointer;" title="Về trang chủ">
+        <img src="https://ueh.edu.vn/images/logo-ueh-deparment.png" alt="UEH Logo" style="height: 38px; object-fit: contain;">
+        <div class="brand-text" style="font-size: 16px; border-left: 2px solid rgba(255,255,255,0.3); padding-left: 12px; margin-left: 4px; font-weight: 600;">
+          Freshman Hub
+        </div>
       </div>
     </div>
-    
+
     <div style="display: flex; align-items: center; gap: 16px; position: relative;">
       <div class="user" id="userLabel">Chưa đăng nhập</div>
-      
       <button id="darkModeToggle" onclick="toggleDarkMode()" style="background: transparent; border: none; color: #fff; font-size: 22px; cursor: pointer; padding: 0; line-height: 1; margin-right: 8px;" title="Chế độ Tối">🌙</button>
-      
-      <button onclick="toggleSettings()" style="background: transparent; border: none; color: #fff; font-size: 26px; cursor: pointer; padding: 0; line-height: 1;" title="Cài đặt">
-        ☰
-      </button>
-      
+
+      <!-- Đổi nút ☰ thành Cài đặt ⚙️ -->
+      <button onclick="toggleSettings()" style="background: transparent; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; line-height: 1;" title="Cài đặt">⚙️</button>
+
       <div id="settingsDropdown" style="display: none; position: absolute; top: 45px; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); width: 240px; z-index: 100; color: var(--text); text-align: left;">
-        <div style="padding: 14px 16px; border-bottom: 1px solid var(--border); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px;">
-          ⚙️ Cài đặt chung
-        </div>
+        <div style="padding: 14px 16px; border-bottom: 1px solid var(--border); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px;">⚙️ Cài đặt chung</div>
         <div style="padding: 16px;">
-          <button class="btn secondary" style="width: 100%; margin-bottom: 15px; font-size: 13px; padding: 10px;" onclick="openDetail('personal', 'home'); toggleSettings();">
-            👤 Mở Hồ sơ & Cài đặt
-          </button>
+          <button class="btn secondary" style="width: 100%; margin-bottom: 15px; font-size: 13px; padding: 10px;" onclick="openDetail('personal', 'home'); toggleSettings();">👤 Mở Hồ sơ & Cài đặt</button>
           <div style="font-size: 13px; margin-bottom: 8px; font-weight: 600; color: var(--muted);">🌐 Ngôn ngữ (Language)</div>
           <select id="langSelect" onchange="changeAppLanguage(this.value); toggleSettings();" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; cursor: pointer; font-size: 14px;">
             <option value="vi">Tiếng Việt</option>
@@ -195,7 +206,10 @@ body.dark-mode .checklist-item { background: #1e293b; border-color: #334155; }
       </div>
     </div>
   </header>
-  
+  <!-- Lớp phủ làm tối màn hình khi trượt Menu -->
+  <div id="mobileOverlay" class="mobile-overlay" onclick="toggleMobileMenu()"></div>
+
+
   <div id="alertBanner" class="alert-banner">
     <div onclick="window.open('https://student.ueh.edu.vn/Home/DangKyHocPhan', '_blank')" style="cursor: pointer; flex: 1; display: flex; align-items: center;" title="Nhấn để mở trang Đăng ký học phần">
       <span id="alertLabel" class="alert-label">CẬP NHẬT</span>
@@ -1071,7 +1085,15 @@ function login() {
     toast(currentLang === 'eng' ? "Data synced successfully!" : "Đã đồng bộ dữ liệu thành công!");
     history.replaceState({ screen: 'home', type: 'main' }, "", "#home");
     // Hiện bảng Onboarding sau khi login 1 giây
+
   }, 1500);
+}
+
+function toggleMobileMenu() {
+  const sb = document.querySelector('.sidebar');
+  const ov = document.getElementById('mobileOverlay');
+  sb.classList.toggle('open');
+  if (ov) ov.classList.toggle('active');
 }
 
 function show(id, btn, pushHistory = true) {
@@ -1081,7 +1103,15 @@ function show(id, btn, pushHistory = true) {
   if (btn) btn.classList.add("active");
   else { const n = document.querySelector(`[data-nav="${id}"]`); if (n) n.classList.add("active"); }
   window.scrollTo({ top: 0, behavior: "smooth" });
-  
+
+  // Tự động đóng Menu trượt sau khi chọn danh mục (Trên Mobile)
+  const sb = document.querySelector('.sidebar');
+  const ov = document.getElementById('mobileOverlay');
+  if(sb && sb.classList.contains('open')) {
+    sb.classList.remove('open');
+    if(ov) ov.classList.remove('active');
+  }
+
   if (pushHistory) history.pushState({ screen: id, type: 'main' }, "", `#${id}`);
 }
 
