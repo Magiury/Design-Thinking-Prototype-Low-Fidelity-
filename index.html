@@ -10,7 +10,7 @@
   --primary: #005c5a; --primary2: #004543; --accent: #e56a22; 
   --border: #e3e7ef; --success: #198754; --warning: #b7791f; --danger: #b42318;
   --shadow: 0 10px 30px rgba(0, 92, 90, 0.08); --radius: 18px;
-
+}
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text)}
 button,input{font:inherit}
@@ -195,27 +195,7 @@ body.dark-mode .checklist-item { background: #1e293b; border-color: #334155; }
       </div>
     </div>
   </header>
-  <!-- Adaptive Freshman Mode -->
-  <div id="onboardingModal" class="modal-overlay">
-    <div class="modal-content">
-      <h2 style="margin-top:0; color: var(--primary);">👋 Welcome to UEH!</h2>
-      <p style="color:var(--muted); margin-bottom:20px; font-size: 14px;">Let's set up your first week. What are you trying to accomplish today?</p>
-      
-      <div style="font-size: 12px; font-weight: bold; color: var(--muted); margin-bottom: 10px;">YOUR FIRST-WEEK CHECKLIST</div>
-      <label class="checklist-item done">
-        <input type="checkbox" checked disabled> <span>Find my timetable (Done)</span>
-      </label>
-      <label class="checklist-item">
-        <input type="checkbox" onclick="this.parentElement.classList.add('done'); setTimeout(() => { document.getElementById('onboardingModal').style.display='none'; show('learning'); }, 1000);"> <span>Understand LMS & Submit assignments</span>
-      </label>
-      <label class="checklist-item">
-        <input type="checkbox" onclick="this.parentElement.classList.add('done'); setTimeout(() => { document.getElementById('onboardingModal').style.display='none'; show('drs'); }, 1000);"> <span>Find DRS activities & Get points</span>
-      </label>
-      
-      <button class="btn secondary full" style="margin-top:15px;" onclick="document.getElementById('onboardingModal').style.display='none'">Maybe Later</button>
-    </div>
-  </div>
-
+  
   <div id="alertBanner" class="alert-banner">
     <div onclick="window.open('https://student.ueh.edu.vn/Home/DangKyHocPhan', '_blank')" style="cursor: pointer; flex: 1; display: flex; align-items: center;" title="Nhấn để mở trang Đăng ký học phần">
       <span id="alertLabel" class="alert-label">CẬP NHẬT</span>
@@ -1091,7 +1071,6 @@ function login() {
     toast(currentLang === 'eng' ? "Data synced successfully!" : "Đã đồng bộ dữ liệu thành công!");
     history.replaceState({ screen: 'home', type: 'main' }, "", "#home");
     // Hiện bảng Onboarding sau khi login 1 giây
-    setTimeout(() => { document.getElementById("onboardingModal").style.display = "grid"; }, 800);
   }, 1500);
 }
 
